@@ -34,6 +34,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                tools:listitem="@layout/invoice_item"
                 android:layout_marginTop="@dimen/general_padding"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
