@@ -34,7 +34,7 @@ class InvoicesFragment : Fragment() {
         val ivBack = view.findViewById<ImageView>(R.id.mainToolbar_iv_backIcon)
         ivBack.setOnClickListener {
             val svc = Services()
-            svc.showSnackBar(R.string.not_available.toString(), view)
+            svc.showSnackBar(getString(R.string.not_available), view)
         }
 
         /*
