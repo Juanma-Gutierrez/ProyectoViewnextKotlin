@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
+import com.viewnext.proyectoviewnext.services.Services
 
 class InvoicesFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +30,13 @@ class InvoicesFragment : Fragment() {
         ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
+        // Botón regreso
+        val ivBack = view.findViewById<ImageView>(R.id.mainToolbar_iv_backIcon)
+        ivBack.setOnClickListener {
+            val svc = Services()
+            svc.showSnackBar(R.string.not_available.toString(), view)
+        }
+
         /*
                 // Botón navegar para que muestre fragment Warning
                 val navigateImageView = view.findViewById<MaterialButton>(R.id.fragmentMain_bt_navigate)
