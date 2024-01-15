@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.button.MaterialButton
 import com.viewnext.proyectoviewnext.R
 
 class InvoicesFragment : Fragment() {
@@ -26,8 +25,8 @@ class InvoicesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Botón filtro para que abra el fragment Filter
-        val filterImageView = view.findViewById<ImageView>(R.id.mainToolbar_iv_filter)
-        filterImageView.setOnClickListener {
+        val ivFilter = view.findViewById<ImageView>(R.id.mainToolbar_iv_filter)
+        ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
         /*

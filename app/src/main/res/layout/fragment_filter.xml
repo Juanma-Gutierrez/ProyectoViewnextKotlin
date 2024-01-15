@@ -5,9 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.FilterFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Fragment filtro de facturas" />
+    <include layout="@layout/filter_fragment_toolbar" />
 
 </FrameLayout>
