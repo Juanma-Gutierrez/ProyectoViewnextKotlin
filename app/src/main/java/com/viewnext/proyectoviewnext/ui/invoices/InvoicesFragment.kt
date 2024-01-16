@@ -46,29 +46,18 @@ class InvoicesFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Botón filtro para que abra el fragment Filter
-        val ivFilter = view.findViewById<ImageView>(R.id.mainToolbar_iv_filter)
+        val ivFilter = binding.invoicesFrTbToolbarInvoices.mainToolbarIvFilter
         ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
-        // Botón regreso
         val ivBack = view.findViewById<ImageView>(R.id.mainToolbar_iv_backIcon)
         ivBack.setOnClickListener {
             val svc = Services()
             svc.showSnackBar(getString(R.string.not_available), view)
         }
-
         CoroutineScope(Dispatchers.Main).launch {
             initRecyclerView()
         }
-        /*
-                // Botón navegar para que muestre fragment Warning
-                val navigateImageView = view.findViewById<MaterialButton>(R.id.fragmentMain_bt_navigate)
-                navigateImageView.setOnClickListener {
-                    findNavController().navigate(R.id.action_mainFragment_to_warningFragment)
-                }
-
-         */
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -79,7 +68,7 @@ class InvoicesFragment : Fragment() {
                 Log.d("tester", "InvoicesList ya capturado: " + invoicesList.toString())
                 rellenaRecycler()
                 adapter = InvoiceAdapter(invoicesList, findNavController(), requireContext())
-                binding.recyclerView.adapter = adapter
+                binding.invoicesFrRvRecyclerInvoices.adapter = adapter
             } catch (e: Exception) {
                 Log.e("tester", "Error al obtener los datos: ${e.message}")
             }

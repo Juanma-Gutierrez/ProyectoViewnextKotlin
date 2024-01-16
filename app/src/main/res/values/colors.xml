@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#D19319</color>
     <color name="warning">#B30707</color>
+    <color name="grey">#777777</color>
 </resources>
