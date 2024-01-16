@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.ui
+package com.viewnext.proyectoviewnext.ui.filter
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

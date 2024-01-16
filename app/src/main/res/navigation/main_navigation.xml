@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/invoicesFragment"
-        android:name="com.viewnext.proyectoviewnext.ui.InvoicesFragment"
+        android:name="com.viewnext.proyectoviewnext.ui.invoices.InvoicesFragment"
         android:label="fragment_invoices"
         tools:layout="@layout/fragment_invoices" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.viewnext.proyectoviewnext.ui.FilterFragment"
+        android:name="com.viewnext.proyectoviewnext.ui.filter.FilterFragment"
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/warningFragment"
-        android:name="com.viewnext.proyectoviewnext.ui.WarningFragment"
+        android:name="com.viewnext.proyectoviewnext.ui.warning.WarningFragment"
         android:label="fragment_warning"
         tools:layout="@layout/fragment_warning" >
         <action

@@ -1,6 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    // Kapt
+    id("org.jetbrains.kotlin.kapt")
+    // Hilt
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -49,6 +53,16 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     // Toolbar
     implementation("androidx.activity:activity-ktx:1.8.0")
+    // Retrofit
+    val rf_version = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$rf_version")
+    implementation("com.squareup.retrofit2:converter-gson:$rf_version")
+    // RecyclerView
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    // Dagger - Hilt - Kapt
+    val kapt_hilt_version = "2.48.1"
+    kapt("com.google.dagger:hilt-compiler:$kapt_hilt_version")
+    implementation("com.google.dagger:hilt-android:$kapt_hilt_version")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

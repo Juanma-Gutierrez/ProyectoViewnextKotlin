@@ -2,5 +2,5 @@
 <resources>
     <dimen name="general_padding">16dp</dimen>
     <dimen name="item_padding">12dp</dimen>
-    <integer name="anim_duration_long">400</integer>
+    <integer name="anim_duration_long">300</integer>
 </resources>
