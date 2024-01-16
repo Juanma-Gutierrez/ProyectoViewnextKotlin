@@ -78,7 +78,7 @@ class InvoicesFragment : Fragment() {
                 searchInvoices()
                 Log.d("tester", "InvoicesList ya capturado: " + invoicesList.toString())
                 rellenaRecycler()
-                adapter = InvoiceAdapter(invoicesList)
+                adapter = InvoiceAdapter(invoicesList, findNavController())
                 binding.recyclerView.adapter = adapter
             } catch (e: Exception) {
                 Log.e("tester", "Error al obtener los datos: ${e.message}")
