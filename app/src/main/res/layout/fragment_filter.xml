@@ -9,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <!-- Toolbar -->
         <include
@@ -34,7 +35,7 @@
                 style="@style/MaterialAlertDialog.Material3.Title.Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtrar facturas"
+                android:text="@string/title_filterInvoices"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -45,8 +46,8 @@
                 style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Con fecha de emisión"
+                android:layout_marginTop="@dimen/general_padding"
+                android:text="@string/title_filterDate"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_tv_titleFilter"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_titleFilter" />
 
@@ -54,8 +55,8 @@
                 android:id="@+id/filterFr_tv_titleDateFrom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Desde:"
+                android:layout_marginTop="@dimen/general_padding"
+                android:text="@string/title_filterFrom"
                 android:textColor="@color/design_default_color_secondary"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_tv_titleDate"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_titleDate" />
@@ -64,7 +65,7 @@
                 android:id="@+id/filterFr_tv_titleDateTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hasta:"
+                android:text="@string/title_filterTo"
                 android:textColor="@color/design_default_color_secondary"
                 app:layout_constraintBottom_toBottomOf="@+id/filterFr_tv_titleDateFrom"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_gl_guide50"
@@ -74,9 +75,9 @@
                 android:id="@+id/filterFr_bt_buttonFrom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/min_padding"
                 android:backgroundTint="@color/primary"
-                android:text="día/mes/año"
+                android:text="@string/title_buttonDayMonthYear"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_tv_titleDateFrom"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_titleDateFrom" />
 
@@ -85,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/primary"
-                android:text="día/mes/año"
+                android:text="@string/title_buttonDayMonthYear"
                 app:layout_constraintBottom_toBottomOf="@+id/filterFr_bt_buttonFrom"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_gl_guide50"
                 app:layout_constraintTop_toTopOf="@+id/filterFr_bt_buttonFrom" />
@@ -94,7 +95,7 @@
                 android:id="@+id/filterFr_vi_dividerDate"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/general_padding"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,8 +107,8 @@
                 style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Por un importe"
+                android:layout_marginTop="@dimen/general_padding"
+                android:text="@string/title_filterAmount"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_vi_dividerDate"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_vi_dividerDate" />
 
@@ -115,8 +116,8 @@
                 android:id="@+id/filterFr_tv_selectedAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="0 € - 250 €"
+                android:layout_marginTop="@dimen/general_padding"
+                android:text="@string/title_filterSelectedAmount"
                 android:textColor="@color/primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +127,7 @@
                 android:id="@+id/filterFr_tv_amountMin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 €"
+                android:text="@string/title_filterAmountMin"
                 android:textColor="@color/grey"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_tv_titleAmount"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_selectedAmount"
@@ -136,7 +137,7 @@
                 android:id="@+id/filterFr_tv_amountMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="300 €"
+                android:text="@string/title_filterAmountMax"
                 android:textColor="@color/grey"
                 app:layout_constraintEnd_toEndOf="@+id/filterFr_sb_seekBarAmount"
                 app:layout_constraintTop_toTopOf="@+id/filterFr_tv_amountMin"
@@ -158,10 +159,9 @@
                 android:id="@+id/filterFr_vi_dividerAmount"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/general_padding"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_sb_seekBarAmount" />
 
@@ -171,8 +171,8 @@
                 style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Por estado"
+                android:layout_marginTop="@dimen/general_padding"
+                android:text="@string/title_filterStatus"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_vi_dividerAmount"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_vi_dividerAmount" />
 
@@ -182,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:text="Pagadas"
+                android:text="@string/title_filterPaid"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_vi_dividerAmount"
                 app:layout_constraintTop_toBottomOf="@id/filterFr_cb_status" />
 
@@ -190,7 +190,7 @@
                 android:id="@+id/filterFr_cb_cancelled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Anuladas"
+                android:text="@string/title_filterCancelled"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_cb_paid"
                 app:layout_constraintTop_toBottomOf="@id/filterFr_cb_paid" />
 
@@ -199,7 +199,7 @@
                 android:id="@+id/filterFr_cb_fixedFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cuota fija"
+                android:text="@string/title_filterFixedFee"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_cb_cancelled"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_cb_cancelled" />
 
@@ -207,7 +207,7 @@
                 android:id="@+id/filterFr_cb_pendingPayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pendientes de pago"
+                android:text="@string/title_filterPendingPayment"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_cb_fixedFee"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_cb_fixedFee" />
 
@@ -215,7 +215,7 @@
                 android:id="@+id/filterFr_cb_paymentPlan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Plan de pago"
+                android:text="@string/title_filterPaymentPlan"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_cb_pendingPayment" />
 
@@ -223,10 +223,9 @@
                 android:id="@+id/filter_divider_status"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/general_padding"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/filterFr_cb_paymentPlan" />
 
@@ -235,11 +234,10 @@
                 android:id="@+id/filterFr_bt_buttonApply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/general_padding"
                 android:backgroundTint="@color/primary"
-                android:text="Aplicar"
+                android:text="@string/title_buttonApply"
                 app:layout_constraintEnd_toStartOf="@+id/filterFr_bt_buttonRemove"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/filter_divider_status" />
 
@@ -248,10 +246,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/grey"
-                android:text="Eliminar filtros"
+                android:text="@string/title_buttonRemoveFilters"
                 app:layout_constraintBottom_toBottomOf="@+id/filterFr_bt_buttonApply"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/filterFr_bt_buttonApply"
                 app:layout_constraintTop_toTopOf="@+id/filterFr_bt_buttonApply" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,9 +2,33 @@
     <string name="app_name">Proyecto Viewnext</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="usage">Consumo</string>
-    <string name="not_available">Función no implementada</string>
+
+    <!-- Modal screen messages -->
     <string name="warning_title">Información</string>
     <string name="warning_message">Esta función aún no está disponible</string>
     <string name="bt_close">Cerrar</string>
+
+    <!-- Invoices fragment -->
+    <string name="usage">Consumo</string>
+    <string name="not_available">Función no implementada</string>
+
+    <!-- Filter fragment -->
+    <string name="title_filterInvoices">Filtrar facturas</string>
+    <string name="title_filterDate">Con fecha de emisión</string>
+    <string name="title_filterFrom">Desde:</string>
+    <string name="title_filterTo">Hasta:</string>
+    <string name="title_buttonDayMonthYear">día/mes/año</string>
+    <string name="title_filterAmount">Por un importe</string>
+    <string name="title_filterSelectedAmount">0 € - 250 €</string>
+    <string name="title_filterAmountMin">0 €</string>
+    <string name="title_filterAmountMax">300 €</string>
+    <string name="title_filterStatus">Por estado</string>
+    <string name="title_filterPaid">Pagadas</string>
+    <string name="title_filterCancelled">Anuladas</string>
+    <string name="title_filterFixedFee">Cuota fija</string>
+    <string name="title_filterPendingPayment">Pendientes de pago</string>
+    <string name="title_filterPaymentPlan">Plan de pago</string>
+    <string name="title_buttonApply">Aplicar</string>
+    <string name="title_buttonRemoveFilters">Eliminar filtros</string>
+
 </resources>
