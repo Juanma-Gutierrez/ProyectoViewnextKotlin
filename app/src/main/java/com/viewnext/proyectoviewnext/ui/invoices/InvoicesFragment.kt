@@ -78,7 +78,7 @@ class InvoicesFragment : Fragment() {
                 searchInvoices()
                 Log.d("tester", "InvoicesList ya capturado: " + invoicesList.toString())
                 rellenaRecycler()
-                adapter = InvoiceAdapter(invoicesList, findNavController())
+                adapter = InvoiceAdapter(invoicesList, findNavController(), requireContext())
                 binding.recyclerView.adapter = adapter
             } catch (e: Exception) {
                 Log.e("tester", "Error al obtener los datos: ${e.message}")
@@ -89,19 +89,19 @@ class InvoicesFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun rellenaRecycler() {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        invoicesList.add(Invoice(LocalDate.parse("07/02/2019",formatter), "Pendiente", 30.25f))
-        invoicesList.add(Invoice(LocalDate.parse("09/05/2019",formatter), "Cancelado", 10.15f))
-        invoicesList.add(Invoice(LocalDate.parse("12/06/2019",formatter), "Pendiente", 8.00f))
-        invoicesList.add(Invoice(LocalDate.parse("04/07/2019",formatter), "Pendiente", 4.3f))
-        invoicesList.add(Invoice(LocalDate.parse("06/08/2019",formatter), "Finalizado", 21.70f))
-        invoicesList.add(Invoice(LocalDate.parse("12/09/2019",formatter), "Pendiente", 30.25f))
-        invoicesList.add(Invoice(LocalDate.parse("18/09/2019",formatter), "Pendiente", 14.34f))
-        invoicesList.add(Invoice(LocalDate.parse("04/10/2019",formatter), "Pendiente", 19.12f))
-        invoicesList.add(Invoice(LocalDate.parse("09/11/2019",formatter), "Finalizado", 21.7f))
-        invoicesList.add(Invoice(LocalDate.parse("11/11/2019",formatter), "Cancelado", 7.5f))
-        invoicesList.add(Invoice(LocalDate.parse("29/11/2019",formatter), "Pendiente", 6.23f))
-        invoicesList.add(Invoice(LocalDate.parse("07/12/2019",formatter), "Pendiente", 5.90f))
-        invoicesList.add(Invoice(LocalDate.parse("09/12/2019",formatter), "Pendiente", 23.20f))
+        invoicesList.add(Invoice(LocalDate.parse("07/02/2019", formatter), "Pendiente", 30.25f))
+        invoicesList.add(Invoice(LocalDate.parse("09/05/2019", formatter), "Cancelado", 10.15f))
+        invoicesList.add(Invoice(LocalDate.parse("12/06/2019", formatter), "Pendiente", 8.00f))
+        invoicesList.add(Invoice(LocalDate.parse("04/07/2019", formatter), "Pendiente", 4.3f))
+        invoicesList.add(Invoice(LocalDate.parse("06/08/2019", formatter), "Finalizado", 21.70f))
+        invoicesList.add(Invoice(LocalDate.parse("12/09/2019", formatter), "Pendiente", 30.25f))
+        invoicesList.add(Invoice(LocalDate.parse("18/09/2019", formatter), "Pendiente", 14.34f))
+        invoicesList.add(Invoice(LocalDate.parse("04/10/2019", formatter), "Pendiente", 19.12f))
+        invoicesList.add(Invoice(LocalDate.parse("09/11/2019", formatter), "Finalizado", 21.7f))
+        invoicesList.add(Invoice(LocalDate.parse("11/11/2019", formatter), "Cancelado", 7.5f))
+        invoicesList.add(Invoice(LocalDate.parse("29/11/2019", formatter), "Pendiente", 6.23f))
+        invoicesList.add(Invoice(LocalDate.parse("07/12/2019", formatter), "Pendiente", 5.90f))
+        invoicesList.add(Invoice(LocalDate.parse("09/12/2019", formatter), "Pendiente", 23.20f))
     }
 
 
@@ -114,7 +114,7 @@ class InvoicesFragment : Fragment() {
                 invoicesList = call.body()!!.invoices.map { invoiceResult ->
                     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
                     Invoice(
-                        LocalDate.parse(invoiceResult.date,formatter),
+                        LocalDate.parse(invoiceResult.date, formatter),
                         invoiceResult.status,
                         invoiceResult.amount.toFloat()
                     )

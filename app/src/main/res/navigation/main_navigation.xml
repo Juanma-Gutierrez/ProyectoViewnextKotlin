@@ -15,9 +15,6 @@
             app:destination="@id/filterFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
-        <action
-            android:id="@+id/action_invoicesFragment_to_warningFragment"
-            app:destination="@id/warningFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
@@ -29,14 +26,5 @@
             app:destination="@id/invoicesFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/warningFragment"
-        android:name="com.viewnext.proyectoviewnext.ui.warning.WarningFragment"
-        android:label="fragment_warning"
-        tools:layout="@layout/fragment_warning" >
-        <action
-            android:id="@+id/action_warningFragment_to_invoicesFragment"
-            app:destination="@id/invoicesFragment" />
     </fragment>
 </navigation>

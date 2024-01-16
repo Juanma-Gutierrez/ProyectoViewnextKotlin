@@ -1,5 +1,7 @@
 package com.viewnext.proyectoviewnext.ui.invoices
 
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -12,7 +14,8 @@ import kotlinx.coroutines.withContext
 
 class InvoiceAdapter(
     private val invoices: List<Invoice>,
-    private val navController: NavController
+    private val navController: NavController,
+    private val context: Context
 ) : RecyclerView.Adapter<InvoiceViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -25,11 +28,23 @@ class InvoiceAdapter(
         val item = invoices[position]
         holder.bind(item)
         holder.binding.invoiceItemIvForward.setOnClickListener {
-            navController.navigate(R.id.action_invoicesFragment_to_warningFragment)
+            showAlertDialog(context)
         }
     }
 
     override fun getItemCount(): Int {
         return invoices.size
+    }
+
+
+    private fun showAlertDialog(context: Context) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Información")
+        builder.setMessage("Esta funcionalidad aún no está disponible")
+        builder.setPositiveButton("Cerrar") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 }
