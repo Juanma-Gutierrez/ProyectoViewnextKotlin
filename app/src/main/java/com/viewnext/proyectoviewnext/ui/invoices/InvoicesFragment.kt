@@ -43,14 +43,13 @@ class InvoicesFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val ivFilter = binding.invoicesFrTbToolbarInvoices.mainToolbarIvFilter
         ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
-        val ivBack = view.findViewById<ImageView>(R.id.mainToolbar_iv_backIcon)
+        val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
         ivBack.setOnClickListener {
             val svc = Services()
             svc.showSnackBar(getString(R.string.not_available), view)
@@ -60,7 +59,6 @@ class InvoicesFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun initRecyclerView() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
@@ -75,7 +73,6 @@ class InvoicesFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun rellenaRecycler() {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         invoicesList.add(Invoice(LocalDate.parse("07/02/2019", formatter), "Pendiente", 30.25f))
