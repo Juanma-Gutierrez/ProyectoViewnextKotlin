@@ -29,7 +29,7 @@ class InvoicesFragment : Fragment() {
     private lateinit var binding: FragmentInvoicesBinding
     private lateinit var adapter: InvoiceAdapter
 
-    private var invoicesList: List<Invoice> = emptyList()
+    private var invoicesList: MutableList<Invoice> = mutableListOf()
     // private lateinit var _invoicesList: MutableStateFlow<List<Invoice>>
     // private val invoicesList = _invoicesList
 
@@ -73,6 +73,9 @@ class InvoicesFragment : Fragment() {
             try {
                 searchInvoices()
                 Log.d("tester", "InvoicesList ya capturado: " + invoicesList.toString())
+                invoicesList.add(Invoice(Date("2022/03/21"), "Pendiente", 30.25f))
+                invoicesList.add(Invoice(Date("2023/12/10"), "Pagado", 14.10f))
+                invoicesList.add(Invoice(Date("2024/04/05"), "Pendiente", 5.75f))
                 adapter = InvoiceAdapter(invoicesList)
                 binding.recyclerView.adapter = adapter
             } catch (e: Exception) {
@@ -94,7 +97,7 @@ class InvoicesFragment : Fragment() {
                         invoiceResult.status,
                         invoiceResult.amount.toFloat()
                     )
-                }
+                }.toMutableList()
                 Log.d("tester", "LLamada correcta: " + invoicesList.toString())
             } else {
                 Log.d("tester", "Error en la carga de datos")
