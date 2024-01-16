@@ -5,11 +5,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getString
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.models.Invoice
+import com.viewnext.proyectoviewnext.services.Services
 import kotlinx.coroutines.withContext
 
 class InvoiceAdapter(
@@ -28,7 +31,11 @@ class InvoiceAdapter(
         val item = invoices[position]
         holder.bind(item)
         holder.binding.invoiceItemIvForward.setOnClickListener {
-            showAlertDialog(context)
+            val svc = Services()
+            val title = getString(context,R.string.warning_title)
+            val message = getString(context, R.string.warning_message)
+            val btCloseText = getString(context, R.string.bt_close)
+            svc.showAlertDialog(context, title, message, btCloseText)
         }
     }
 
@@ -36,15 +43,4 @@ class InvoiceAdapter(
         return invoices.size
     }
 
-
-    private fun showAlertDialog(context: Context) {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Información")
-        builder.setMessage("Esta funcionalidad aún no está disponible")
-        builder.setPositiveButton("Cerrar") { dialog, _ ->
-            dialog.dismiss()
-        }
-        val alertDialog = builder.create()
-        alertDialog.show()
-    }
 }

@@ -4,4 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="usage">Consumo</string>
     <string name="not_available">Función no implementada</string>
+    <string name="warning_title">Información</string>
+    <string name="warning_message">Esta función aún no está disponible</string>
+    <string name="bt_close">Cerrar</string>
 </resources>
