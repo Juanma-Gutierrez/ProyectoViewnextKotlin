@@ -75,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@color/primary"
                 android:text="día/mes/año"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_tv_titleDateFrom"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_titleDateFrom" />
@@ -83,6 +84,7 @@
                 android:id="@+id/filterFr_bt_buttonTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary"
                 android:text="día/mes/año"
                 app:layout_constraintBottom_toBottomOf="@+id/filterFr_bt_buttonFrom"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_gl_guide50"
@@ -147,6 +149,7 @@
                 android:progressBackgroundTint="@color/design_default_color_secondary"
                 android:progressTint="@color/primary"
                 android:thumbTint="@color/primary"
+                android:progress="100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_amountMin" />
@@ -164,7 +167,7 @@
 
             <!-- Status filter -->
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/filterFr_tv_titleStatus"
+                android:id="@+id/filterFr_cb_status"
                 style="@style/TextAppearance.Material3.TitleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,20 +178,82 @@
 
 
             <CheckBox
-                android:id="@+id/filterFr_tv_titlePaid"
+                android:id="@+id/filterFr_cb_paid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="Pagadas"
-                app:layout_constraintTop_toBottomOf="@id/filterFr_tv_titleStatus"/>
+                app:layout_constraintStart_toStartOf="@+id/filterFr_vi_dividerAmount"
+                app:layout_constraintTop_toBottomOf="@id/filterFr_cb_status" />
 
             <CheckBox
-                android:id="@+id/filterFr_tv_titleCancelled"
+                android:id="@+id/filterFr_cb_cancelled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Anuladas"
-                app:layout_constraintTop_toBottomOf="@id/filterFr_tv_titlePaid"/>
+                app:layout_constraintStart_toStartOf="@+id/filterFr_cb_paid"
+                app:layout_constraintTop_toBottomOf="@id/filterFr_cb_paid" />
 
+
+            <CheckBox
+                android:id="@+id/filterFr_cb_fixedFee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cuota fija"
+                app:layout_constraintStart_toStartOf="@+id/filterFr_cb_cancelled"
+                app:layout_constraintTop_toBottomOf="@+id/filterFr_cb_cancelled" />
+
+            <CheckBox
+                android:id="@+id/filterFr_cb_pendingPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pendientes de pago"
+                app:layout_constraintStart_toStartOf="@+id/filterFr_cb_fixedFee"
+                app:layout_constraintTop_toBottomOf="@+id/filterFr_cb_fixedFee" />
+
+            <CheckBox
+                android:id="@+id/filterFr_cb_paymentPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Plan de pago"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filterFr_cb_pendingPayment" />
+
+            <View
+                android:id="@+id/filter_divider_status"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filterFr_cb_paymentPlan" />
+
+            <!-- Apply and cancel buttons -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/filterFr_bt_buttonApply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/primary"
+                android:text="Aplicar"
+                app:layout_constraintEnd_toStartOf="@+id/filterFr_bt_buttonRemove"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filter_divider_status" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/filterFr_bt_buttonRemove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:text="Eliminar filtros"
+                app:layout_constraintBottom_toBottomOf="@+id/filterFr_bt_buttonApply"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/filterFr_bt_buttonApply"
+                app:layout_constraintTop_toTopOf="@+id/filterFr_bt_buttonApply" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </FrameLayout>
