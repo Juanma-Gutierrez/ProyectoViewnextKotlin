@@ -100,8 +100,10 @@ class InvoicesFragment : Fragment() {
     }
 
     private suspend fun showProgressBar() {
-        binding.invoicesFrLlIsLoadingContainer.visibility = View.VISIBLE
-        binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
+        withContext(Dispatchers.Main) {
+            binding.invoicesFrLlIsLoadingContainer.visibility = View.VISIBLE
+            binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
+        }
     }
 
     private suspend fun hideProgressBar() {

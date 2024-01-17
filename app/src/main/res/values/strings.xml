@@ -10,7 +10,7 @@
     <string name="title_invoices">Facturas</string>
     <string name="usage">Consumo</string>
     <string name="not_available">Función no implementada</string>
-    <string name="loading_message">Cargando datos</string>
+    <string name="loading_message">Cargando facturas</string>
 
     <!-- Filter fragment -->
     <string name="title_filterInvoices">Filtrar facturas</string>
