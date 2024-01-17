@@ -9,6 +9,7 @@
     <string name="bt_close">Cerrar</string>
 
     <!-- Invoices fragment -->
+    <string name="title_invoices">Facturas</string>
     <string name="usage">Consumo</string>
     <string name="not_available">Función no implementada</string>
 

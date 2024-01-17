@@ -1,14 +1,13 @@
 package com.viewnext.proyectoviewnext.ui.invoices
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.api.InvoicesResult
@@ -19,26 +18,25 @@ import com.viewnext.proyectoviewnext.services.Services
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
 
 class InvoicesFragment : Fragment() {
     private lateinit var binding: FragmentInvoicesBinding
     private lateinit var adapter: InvoiceAdapter
 
-    private var invoicesList: MutableList<Invoice> = mutableListOf()
-    // private lateinit var _invoicesList: MutableStateFlow<List<Invoice>>
-    // private val invoicesList = _invoicesList
+    private val _invoicesList: MutableLiveData<List<Invoice>> = MutableLiveData()
+    private val invoicesList: LiveData<List<Invoice>>
+        get() = _invoicesList
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         binding = FragmentInvoicesBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,66 +55,57 @@ class InvoicesFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             initRecyclerView()
         }
+
+        invoicesList.observe(viewLifecycleOwner) { updatedList ->
+            updatedList?.let {
+                adapter.updateList(it)
+            }
+        }
     }
 
     private suspend fun initRecyclerView() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 searchInvoices()
-                Log.d("tester", "InvoicesList ya capturado: " + invoicesList.toString())
-                rellenaRecycler()
-                adapter = InvoiceAdapter(invoicesList, findNavController(), requireContext())
+                adapter = InvoiceAdapter(
+                    invoicesList.value ?: emptyList(), requireContext()
+                )
                 binding.invoicesFrRvRecyclerInvoices.adapter = adapter
             } catch (e: Exception) {
-                Log.e("tester", "Error al obtener los datos: ${e.message}")
+                Log.e("tester", "${e.message}")
             }
         }
     }
 
-    private fun rellenaRecycler() {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        invoicesList.add(Invoice(LocalDate.parse("07/02/2019", formatter), "Pendiente", 30.25f))
-        invoicesList.add(Invoice(LocalDate.parse("09/05/2019", formatter), "Cancelado", 10.15f))
-        invoicesList.add(Invoice(LocalDate.parse("12/06/2019", formatter), "Pendiente", 8.00f))
-        invoicesList.add(Invoice(LocalDate.parse("04/07/2019", formatter), "Pendiente", 4.3f))
-        invoicesList.add(Invoice(LocalDate.parse("06/08/2019", formatter), "Finalizado", 21.70f))
-        invoicesList.add(Invoice(LocalDate.parse("12/09/2019", formatter), "Pendiente", 30.25f))
-        invoicesList.add(Invoice(LocalDate.parse("18/09/2019", formatter), "Pendiente", 14.34f))
-        invoicesList.add(Invoice(LocalDate.parse("04/10/2019", formatter), "Pendiente", 19.12f))
-        invoicesList.add(Invoice(LocalDate.parse("09/11/2019", formatter), "Finalizado", 21.7f))
-        invoicesList.add(Invoice(LocalDate.parse("11/11/2019", formatter), "Cancelado", 7.5f))
-        invoicesList.add(Invoice(LocalDate.parse("29/11/2019", formatter), "Pendiente", 6.23f))
-        invoicesList.add(Invoice(LocalDate.parse("07/12/2019", formatter), "Pendiente", 5.90f))
-        invoicesList.add(Invoice(LocalDate.parse("09/12/2019", formatter), "Pendiente", 23.20f))
-    }
-
-
     private suspend fun searchInvoices() {
         CoroutineScope(Dispatchers.IO).launch {
-            val call: Response<InvoicesResult> = getRetrofit()
-                .create(InvoicesService::class.java)
-                .getInvoices()
+            val call: Response<InvoicesResult> =
+                getRetrofit().create(InvoicesService::class.java).getInvoices()
             if (call.isSuccessful) {
-                invoicesList = call.body()!!.invoices.map { invoiceResult ->
+                hideProgressBar()
+                val newInvoicesList = call.body()?.invoices?.map { invoiceResult ->
                     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
                     Invoice(
                         LocalDate.parse(invoiceResult.date, formatter),
                         invoiceResult.status,
                         invoiceResult.amount.toFloat()
                     )
-                }.toMutableList()
-                Log.d("tester", "LLamada correcta: " + invoicesList.toString())
+                } ?: emptyList()
+                _invoicesList.postValue(newInvoicesList)
             } else {
-                Log.d("tester", "Error en la carga de datos")
+                Log.d("tester", "Error in data loading")
             }
         }
     }
 
-    private fun getRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("https://viewnextandroid.wiremockapi.cloud/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    private suspend fun hideProgressBar() {
+        withContext(Dispatchers.Main) {
+            binding.invoicesFrPbIsLoading.visibility = View.GONE
+        }
     }
 
+    private fun getRetrofit(): Retrofit {
+        return Retrofit.Builder().baseUrl("https://viewnextandroid.mocklab.io/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+    }
 }
