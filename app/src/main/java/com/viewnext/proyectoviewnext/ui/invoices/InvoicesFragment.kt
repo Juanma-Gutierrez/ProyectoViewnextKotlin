@@ -105,7 +105,8 @@ class InvoicesFragment : Fragment() {
     }
 
     private fun getRetrofit(): Retrofit {
-        return Retrofit.Builder().baseUrl("https://viewnextandroid.mocklab.io/")
+        // return Retrofit.Builder().baseUrl("https://viewnextandroid.mocklab.io/")
+        return Retrofit.Builder().baseUrl("https://raw.githubusercontent.com/Juanma-Gutierrez/ProyectoViewnextKotlin/develop/app/src/main/java/com/viewnext/proyectoviewnext/data/localJson/")
             .addConverterFactory(GsonConverterFactory.create()).build()
     }
 }
