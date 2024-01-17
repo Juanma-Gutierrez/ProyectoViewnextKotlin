@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Proyecto Viewnext</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Modal screen messages -->
     <string name="warning_title">Información</string>
@@ -12,6 +10,7 @@
     <string name="title_invoices">Facturas</string>
     <string name="usage">Consumo</string>
     <string name="not_available">Función no implementada</string>
+    <string name="loading_message">Cargando datos</string>
 
     <!-- Filter fragment -->
     <string name="title_filterInvoices">Filtrar facturas</string>
@@ -31,5 +30,6 @@
     <string name="title_filterPaymentPlan">Plan de pago</string>
     <string name="title_buttonApply">Aplicar</string>
     <string name="title_buttonRemoveFilters">Eliminar filtros</string>
+
 
 </resources>

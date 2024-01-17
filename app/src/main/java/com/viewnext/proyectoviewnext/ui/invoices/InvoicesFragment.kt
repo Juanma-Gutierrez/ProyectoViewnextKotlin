@@ -65,6 +65,7 @@ class InvoicesFragment : Fragment() {
 
     private suspend fun initRecyclerView() {
         CoroutineScope(Dispatchers.Main).launch {
+            showProgressBar()
             try {
                 searchInvoices()
                 adapter = InvoiceAdapter(
@@ -98,15 +99,22 @@ class InvoicesFragment : Fragment() {
         }
     }
 
+    private suspend fun showProgressBar() {
+        binding.invoicesFrLlIsLoadingContainer.visibility = View.VISIBLE
+        binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
+    }
+
     private suspend fun hideProgressBar() {
         withContext(Dispatchers.Main) {
-            binding.invoicesFrPbIsLoading.visibility = View.GONE
+            binding.invoicesFrLlIsLoadingContainer.visibility = View.GONE
+            binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
         }
     }
 
     private fun getRetrofit(): Retrofit {
         // return Retrofit.Builder().baseUrl("https://viewnextandroid.mocklab.io/")
-        return Retrofit.Builder().baseUrl("https://raw.githubusercontent.com/Juanma-Gutierrez/ProyectoViewnextKotlin/develop/app/src/main/java/com/viewnext/proyectoviewnext/data/localJson/")
+        return Retrofit.Builder()
+            .baseUrl("https://raw.githubusercontent.com/Juanma-Gutierrez/ProyectoViewnextKotlin/develop/app/src/main/java/com/viewnext/proyectoviewnext/data/localJson/")
             .addConverterFactory(GsonConverterFactory.create()).build()
     }
 }
