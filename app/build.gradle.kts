@@ -48,21 +48,23 @@ dependencies {
     // Fragments
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     // Navigation
-    val nav_version = "2.7.5"
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    val navVersion = "2.7.5"
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     // Toolbar
     implementation("androidx.activity:activity-ktx:1.8.0")
     // Retrofit
-    val rf_version = "2.9.0"
-    implementation("com.squareup.retrofit2:retrofit:$rf_version")
-    implementation("com.squareup.retrofit2:converter-gson:$rf_version")
+    val rfVersion = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$rfVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$rfVersion")
     // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     // Dagger - Hilt - Kapt
-    val kapt_hilt_version = "2.48.1"
-    kapt("com.google.dagger:hilt-compiler:$kapt_hilt_version")
-    implementation("com.google.dagger:hilt-android:$kapt_hilt_version")
+    val kaptHiltVersion = "2.48.1"
+    kapt("com.google.dagger:hilt-compiler:$kaptHiltVersion")
+    implementation("com.google.dagger:hilt-android:$kaptHiltVersion")
+    // Retromock
+    implementation ("co.infinum:retromock:1.1.1")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
