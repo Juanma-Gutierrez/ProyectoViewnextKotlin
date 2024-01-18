@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.databinding.FragmentFilterBinding
+import java.util.Date
 
 
 class FilterFragment : Fragment() {
@@ -48,8 +49,8 @@ class FilterFragment : Fragment() {
     }
 
     private fun loadFilters() {
-        binding.filterFrTvTitleDateFrom.text = filterSvc.getFilterDateFrom().toString()
-        binding.filterFrTvTitleDateTo.text = filterSvc.getFilterDateto().toString()
+        binding.filterFrBtButtonFrom.text = checkDate(filterSvc.getFilterDateFrom().toString())
+        binding.filterFrBtButtonTo.text = checkDate(filterSvc.getFilterDateto().toString())
         binding.filterFrTvAmountMin.text = filterSvc.getFilterMinAmount().toString()
         binding.filterFrTvAmountMax.text = filterSvc.getFilterMaxAmount().toString()
         binding.filterFrCbPaid.isChecked = filterSvc.getFilterPaid()
@@ -59,17 +60,24 @@ class FilterFragment : Fragment() {
         binding.filterFrCbPaymentPlan.isChecked = filterSvc.getFilterPaymentPlan()
     }
 
+    private fun checkDate(date: String): String {
+        if (date == "null") {
+            return getString(R.string.title_buttonDayMonthYear)
+        }
+        return date
+    }
+
     private fun resetFilters() {
         println("-----------ResetFilters-----------")
-        binding.filterFrTvTitleDateFrom.text = getString(R.string.title_filterDate)
-        binding.filterFrTvTitleDateTo.text = getString(R.string.title_filterDate)
+        binding.filterFrBtButtonFrom.text = getString(R.string.title_buttonDayMonthYear)
+        binding.filterFrBtButtonTo.text = getString(R.string.title_buttonDayMonthYear)
         binding.filterFrTvAmountMin.text = "0.0€"
         binding.filterFrTvAmountMax.text = "300.0€"
-        binding.filterFrCbPaid.isChecked = false
-        binding.filterFrCbCancelled.isChecked = false
-        binding.filterFrCbFixedFee.isChecked = false
-        binding.filterFrCbPendingPayment.isChecked = false
-        binding.filterFrCbPaymentPlan.isChecked = false
+        binding.filterFrCbPaid.isChecked = true
+        binding.filterFrCbCancelled.isChecked = true
+        binding.filterFrCbFixedFee.isChecked = true
+        binding.filterFrCbPendingPayment.isChecked = true
+        binding.filterFrCbPaymentPlan.isChecked = true
         println(filterSvc)
     }
 
@@ -83,6 +91,7 @@ class FilterFragment : Fragment() {
         filterSvc.setFilterFixedFee(binding.filterFrCbFixedFee.isChecked)
         filterSvc.setFilterPendingPayment(binding.filterFrCbPendingPayment.isChecked)
         filterSvc.setFilterPaymentPlan(binding.filterFrCbPaymentPlan.isChecked)
+        findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
         println(filterSvc)
     }
 }

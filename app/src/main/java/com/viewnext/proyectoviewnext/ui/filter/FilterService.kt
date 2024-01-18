@@ -4,22 +4,22 @@ import java.util.Date
 
 object FilterService {
     private var maxAmountInList: Float = 0.0f
-    private var dateFrom: Date = Date()
-    private var dateTo: Date = Date()
+    private var dateFrom: Date? = null
+    private var dateTo: Date? = null
     private var minAmount: Float = 0.0f
-    private var maxAmount: Float = 0.0f
-    private var statePaid: Boolean = false
-    private var stateCancelled: Boolean = false
-    private var stateFixedFee: Boolean = false
-    private var statePendingPayment: Boolean = false
-    private var statePaymentPlan: Boolean = false
+    private var maxAmount: Float = 300.0f
+    private var statePaid: Boolean = true
+    private var stateCancelled: Boolean = true
+    private var stateFixedFee: Boolean = true
+    private var statePendingPayment: Boolean = true
+    private var statePaymentPlan: Boolean = true
 
 
     fun setFilterDateFrom(date: Date) {
         this.dateFrom = date
     }
 
-    fun getFilterDateFrom(): Date {
+    fun getFilterDateFrom(): Date? {
         return this.dateFrom
     }
 
@@ -27,7 +27,7 @@ object FilterService {
         this.dateTo = date
     }
 
-    fun getFilterDateto(): Date {
+    fun getFilterDateto(): Date? {
         return this.dateTo
     }
 
@@ -92,6 +92,7 @@ object FilterService {
                 "DateFrom: $dateFrom\n" +
                 "DateTo: $dateTo\n" +
                 "MinAmount: $minAmount\n" +
+                "MaxAmount: $maxAmount\n" +
                 "Paid: $statePaid\n" +
                 "Cancelled: $stateCancelled\n" +
                 "FixedFee: $stateFixedFee\n" +
