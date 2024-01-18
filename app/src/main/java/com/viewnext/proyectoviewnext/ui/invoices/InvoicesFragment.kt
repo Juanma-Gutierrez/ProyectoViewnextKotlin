@@ -18,6 +18,7 @@ import com.viewnext.proyectoviewnext.data.api.InvoicesService
 import com.viewnext.proyectoviewnext.data.models.Invoice
 import com.viewnext.proyectoviewnext.databinding.FragmentInvoicesBinding
 import com.viewnext.proyectoviewnext.services.Services
+import com.viewnext.proyectoviewnext.ui.filter.FilterService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ import java.time.format.DateTimeFormatter
 class InvoicesFragment : Fragment() {
     private lateinit var binding: FragmentInvoicesBinding
     private lateinit var adapter: InvoiceAdapter
+    private var statusList: MutableList<String> = mutableListOf()
 
     private val _invoicesList: MutableLiveData<List<Invoice>> = MutableLiveData()
     private val invoicesList: LiveData<List<Invoice>>
@@ -58,7 +60,6 @@ class InvoicesFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             initRecyclerView()
         }
-
         invoicesList.observe(viewLifecycleOwner) { updatedList ->
             updatedList?.let {
                 adapter.updateList(it)
@@ -103,6 +104,7 @@ class InvoicesFragment : Fragment() {
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
             hideProgressBar()
+            loadStatus()
             val newInvoicesList = mapInvoicesList(mockResponse)
             _invoicesList.postValue(newInvoicesList)
         }
@@ -112,6 +114,7 @@ class InvoicesFragment : Fragment() {
         val response = service.getInvoices()
         if (response.isSuccessful) {
             hideProgressBar()
+            loadStatus()
             val newInvoicesList = mapInvoicesList(response)
             _invoicesList.postValue(newInvoicesList)
         } else {
@@ -122,13 +125,10 @@ class InvoicesFragment : Fragment() {
     private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val filteredList = response.body()?.invoices?.filter { invoice ->
-            invoiceInFilter(
-                Invoice(
-                    LocalDate.parse(invoice.date, formatter),
-                    invoice.status,
-                    invoice.amount.toFloat()
-                )
+            val invoiceToCheck = Invoice(
+                LocalDate.parse(invoice.date, formatter), invoice.status, invoice.amount.toFloat()
             )
+            invoiceInFilter(invoiceToCheck)
         }
         return filteredList?.map { invoice ->
             Invoice(
@@ -140,7 +140,36 @@ class InvoicesFragment : Fragment() {
     }
 
     private fun invoiceInFilter(invoice: Invoice): Boolean {
-        return (invoice.status.equals("Pagada"))
+        var valid = true
+        val filterSvc = FilterService
+        // Check amount
+        if (invoice.amount < filterSvc.getFilterMinAmount() || invoice.amount > filterSvc.getFilterMaxAmount()) {
+            valid = false
+        }
+        // Check status
+        if (!statusList.contains(invoice.status)) {
+            valid = false
+        }
+        return valid
+    }
+
+    private fun loadStatus() {
+        val filterSvc = FilterService
+        if (filterSvc.getFilterPaid()) {
+            statusList.add("Pagada")
+        }
+        if (filterSvc.getFilterCancelled()) {
+            statusList.add("Anulada")
+        }
+        if (filterSvc.getFilterFixedFee()) {
+            statusList.add("Cuota fija")
+        }
+        if (filterSvc.getFilterPendingPayment()) {
+            statusList.add("Pendiente de pago")
+        }
+        if (filterSvc.getFilterPaymentPlan()) {
+            statusList.add("Plan de pago")
+        }
     }
 
     private suspend fun showProgressBar() {
@@ -156,12 +185,4 @@ class InvoicesFragment : Fragment() {
             binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
         }
     }
-
-    /*
-    private fun getRetrofit(): Retrofit {
-        // return Retrofit.Builder().baseUrl("https://viewnextandroid.mocklab.io/")
-        return
-    }
-
-     */
 }
