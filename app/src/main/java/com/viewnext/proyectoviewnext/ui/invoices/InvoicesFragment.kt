@@ -84,14 +84,15 @@ class InvoicesFragment : Fragment() {
     private suspend fun searchInvoices() {
         CoroutineScope(Dispatchers.IO).launch {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://raw.githubusercontent.com/Juanma-Gutierrez/ProyectoViewnextKotlin/develop/app/src/main/java/com/viewnext/proyectoviewnext/data/localJson/")
+                .baseUrl("https://viewnextandroid.wiremockapi.cloud/")
                 .addConverterFactory(GsonConverterFactory.create()).build()
             val retromock = Retromock.Builder().retrofit(retrofit).build()
             val service = retromock.create(InvoicesService::class.java)
 
             try {
-                loadApiData(service) // Uso de API
-                // loadRetromockData(service) // Uso de Retromock
+                // Seleccionar modo de carga de datos
+                // loadApiData(service) // Uso de API
+                loadRetromockData(service) // Uso de Retromock
             } catch (e: Exception) {
                 Log.e("Error", "Error loading data")
             }
@@ -99,10 +100,12 @@ class InvoicesFragment : Fragment() {
     }
 
     private suspend fun loadRetromockData(service: InvoicesService) {
-        hideProgressBar()
         val mockResponse = service.getInvoicesMock()
-        val newInvoicesList = mapInvoicesList(mockResponse)
-        _invoicesList.postValue(newInvoicesList)
+        if (mockResponse.isSuccessful) {
+            hideProgressBar()
+            val newInvoicesList = mapInvoicesList(mockResponse)
+            _invoicesList.postValue(newInvoicesList)
+        }
     }
 
     private suspend fun loadApiData(service: InvoicesService) {
@@ -117,14 +120,27 @@ class InvoicesFragment : Fragment() {
     }
 
     private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
-        return response.body()?.invoices?.map { invoiceResult ->
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val filteredList = response.body()?.invoices?.filter { invoice ->
+            invoiceInFilter(
+                Invoice(
+                    LocalDate.parse(invoice.date, formatter),
+                    invoice.status,
+                    invoice.amount.toFloat()
+                )
+            )
+        }
+        return filteredList?.map { invoice ->
             Invoice(
-                LocalDate.parse(invoiceResult.date, formatter),
-                invoiceResult.status,
-                invoiceResult.amount.toFloat()
+                LocalDate.parse(invoice.date, formatter),
+                invoice.status,
+                invoice.amount.toFloat()
             )
         }!!
+    }
+
+    private fun invoiceInFilter(invoice: Invoice): Boolean {
+        return (invoice.status.equals("Pagada"))
     }
 
     private suspend fun showProgressBar() {
