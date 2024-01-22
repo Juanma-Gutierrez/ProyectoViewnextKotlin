@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.ui
+package com.viewnext.proyectoviewnext.ui.mainActivity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
