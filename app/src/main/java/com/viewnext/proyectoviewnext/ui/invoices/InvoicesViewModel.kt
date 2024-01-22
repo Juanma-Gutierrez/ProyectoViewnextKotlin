@@ -28,7 +28,6 @@ class InvoicesViewModel : ViewModel() {
     val loadingState: LiveData<Boolean>
         get() = _loadingState
 
-
     suspend fun searchInvoices() {
         CoroutineScope(Dispatchers.IO).launch {
             val retrofit = Retrofit.Builder()
@@ -47,14 +46,37 @@ class InvoicesViewModel : ViewModel() {
         }
     }
 
+    private suspend fun loadApiData(service: InvoicesService) {
+        val response = service.getInvoices()
+        if (response.isSuccessful) {
+            loadDataInRV(response)
+        } else {
+            Log.e("Error", "Error in API data loading")
+        }
+    }
+
     private suspend fun loadRetromockData(service: InvoicesService) {
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
-            hideProgressBar()
-            loadStatus()
-            val newInvoicesList = mapInvoicesList(mockResponse)
-            _invoicesList.postValue(newInvoicesList)
+            findMaxAmount(mockResponse)
+            loadDataInRV(mockResponse)
+        } else {
+            Log.e("Error", "Error in retromock data loading")
         }
+    }
+
+    private fun findMaxAmount(response: Response<InvoicesResult>) {
+        var filterSvc = FilterService
+        val maxAmount = response.body()?.invoices!!.maxBy { it.amount }.amount.toFloat()
+        filterSvc.setMaxAmountInList(maxAmount)
+        println(filterSvc)
+    }
+
+    private suspend fun loadDataInRV(response: Response<InvoicesResult>) {
+        hideProgressBar()
+        loadStatus()
+        val newInvoicesList = mapInvoicesList(response)
+        _invoicesList.postValue(newInvoicesList)
     }
 
     private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
@@ -74,6 +96,16 @@ class InvoicesViewModel : ViewModel() {
         }!!
     }
 
+    /*
+        private fun findMaxAmount() {
+            println(_invoicesList.value)
+            val maxAmountInList = _invoicesList.value?.maxBy { it.amount }?.amount
+            println("El valor máximo de amount es: $maxAmountInList")
+        }
+
+
+     */
+
     private fun invoiceInFilter(invoice: Invoice): Boolean {
         var valid = true
         val filterSvc = FilterService
@@ -87,7 +119,6 @@ class InvoicesViewModel : ViewModel() {
         }
         return valid
     }
-
 
     private fun loadStatus() {
         val filterSvc = FilterService

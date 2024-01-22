@@ -15,6 +15,14 @@ object FilterService {
     private var statePaymentPlan: Boolean = true
 
 
+    fun setMaxAmountInList(amount: Float) {
+        this.maxAmountInList = amount
+    }
+
+    fun getMaxAmountInList(): Float {
+        return maxAmountInList
+    }
+
     fun setFilterDateFrom(date: Date?) {
         this.dateFrom = date
     }
@@ -27,7 +35,7 @@ object FilterService {
         this.dateTo = date
     }
 
-    fun getFilterDateto(): Date? {
+    fun getFilterDateTo(): Date? {
         return this.dateTo
     }
 

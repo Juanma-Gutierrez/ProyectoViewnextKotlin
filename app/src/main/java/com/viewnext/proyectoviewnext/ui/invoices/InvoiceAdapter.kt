@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getString
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.models.Invoice
