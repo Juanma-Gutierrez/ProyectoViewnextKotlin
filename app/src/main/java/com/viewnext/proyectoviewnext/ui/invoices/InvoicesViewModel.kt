@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.infinum.retromock.Retromock
+import com.viewnext.proyectoviewnext.constants.Constants
 import com.viewnext.proyectoviewnext.data.api.InvoicesResult
 import com.viewnext.proyectoviewnext.data.api.InvoicesService
 import com.viewnext.proyectoviewnext.data.models.Invoice
@@ -31,7 +32,7 @@ class InvoicesViewModel : ViewModel() {
     suspend fun searchInvoices() {
         CoroutineScope(Dispatchers.IO).launch {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://viewnextandroid.wiremockapi.cloud/")
+                .baseUrl(Constants.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build()
             val retromock = Retromock.Builder().retrofit(retrofit).build()
             val service = retromock.create(InvoicesService::class.java)
@@ -58,25 +59,26 @@ class InvoicesViewModel : ViewModel() {
     private suspend fun loadRetromockData(service: InvoicesService) {
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
-            findMaxAmount(mockResponse)
             loadDataInRV(mockResponse)
         } else {
             Log.e("Error", "Error in retromock data loading")
         }
     }
 
-    private fun findMaxAmount(response: Response<InvoicesResult>) {
-        var filterSvc = FilterService
-        val maxAmount = response.body()?.invoices!!.maxBy { it.amount }.amount.toFloat()
-        filterSvc.setMaxAmountInList(maxAmount)
-        println(filterSvc)
-    }
 
     private suspend fun loadDataInRV(response: Response<InvoicesResult>) {
         hideProgressBar()
         loadStatus()
+        findMaxAmount(response)
         val newInvoicesList = mapInvoicesList(response)
         _invoicesList.postValue(newInvoicesList)
+    }
+
+    fun findMaxAmount(response: Response<InvoicesResult>) {
+        val filterSvc = FilterService
+        val maxAmount = response.body()?.invoices!!.maxBy { it.amount }.amount.toFloat()
+        filterSvc.setMaxAmountInList(maxAmount)
+        println(filterSvc)
     }
 
     private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
@@ -95,16 +97,6 @@ class InvoicesViewModel : ViewModel() {
             )
         }!!
     }
-
-    /*
-        private fun findMaxAmount() {
-            println(_invoicesList.value)
-            val maxAmountInList = _invoicesList.value?.maxBy { it.amount }?.amount
-            println("El valor máximo de amount es: $maxAmountInList")
-        }
-
-
-     */
 
     private fun invoiceInFilter(invoice: Invoice): Boolean {
         var valid = true

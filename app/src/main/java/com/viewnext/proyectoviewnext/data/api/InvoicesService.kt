@@ -11,7 +11,7 @@ interface InvoicesService {
     suspend fun getInvoices(): Response<InvoicesResult>
 
     @Mock
-    @MockBehavior(durationDeviation = 500, durationMillis = 100)
+    @MockBehavior(durationDeviation = 100, durationMillis = 500)
     @MockResponse(
         body = "{\n" +
                 "    \"numFacturas\": 8,\n" +

@@ -4,7 +4,10 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.viewnext.proyectoviewnext.R
+import com.viewnext.proyectoviewnext.constants.Constants
+import com.viewnext.proyectoviewnext.data.api.InvoicesResult
 import com.viewnext.proyectoviewnext.data.models.Filter
+import retrofit2.Response
 
 class FilterViewModel(application: Application) : AndroidViewModel(application) {
     private var filterSvc = FilterService
@@ -80,5 +83,14 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
             return context.getString(R.string.title_buttonDayMonthYear)
         }
         return date
+    }
+
+    fun findMaxAmountProgressBar(): Float {
+        val filterSvc = FilterService
+        val maxProgressBar = (filterSvc.getMaxAmountInList() + Constants.FRACTION_OF_AMOUNT)
+        var fraction = Math.ceil((maxProgressBar / Constants.FRACTION_OF_AMOUNT).toDouble())
+        fraction *= Constants.FRACTION_OF_AMOUNT
+        println("Max progress bar: $maxProgressBar   $fraction")
+        return fraction.toFloat()
     }
 }

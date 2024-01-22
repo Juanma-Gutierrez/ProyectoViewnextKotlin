@@ -30,8 +30,8 @@ class FilterFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadFilters()
         super.onViewCreated(view, savedInstanceState)
+        loadFilters()
         val ivClose = binding.filterFrTbToolbarFilter.filterToolbarIvClose
         ivClose.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
@@ -52,13 +52,21 @@ class FilterFragment : Fragment() {
         binding.filterFrBtButtonFrom.text = filterViewModel.getDateFrom(this.requireContext())
         binding.filterFrBtButtonTo.text = filterViewModel.getDateTo(this.requireContext())
         binding.filterFrTvAmountMin.text = filterViewModel.getMinAmount()
-        binding.filterFrTvAmountMax.text = filterViewModel.getMaxAmount()
+        binding.filterFrTvAmountMax.text = filterViewModel.findMaxAmountProgressBar().toString()
+        binding.filterFrTvSelectedAmount.text =
+            getSelectedAmount(filterViewModel.getMinAmount(), filterViewModel.findMaxAmountProgressBar().toString())
         binding.filterFrCbPaid.isChecked = filterViewModel.getFilterPaid()
         binding.filterFrCbCancelled.isChecked = filterViewModel.getFilterCancelled()
         binding.filterFrCbFixedFee.isChecked = filterViewModel.getFilterFixedFee()
         binding.filterFrCbPendingPayment.isChecked = filterViewModel.getFilterPendingPayment()
         binding.filterFrCbPaymentPlan.isChecked = filterViewModel.getFilterPaymentPlan()
         println(filterViewModel.getFilter())
+    }
+
+
+
+    private fun getSelectedAmount(minAmount: String, maxAmount: String): String {
+        return ("$minAmount € - $maxAmount €")
     }
 
     private fun setFilters() {
