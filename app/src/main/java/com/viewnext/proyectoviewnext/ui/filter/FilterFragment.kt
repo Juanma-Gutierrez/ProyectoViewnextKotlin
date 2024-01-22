@@ -5,16 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
+import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.databinding.FragmentFilterBinding
 import java.util.Date
 
 
 class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
-    var filterSvc = FilterService
-
+    private lateinit var filterViewModel: FilterViewModel
+    private var filterToApply: Filter = Filter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -24,12 +26,11 @@ class FilterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFilterBinding.inflate(inflater, container, false)
+        filterViewModel = ViewModelProvider(this)[FilterViewModel::class.java]
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        println("-----------Entra en filtro-----------")
-        println(filterSvc)
         loadFilters()
         super.onViewCreated(view, savedInstanceState)
         val ivClose = binding.filterFrTbToolbarFilter.filterToolbarIvClose
@@ -38,60 +39,49 @@ class FilterFragment : Fragment() {
         }
         val btApply = binding.filterFrBtButtonApply
         btApply.setOnClickListener {
-            println("-----------Se pulsa Aplicar-----------")
             setFilters()
+            findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
         }
         val btRemoveFilters = binding.filterFrBtButtonRemove
         btRemoveFilters.setOnClickListener {
-            println("-----------Se pulsa eliminar filtros-----------")
             resetFilters()
         }
     }
 
     private fun loadFilters() {
-        binding.filterFrBtButtonFrom.text = checkDate(filterSvc.getFilterDateFrom().toString())
-        binding.filterFrBtButtonTo.text = checkDate(filterSvc.getFilterDateto().toString())
-        binding.filterFrTvAmountMin.text = filterSvc.getFilterMinAmount().toString()
-        binding.filterFrTvAmountMax.text = filterSvc.getFilterMaxAmount().toString()
-        binding.filterFrCbPaid.isChecked = filterSvc.getFilterPaid()
-        binding.filterFrCbCancelled.isChecked = filterSvc.getFilterCancelled()
-        binding.filterFrCbFixedFee.isChecked = filterSvc.getFilterFixedFee()
-        binding.filterFrCbPendingPayment.isChecked = filterSvc.getFilterPendingPayment()
-        binding.filterFrCbPaymentPlan.isChecked = filterSvc.getFilterPaymentPlan()
-    }
-
-    private fun checkDate(date: String): String {
-        if (date == "null") {
-            return getString(R.string.title_buttonDayMonthYear)
-        }
-        return date
-    }
-
-    private fun resetFilters() {
-        println("-----------ResetFilters-----------")
-        binding.filterFrBtButtonFrom.text = getString(R.string.title_buttonDayMonthYear)
-        binding.filterFrBtButtonTo.text = getString(R.string.title_buttonDayMonthYear)
-        binding.filterFrTvAmountMin.text = "0.0€"
-        binding.filterFrTvAmountMax.text = "300.0€"
-        binding.filterFrCbPaid.isChecked = true
-        binding.filterFrCbCancelled.isChecked = true
-        binding.filterFrCbFixedFee.isChecked = true
-        binding.filterFrCbPendingPayment.isChecked = true
-        binding.filterFrCbPaymentPlan.isChecked = true
-        println(filterSvc)
+        println("-----------LoadFilters-----------")
+        binding.filterFrBtButtonFrom.text = filterViewModel.getDateFrom(this.requireContext())
+        binding.filterFrBtButtonTo.text = filterViewModel.getDateTo(this.requireContext())
+        binding.filterFrTvAmountMin.text = filterViewModel.getMinAmount()
+        binding.filterFrTvAmountMax.text = filterViewModel.getMaxAmount()
+        binding.filterFrCbPaid.isChecked = filterViewModel.getFilterPaid()
+        binding.filterFrCbCancelled.isChecked = filterViewModel.getFilterCancelled()
+        binding.filterFrCbFixedFee.isChecked = filterViewModel.getFilterFixedFee()
+        binding.filterFrCbPendingPayment.isChecked = filterViewModel.getFilterPendingPayment()
+        binding.filterFrCbPaymentPlan.isChecked = filterViewModel.getFilterPaymentPlan()
+        println(filterViewModel.getFilter())
     }
 
     private fun setFilters() {
         println("-----------SetFilters-----------")
-        // TODO CAPTURAR DATOS DE FECHAS
-        filterSvc.setFilterMinAmount(binding.filterFrSbSeekBarAmount.min.toFloat())
-        filterSvc.setFilterMaxAmount(binding.filterFrSbSeekBarAmount.progress.toFloat())
-        filterSvc.setFilterPaid(binding.filterFrCbPaid.isChecked)
-        filterSvc.setFilterCancelled(binding.filterFrCbCancelled.isChecked)
-        filterSvc.setFilterFixedFee(binding.filterFrCbFixedFee.isChecked)
-        filterSvc.setFilterPendingPayment(binding.filterFrCbPendingPayment.isChecked)
-        filterSvc.setFilterPaymentPlan(binding.filterFrCbPaymentPlan.isChecked)
-        findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
-        println(filterSvc)
+        filterToApply.dateFrom = null
+        filterToApply.dateTo = null
+        filterToApply.minAmount = binding.filterFrSbSeekBarAmount.min.toFloat()
+        filterToApply.maxAmount = binding.filterFrSbSeekBarAmount.progress.toFloat()
+        filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
+        filterToApply.statusCancelled = binding.filterFrCbCancelled.isChecked
+        filterToApply.statusFixedFee = binding.filterFrCbFixedFee.isChecked
+        filterToApply.statusPendingPayment = binding.filterFrCbPendingPayment.isChecked
+        filterToApply.statusPaymentPlan = binding.filterFrCbPaymentPlan.isChecked
+        filterViewModel.setFilters(filterToApply)
+        println(filterViewModel.getFilter())
+    }
+
+
+    private fun resetFilters() {
+        println("-----------ResetFilters-----------")
+        filterViewModel.resetFilters()
+        loadFilters()
+        println(filterViewModel.getFilter())
     }
 }

@@ -15,7 +15,7 @@ object FilterService {
     private var statePaymentPlan: Boolean = true
 
 
-    fun setFilterDateFrom(date: Date) {
+    fun setFilterDateFrom(date: Date?) {
         this.dateFrom = date
     }
 
@@ -23,7 +23,7 @@ object FilterService {
         return this.dateFrom
     }
 
-    fun setFilterDateTo(date: Date) {
+    fun setFilterDateTo(date: Date?) {
         this.dateTo = date
     }
 
