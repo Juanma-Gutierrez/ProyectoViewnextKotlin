@@ -7,6 +7,7 @@ class Filter(
     var dateTo: Date? = null,
     var minAmount: Float = 0f,
     var maxAmount: Float = 0f,
+    var selectedAmount: Int = 0,
     var statusPaid: Boolean = true,
     var statusCancelled: Boolean = true,
     var statusFixedFee: Boolean = true,

@@ -5,9 +5,7 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.constants.Constants
-import com.viewnext.proyectoviewnext.data.api.InvoicesResult
 import com.viewnext.proyectoviewnext.data.models.Filter
-import retrofit2.Response
 
 class FilterViewModel(application: Application) : AndroidViewModel(application) {
     private var filterSvc = FilterService
@@ -24,12 +22,16 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         return checkDate(filterSvc.getFilterDateFrom().toString(), context)
     }
 
-    fun getMinAmount(): String {
-        return filterSvc.getFilterMinAmount().toString()
+    fun getMinAmount(): Float {
+        return filterSvc.getFilterMinAmount()
     }
 
-    fun getMaxAmount(): String {
-        return filterSvc.getFilterMinAmount().toString()
+    fun getMaxAmount(): Float {
+        return filterSvc.getFilterMinAmount()
+    }
+
+    fun getSelectedAmount():Float{
+        return filterSvc.getFilterSelectedAmount()
     }
 
     fun getFilterPaid(): Boolean {
@@ -58,6 +60,7 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         filterSvc.setFilterDateTo(filter.dateTo)
         filterSvc.setFilterMinAmount(filter.minAmount)
         filterSvc.setFilterMaxAmount(filter.maxAmount)
+        filterSvc.setFilterSelectedAmount(filter.selectedAmount.toFloat())
         filterSvc.setFilterPaid(filter.statusPaid)
         filterSvc.setFilterCancelled(filter.statusCancelled)
         filterSvc.setFilterFixedFee(filter.statusFixedFee)
@@ -70,7 +73,8 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         filterSvc.setFilterDateFrom(null)
         filterSvc.setFilterDateTo(null)
         filterSvc.setFilterMinAmount(0f)
-        filterSvc.setFilterMaxAmount(300f)
+        filterSvc.setFilterMaxAmount(findMaxAmountProgressBar())
+        filterSvc.setFilterSelectedAmount(findMaxAmountProgressBar())
         filterSvc.setFilterPaid(true)
         filterSvc.setFilterCancelled(true)
         filterSvc.setFilterFixedFee(true)
@@ -90,7 +94,6 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         val maxProgressBar = (filterSvc.getMaxAmountInList() + Constants.FRACTION_OF_AMOUNT)
         var fraction = Math.ceil((maxProgressBar / Constants.FRACTION_OF_AMOUNT).toDouble())
         fraction *= Constants.FRACTION_OF_AMOUNT
-        println("Max progress bar: $maxProgressBar   $fraction")
         return fraction.toFloat()
     }
 }

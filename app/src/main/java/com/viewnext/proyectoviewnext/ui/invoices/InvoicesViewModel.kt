@@ -102,7 +102,7 @@ class InvoicesViewModel : ViewModel() {
         var valid = true
         val filterSvc = FilterService
         // Check amount
-        if (invoice.amount < filterSvc.getFilterMinAmount() || invoice.amount > filterSvc.getFilterMaxAmount()) {
+        if (invoice.amount < filterSvc.getFilterMinAmount() || invoice.amount > filterSvc.getFilterSelectedAmount()) {
             valid = false
         }
         // Check status
