@@ -83,7 +83,11 @@ class FilterFragment : Fragment() {
         binding.filterFrTvSelectedAmount.text =
             getSelectedAmount(
                 filterViewModel.getMinAmount().toString(),
-                filterViewModel.getSelectedAmount().toString()
+                if (filterViewModel.getSelectedAmount().toInt() == Integer.MAX_VALUE) {
+                    maxAmountProgressBar.toInt().toString()
+                } else {
+                    filterViewModel.getSelectedAmount().toString()
+                }
             )
         binding.filterFrCbPaid.isChecked = filterViewModel.getFilterPaid()
         binding.filterFrCbCancelled.isChecked = filterViewModel.getFilterCancelled()

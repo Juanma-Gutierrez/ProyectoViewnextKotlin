@@ -28,6 +28,7 @@ class InvoicesViewModel : ViewModel() {
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean>
         get() = _loadingState
+    private var loadDataFromApi = false
 
     suspend fun searchInvoices() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -38,9 +39,11 @@ class InvoicesViewModel : ViewModel() {
             val service = retromock.create(InvoicesService::class.java)
 
             try {
-                // Select data loading mode
-                // loadApiData(service) // Api data loading
-                loadRetromockData(service) // Retromock data loading
+                if (loadDataFromApi) {
+                    loadApiData(service) // Api data loading
+                } else {
+                    loadRetromockData(service) // Retromock data loading
+                }
             } catch (e: Exception) {
                 Log.e("Error", "Error loading data")
             }
@@ -68,7 +71,7 @@ class InvoicesViewModel : ViewModel() {
 
     private suspend fun loadDataInRV(response: Response<InvoicesResult>) {
         hideProgressBar()
-        loadStatus()
+        createArrayWithStatusSelected()
         findMaxAmount(response)
         val newInvoicesList = mapInvoicesList(response)
         _invoicesList.postValue(newInvoicesList)
@@ -101,18 +104,28 @@ class InvoicesViewModel : ViewModel() {
     private fun invoiceInFilter(invoice: Invoice): Boolean {
         var valid = true
         val filterSvc = FilterService
+        //TODO Check fechas
+
+
         // Check amount
         if (invoice.amount < filterSvc.getFilterMinAmount() || invoice.amount > filterSvc.getFilterSelectedAmount()) {
             valid = false
         }
-        // Check status
-        if (!statusList.contains(invoice.status)) {
-            valid = false
+        // Check status, if all filters are false, skip this check
+        if (!(!filterSvc.getFilterPaid() and
+                    !filterSvc.getFilterCancelled() and
+                    !filterSvc.getFilterFixedFee() and
+                    !filterSvc.getFilterPendingPayment() and
+                    !filterSvc.getFilterPaymentPlan())
+        ) {
+            if (!statusList.contains(invoice.status)) {
+                valid = false
+            }
         }
         return valid
     }
 
-    private fun loadStatus() {
+    private fun createArrayWithStatusSelected() {
         val filterSvc = FilterService
         if (filterSvc.getFilterPaid()) {
             statusList.add("Pagada")
@@ -129,11 +142,16 @@ class InvoicesViewModel : ViewModel() {
         if (filterSvc.getFilterPaymentPlan()) {
             statusList.add("Plan de pago")
         }
+        println(statusList)
     }
 
     private suspend fun hideProgressBar() {
         withContext(Dispatchers.Main) {
             _loadingState.value = false
         }
+    }
+
+    private fun setloadDataFromApi(status: Boolean) {
+        this.loadDataFromApi = status
     }
 }

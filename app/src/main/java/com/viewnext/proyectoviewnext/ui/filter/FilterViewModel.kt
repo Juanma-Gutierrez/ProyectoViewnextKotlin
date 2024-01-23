@@ -75,11 +75,11 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         filterSvc.setFilterMinAmount(0f)
         filterSvc.setFilterMaxAmount(findMaxAmountProgressBar())
         filterSvc.setFilterSelectedAmount(findMaxAmountProgressBar())
-        filterSvc.setFilterPaid(true)
-        filterSvc.setFilterCancelled(true)
-        filterSvc.setFilterFixedFee(true)
-        filterSvc.setFilterPendingPayment(true)
-        filterSvc.setFilterPaymentPlan(true)
+        filterSvc.setFilterPaid(false)
+        filterSvc.setFilterCancelled(false)
+        filterSvc.setFilterFixedFee(false)
+        filterSvc.setFilterPendingPayment(false)
+        filterSvc.setFilterPaymentPlan(false)
     }
 
     private fun checkDate(date: String, context: Context): String {

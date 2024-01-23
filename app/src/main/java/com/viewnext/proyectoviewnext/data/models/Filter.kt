@@ -8,9 +8,9 @@ class Filter(
     var minAmount: Float = 0f,
     var maxAmount: Float = 0f,
     var selectedAmount: Int = 0,
-    var statusPaid: Boolean = true,
-    var statusCancelled: Boolean = true,
-    var statusFixedFee: Boolean = true,
-    var statusPendingPayment: Boolean = true,
-    var statusPaymentPlan: Boolean = true
+    var statusPaid: Boolean = false,
+    var statusCancelled: Boolean = false,
+    var statusFixedFee: Boolean = false,
+    var statusPendingPayment: Boolean = false,
+    var statusPaymentPlan: Boolean = false
 )

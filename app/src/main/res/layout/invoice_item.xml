@@ -19,7 +19,7 @@
         android:id="@+id/invoiceItem_tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/warning"
+        android:textColor="@color/md_theme_light_error"
         app:layout_constraintStart_toStartOf="@id/invoiceItem_tv_date"
         app:layout_constraintTop_toBottomOf="@id/invoiceItem_tv_date"
         tools:text="Pendiente de pago"/>
@@ -43,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="@id/invoiceItem_tv_status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/invoiceItem_tv_date"
-        app:tint="@color/primary" />
+        app:tint="@color/md_theme_light_primary" />
 
     <View
         android:id="@+id/invoiceItem_vi_dividerItem"

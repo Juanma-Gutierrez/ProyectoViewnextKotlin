@@ -9,11 +9,11 @@ object FilterService {
     private var minAmount: Float = 0.0f
     private var maxAmount: Float = 0.0f
     private var selectedAmount: Float = Integer.MAX_VALUE.toFloat()
-    private var statePaid: Boolean = true
-    private var stateCancelled: Boolean = true
-    private var stateFixedFee: Boolean = true
-    private var statePendingPayment: Boolean = true
-    private var statePaymentPlan: Boolean = true
+    private var statePaid: Boolean = false
+    private var stateCancelled: Boolean = false
+    private var stateFixedFee: Boolean = false
+    private var statePendingPayment: Boolean = false
+    private var statePaymentPlan: Boolean = false
 
 
     fun setMaxAmountInList(amount: Float) {
