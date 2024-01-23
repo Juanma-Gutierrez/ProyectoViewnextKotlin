@@ -17,27 +17,27 @@ interface InvoicesService {
                 "    \"numFacturas\": 8,\n" +
                 "    \"facturas\": [\n" +
                 "        {\n" +
-                "            \"descEstado\": \"Pendiente de pago\",\n" +
+                "            \"descEstado\": \"Anulada\",\n" +
                 "            \"importeOrdenacion\": 1.56,\n" +
                 "            \"fecha\": \"07/02/2019\"\n" +
                 "        },\n" +
                 "        {\n" +
-                "            \"descEstado\": \"Pagada\",\n" +
+                "            \"descEstado\": \"Cancelada\",\n" +
                 "            \"importeOrdenacion\": 25.14,\n" +
                 "            \"fecha\": \"05/02/2019\"\n" +
                 "        },\n" +
                 "        {\n" +
-                "            \"descEstado\": \"Pagada\",\n" +
+                "            \"descEstado\": \"Pendiente de pago\",\n" +
                 "            \"importeOrdenacion\": 22.69,\n" +
                 "            \"fecha\": \"08/01/2019\"\n" +
                 "        },\n" +
                 "        {\n" +
-                "            \"descEstado\": \"Pendiente de pago\",\n" +
+                "            \"descEstado\": \"Plan de pago\",\n" +
                 "            \"importeOrdenacion\": 12.84,\n" +
                 "            \"fecha\": \"07/12/2018\"\n" +
                 "        },\n" +
                 "        {\n" +
-                "            \"descEstado\": \"Pagada\",\n" +
+                "            \"descEstado\": \"Cuota fija\",\n" +
                 "            \"importeOrdenacion\": 35.16,\n" +
                 "            \"fecha\": \"16/11/2018\"\n" +
                 "        },\n" +

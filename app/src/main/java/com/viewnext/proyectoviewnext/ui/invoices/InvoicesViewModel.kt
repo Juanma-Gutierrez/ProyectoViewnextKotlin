@@ -151,7 +151,7 @@ class InvoicesViewModel : ViewModel() {
         }
     }
 
-    private fun setloadDataFromApi(status: Boolean) {
+    fun setloadDataFromApi(status: Boolean) {
         this.loadDataFromApi = status
     }
 }

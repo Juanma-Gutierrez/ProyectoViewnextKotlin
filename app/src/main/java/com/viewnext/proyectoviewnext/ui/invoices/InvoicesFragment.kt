@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
+import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
 import com.viewnext.proyectoviewnext.databinding.FragmentInvoicesBinding
 import com.viewnext.proyectoviewnext.services.Services
 import kotlinx.coroutines.CoroutineScope
@@ -38,15 +39,42 @@ class InvoicesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
+        val svc = Services()
+        ivBack.setOnClickListener {
+            svc.showSnackBar(getString(R.string.not_available), view)
+        }
+        val swDataLoading = binding.invoicesFrTbToolbarInvoices.mainToolbarSwLoadFromApi
+        val selector = SelectorDataLoading
+        swDataLoading.isChecked = selector.loadFromAPI
+        swDataLoading.setOnCheckedChangeListener { buttonView, isChecked ->
+            invoicesViewModel.setloadDataFromApi(swDataLoading.isChecked)
+            if (swDataLoading.isChecked) {
+                loadDataFromNewSource("Actiavda carga de datos desde API", view, svc)
+            } else {
+                loadDataFromNewSource("Actiavda carga de datos desde Retromock", view, svc)
+            }
+            selector.loadFromAPI = swDataLoading.isChecked
+            loadDataInRV()
+        }
         val ivFilter = binding.invoicesFrTbToolbarInvoices.mainToolbarIvFilter
         ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
-        val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
-        ivBack.setOnClickListener {
-            val svc = Services()
-            svc.showSnackBar(getString(R.string.not_available), view)
+        loadDataInRV()
+        invoicesViewModel.invoicesList.observe(viewLifecycleOwner) { updatedList ->
+            updatedList?.let {
+                adapter.updateList(it)
+            }
         }
+    }
+
+    private fun loadDataFromNewSource(message: String, view: View, svc: Services) {
+        svc.showSnackBar(message, view)
+        showProgressBar()
+    }
+
+    private fun loadDataInRV() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 invoicesViewModel.searchInvoices()
@@ -56,12 +84,6 @@ class InvoicesFragment : Fragment() {
                 binding.invoicesFrRvRecyclerInvoices.adapter = adapter
             } catch (e: Exception) {
                 Log.e("tester", "${e.message}")
-            }
-        }
-
-        invoicesViewModel.invoicesList.observe(viewLifecycleOwner) { updatedList ->
-            updatedList?.let {
-                adapter.updateList(it)
             }
         }
     }
