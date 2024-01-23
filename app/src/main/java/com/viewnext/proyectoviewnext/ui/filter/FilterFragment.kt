@@ -49,7 +49,6 @@ class FilterFragment : Fragment() {
         val sbAmount = binding.filterFrSbSeekBarAmount
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                println("Valor: " + sbAmount.progress)
                 changeValueOnSelectedSeekBar(sbAmount.progress)
             }
 
@@ -63,26 +62,19 @@ class FilterFragment : Fragment() {
 
     private fun changeValueOnSelectedSeekBar(progress: Int) {
         val filterSvc = FilterService
-        filterSvc.setFilterSelectedAmount(progress.toFloat())
-        binding.filterFrTvSelectedAmount.text =
-            getSelectedAmount(
-                filterViewModel.getMinAmount().toString(),
-                progress.toString()
-            )
+        filterSvc.setFilterSelectedAmount(progress)
+        binding.filterFrTvSelectedAmount.text = getSelectedAmount(progress.toString())
     }
 
     private fun loadFilters() {
-        println("-----------LoadFilters-----------")
         binding.filterFrBtButtonFrom.text = filterViewModel.getDateFrom(this.requireContext())
         binding.filterFrBtButtonTo.text = filterViewModel.getDateTo(this.requireContext())
-        binding.filterFrTvAmountMin.text = filterViewModel.getMinAmount().toString()
         val maxAmountProgressBar = filterViewModel.findMaxAmountProgressBar()
         binding.filterFrSbSeekBarAmount.max = maxAmountProgressBar.toInt()
         binding.filterFrSbSeekBarAmount.progress = filterViewModel.getSelectedAmount().toInt()
-        binding.filterFrTvAmountMax.text = maxAmountProgressBar.toString()
+        binding.filterFrTvAmountMax.text = "${maxAmountProgressBar.toInt()} €"
         binding.filterFrTvSelectedAmount.text =
             getSelectedAmount(
-                filterViewModel.getMinAmount().toString(),
                 if (filterViewModel.getSelectedAmount().toInt() == Integer.MAX_VALUE) {
                     maxAmountProgressBar.toInt().toString()
                 } else {
@@ -94,19 +86,16 @@ class FilterFragment : Fragment() {
         binding.filterFrCbFixedFee.isChecked = filterViewModel.getFilterFixedFee()
         binding.filterFrCbPendingPayment.isChecked = filterViewModel.getFilterPendingPayment()
         binding.filterFrCbPaymentPlan.isChecked = filterViewModel.getFilterPaymentPlan()
-        println(filterViewModel.getFilter())
     }
 
 
-    private fun getSelectedAmount(minAmount: String, maxAmount: String): String {
-        return ("$minAmount € - $maxAmount €")
+    private fun getSelectedAmount(maxAmount: String): String {
+        return ("0 € - $maxAmount €")
     }
 
     private fun setFilters() {
-        println("-----------SetFilters-----------")
         filterToApply.dateFrom = null
         filterToApply.dateTo = null
-        filterToApply.minAmount = binding.filterFrSbSeekBarAmount.min.toFloat()
         filterToApply.maxAmount = binding.filterFrSbSeekBarAmount.max.toFloat()
         filterToApply.selectedAmount = binding.filterFrSbSeekBarAmount.progress
         filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
@@ -115,14 +104,11 @@ class FilterFragment : Fragment() {
         filterToApply.statusPendingPayment = binding.filterFrCbPendingPayment.isChecked
         filterToApply.statusPaymentPlan = binding.filterFrCbPaymentPlan.isChecked
         filterViewModel.setFilters(filterToApply)
-        println(filterViewModel.getFilter())
     }
 
 
     private fun resetFilters() {
-        println("-----------ResetFilters-----------")
         filterViewModel.resetFilters()
         loadFilters()
-        println(filterViewModel.getFilter())
     }
 }

@@ -22,15 +22,7 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         return checkDate(filterSvc.getFilterDateFrom().toString(), context)
     }
 
-    fun getMinAmount(): Float {
-        return filterSvc.getFilterMinAmount()
-    }
-
-    fun getMaxAmount(): Float {
-        return filterSvc.getFilterMinAmount()
-    }
-
-    fun getSelectedAmount():Float{
+    fun getSelectedAmount():Int{
         return filterSvc.getFilterSelectedAmount()
     }
 
@@ -55,25 +47,21 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun setFilters(filter: Filter) {
-        println(filterSvc)
         filterSvc.setFilterDateFrom(filter.dateFrom)
         filterSvc.setFilterDateTo(filter.dateTo)
-        filterSvc.setFilterMinAmount(filter.minAmount)
         filterSvc.setFilterMaxAmount(filter.maxAmount)
-        filterSvc.setFilterSelectedAmount(filter.selectedAmount.toFloat())
+        filterSvc.setFilterSelectedAmount(filter.selectedAmount)
         filterSvc.setFilterPaid(filter.statusPaid)
         filterSvc.setFilterCancelled(filter.statusCancelled)
         filterSvc.setFilterFixedFee(filter.statusFixedFee)
         filterSvc.setFilterPendingPayment(filter.statusPendingPayment)
         filterSvc.setFilterPaymentPlan(filter.statusPaymentPlan)
-        println(filterSvc)
     }
 
     fun resetFilters() {
         filterSvc.setFilterDateFrom(null)
         filterSvc.setFilterDateTo(null)
-        filterSvc.setFilterMinAmount(0f)
-        filterSvc.setFilterMaxAmount(findMaxAmountProgressBar())
+        filterSvc.setFilterMaxAmount(findMaxAmountProgressBar().toFloat())
         filterSvc.setFilterSelectedAmount(findMaxAmountProgressBar())
         filterSvc.setFilterPaid(false)
         filterSvc.setFilterCancelled(false)
@@ -89,11 +77,11 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         return date
     }
 
-    fun findMaxAmountProgressBar(): Float {
+    fun findMaxAmountProgressBar(): Int {
         val filterSvc = FilterService
         val maxProgressBar = (filterSvc.getMaxAmountInList() + Constants.FRACTION_OF_AMOUNT)
-        var fraction = Math.ceil((maxProgressBar / Constants.FRACTION_OF_AMOUNT).toDouble())
+        var fraction= Math.ceil((maxProgressBar / Constants.FRACTION_OF_AMOUNT).toDouble())
         fraction *= Constants.FRACTION_OF_AMOUNT
-        return fraction.toFloat()
+        return fraction.toInt()
     }
 }

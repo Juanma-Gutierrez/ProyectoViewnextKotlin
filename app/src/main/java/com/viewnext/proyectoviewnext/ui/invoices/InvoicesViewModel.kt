@@ -81,7 +81,6 @@ class InvoicesViewModel : ViewModel() {
         val filterSvc = FilterService
         val maxAmount = response.body()?.invoices!!.maxBy { it.amount }.amount.toFloat()
         filterSvc.setMaxAmountInList(maxAmount)
-        println(filterSvc)
     }
 
     private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
@@ -108,7 +107,7 @@ class InvoicesViewModel : ViewModel() {
 
 
         // Check amount
-        if (invoice.amount < filterSvc.getFilterMinAmount() || invoice.amount > filterSvc.getFilterSelectedAmount()) {
+        if (invoice.amount > filterSvc.getFilterSelectedAmount()) {
             valid = false
         }
         // Check status, if all filters are false, skip this check
@@ -142,7 +141,6 @@ class InvoicesViewModel : ViewModel() {
         if (filterSvc.getFilterPaymentPlan()) {
             statusList.add("Plan de pago")
         }
-        println(statusList)
     }
 
     private suspend fun hideProgressBar() {

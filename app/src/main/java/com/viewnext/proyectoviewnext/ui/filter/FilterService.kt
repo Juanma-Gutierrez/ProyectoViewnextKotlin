@@ -6,9 +6,8 @@ object FilterService {
     private var maxAmountInList: Float = 0.0f
     private var dateFrom: Date? = null
     private var dateTo: Date? = null
-    private var minAmount: Float = 0.0f
     private var maxAmount: Float = 0.0f
-    private var selectedAmount: Float = Integer.MAX_VALUE.toFloat()
+    private var selectedAmount: Int = Integer.MAX_VALUE
     private var statePaid: Boolean = false
     private var stateCancelled: Boolean = false
     private var stateFixedFee: Boolean = false
@@ -40,14 +39,6 @@ object FilterService {
         return this.dateTo
     }
 
-    fun setFilterMinAmount(amount: Float) {
-        this.minAmount = amount
-    }
-
-    fun getFilterMinAmount(): Float {
-        return this.minAmount
-    }
-
     fun setFilterMaxAmount(amount: Float) {
         this.maxAmount = amount
     }
@@ -56,11 +47,11 @@ object FilterService {
         return this.maxAmount
     }
 
-    fun setFilterSelectedAmount(amount: Float) {
+    fun setFilterSelectedAmount(amount: Int) {
         this.selectedAmount = amount
     }
 
-    fun getFilterSelectedAmount(): Float {
+    fun getFilterSelectedAmount(): Int {
         return this.selectedAmount
     }
 
@@ -108,7 +99,6 @@ object FilterService {
         return "MaxAmountInList: $maxAmountInList\n" +
                 "DateFrom: $dateFrom\n" +
                 "DateTo: $dateTo\n" +
-                "MinAmount: $minAmount\n" +
                 "MaxAmount: $maxAmount\n" +
                 "Paid: $statePaid\n" +
                 "Cancelled: $stateCancelled\n" +
