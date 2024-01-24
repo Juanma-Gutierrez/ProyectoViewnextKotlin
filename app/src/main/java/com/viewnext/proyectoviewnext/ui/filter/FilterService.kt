@@ -1,105 +1,82 @@
 package com.viewnext.proyectoviewnext.ui.filter
 
+import com.viewnext.proyectoviewnext.data.models.Filter
 import java.util.Date
 
 object FilterService {
     private var maxAmountInList: Float = 0.0f
-    private var dateFrom: Date? = null
-    private var dateTo: Date? = null
-    private var selectedAmount: Int = Integer.MAX_VALUE
-    private var statePaid: Boolean = false
-    private var stateCancelled: Boolean = false
-    private var stateFixedFee: Boolean = false
-    private var statePendingPayment: Boolean = false
-    private var statePaymentPlan: Boolean = false
+    private var filter: Filter = Filter()
 
-    // Date from
-    fun setDateFrom(date: Date?) {
-        this.dateFrom = date
-    }
-
+    // Date
     fun getDateFrom(): Date? {
-        return this.dateFrom
+        return this.filter.dateFrom
     }
 
-    // Date to
-    fun setDateTo(date: Date?) {
-        this.dateTo = date
+    fun setDateFrom(date: Date?) {
+        this.filter.dateFrom = date
     }
 
     fun getDateTo(): Date? {
-        return this.dateTo
+        return this.filter.dateTo
     }
 
-    // Max amount
-    fun setMaxAmountInList(amount: Float) {
-        this.maxAmountInList = amount
+    fun setDateTo(date: Date?) {
+        this.filter.dateTo = date
     }
 
+    // Amount
     fun getMaxAmountInList(): Float {
         return maxAmountInList
     }
 
-    // Selected amount
-    fun setSelectedAmount(amount: Int) {
-        this.selectedAmount = amount
+    fun setMaxAmountInList(amount: Float) {
+        this.maxAmountInList = amount
     }
 
     fun getSelectedAmount(): Int {
-        return this.selectedAmount
+        return this.filter.selectedAmount
+    }
+
+    fun setSelectedAmount(progress: Int) {
+        this.filter.selectedAmount = progress
     }
 
     // Status
-    fun setStatusPaid(state: Boolean) {
-        this.statePaid = state
-    }
-
     fun getStatusPaid(): Boolean {
-        return this.statePaid
+        return this.filter.statusPaid
     }
 
-    fun setStatusCancelled(state: Boolean) {
-        this.stateCancelled = state
+    fun setStatusPaid(state: Boolean) {
+        this.filter.statusPaid = state
     }
 
     fun getStatusCancelled(): Boolean {
-        return this.stateCancelled
+        return this.filter.statusCancelled
     }
-
-    fun setStatusFixedFee(state: Boolean) {
-        this.stateFixedFee = state
+    fun setStatusCancelled(state: Boolean) {
+        this.filter.statusCancelled = state
     }
-
     fun getStatusFixedFee(): Boolean {
-        return this.stateFixedFee
+        return this.filter.statusFixedFee
     }
-
-    fun setStatusPendingPayment(state: Boolean) {
-        this.statePendingPayment = state
+    fun setStatusFixedFee(state: Boolean) {
+        this.filter.statusFixedFee = state
     }
-
     fun getStatusPendingPayment(): Boolean {
-        return this.statePendingPayment
+        return this.filter.statusPendingPayment
     }
-
-    fun setStatusPaymentPlan(state: Boolean) {
-        this.statePaymentPlan = state
+    fun setStatusPendingPayment(state: Boolean) {
+        this.filter.statusPendingPayment = state
     }
-
     fun getStatusPaymentPlan(): Boolean {
-        return this.statePaymentPlan
+        return this.filter.statusPaymentPlan
+    }
+    fun setStatusPaymentPlan(state: Boolean) {
+        this.filter.statusPaymentPlan = state
     }
 
-    override fun toString(): String {
-        return "\nDateFrom: $dateFrom\n" +
-                "DateTo: $dateTo\n" +
-                "MaxAmountInList: $maxAmountInList\n" +
-                "SelectedAmount: $selectedAmount\n" +
-                "Paid: $statePaid\n" +
-                "Cancelled: $stateCancelled\n" +
-                "FixedFee: $stateFixedFee\n" +
-                "PendingPayment: $statePendingPayment\n" +
-                "PaymentPlan: $statePaymentPlan\n"
+    override fun toString():String{
+        return this.filter.toString()
     }
 }
 
