@@ -1,12 +1,10 @@
-package com.viewnext.proyectoviewnext.services
+package com.viewnext.proyectoviewnext.tools
 
 import android.app.AlertDialog
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
-import com.viewnext.proyectoviewnext.R
 
 class Services {
     fun showSnackBar(message: String, view: View) {

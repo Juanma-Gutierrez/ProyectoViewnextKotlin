@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.infinum.retromock.Retromock
 import com.viewnext.proyectoviewnext.constants.Constants
+import com.viewnext.proyectoviewnext.data.api.InvoiceResult
 import com.viewnext.proyectoviewnext.data.api.InvoicesResult
 import com.viewnext.proyectoviewnext.data.api.InvoicesService
+import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
 import com.viewnext.proyectoviewnext.data.models.Invoice
 import com.viewnext.proyectoviewnext.ui.filter.FilterService
 import kotlinx.coroutines.CoroutineScope
@@ -19,6 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.math.ceil
 
 class InvoicesViewModel : ViewModel() {
     private var statusList: MutableList<String> = mutableListOf()
@@ -28,7 +31,7 @@ class InvoicesViewModel : ViewModel() {
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean>
         get() = _loadingState
-    private var loadDataFromApi = false
+    val selectorDL = SelectorDataLoading
 
     suspend fun searchInvoices() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -39,11 +42,15 @@ class InvoicesViewModel : ViewModel() {
             val service = retromock.create(InvoicesService::class.java)
 
             try {
-                if (loadDataFromApi) {
+                if (selectorDL.loadFromAPI) {
                     loadApiData(service) // Api data loading
                 } else {
                     loadRetromockData(service) // Retromock data loading
                 }
+                // Control of selectedMaxValue if the list changes
+                val filterSvc = FilterService
+                if (filterSvc.getSelectedAmount() > filterSvc.getMaxAmountInList())
+                    filterSvc.setSelectedAmount(ceil(filterSvc.getMaxAmountInList()).toInt())
             } catch (e: Exception) {
                 Log.e("Error", "Error loading data")
             }
@@ -53,34 +60,42 @@ class InvoicesViewModel : ViewModel() {
     private suspend fun loadApiData(service: InvoicesService) {
         val response = service.getInvoices()
         if (response.isSuccessful) {
+            println("Carga de datos de API")
             loadDataInRV(response)
         } else {
             Log.e("Error", "Error in API data loading")
         }
     }
 
+
     private suspend fun loadRetromockData(service: InvoicesService) {
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
+            println("Carga de datos de Retromock")
             loadDataInRV(mockResponse)
         } else {
             Log.e("Error", "Error in retromock data loading")
         }
     }
 
+    fun resetMaxAmountInList() {
+        val filterSvc = FilterService
+        filterSvc.setMaxAmountInList(0f)
+    }
 
     private suspend fun loadDataInRV(response: Response<InvoicesResult>) {
         hideProgressBar()
         createArrayWithStatusSelected()
-        findMaxAmount(response)
+        findMaxAmount(response.body()?.invoices)
         val newInvoicesList = mapInvoicesList(response)
         _invoicesList.postValue(newInvoicesList)
     }
 
-    fun findMaxAmount(response: Response<InvoicesResult>) {
+    fun findMaxAmount(invoices: List<InvoiceResult>?) {
         val filterSvc = FilterService
-        val maxAmount = response.body()?.invoices!!.maxBy { it.amount }.amount.toFloat()
-        filterSvc.setMaxAmountInList(maxAmount)
+        val maxAmount = invoices?.maxBy { it.amount }?.amount?.toFloat()
+        filterSvc.setMaxAmountInList(maxAmount!!)
+        println(filterSvc)
     }
 
     private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
@@ -107,15 +122,15 @@ class InvoicesViewModel : ViewModel() {
 
 
         // Check amount
-        if (invoice.amount > filterSvc.getFilterSelectedAmount()) {
+        if (invoice.amount > filterSvc.getSelectedAmount()) {
             valid = false
         }
         // Check status, if all filters are false, skip this check
-        if (!(!filterSvc.getFilterPaid() and
-                    !filterSvc.getFilterCancelled() and
-                    !filterSvc.getFilterFixedFee() and
-                    !filterSvc.getFilterPendingPayment() and
-                    !filterSvc.getFilterPaymentPlan())
+        if (!(!filterSvc.getStatusPaid() and
+                    !filterSvc.getStatusCancelled() and
+                    !filterSvc.getStatusFixedFee() and
+                    !filterSvc.getStatusPendingPayment() and
+                    !filterSvc.getStatusPaymentPlan())
         ) {
             if (!statusList.contains(invoice.status)) {
                 valid = false
@@ -126,21 +141,11 @@ class InvoicesViewModel : ViewModel() {
 
     private fun createArrayWithStatusSelected() {
         val filterSvc = FilterService
-        if (filterSvc.getFilterPaid()) {
-            statusList.add("Pagada")
-        }
-        if (filterSvc.getFilterCancelled()) {
-            statusList.add("Anulada")
-        }
-        if (filterSvc.getFilterFixedFee()) {
-            statusList.add("Cuota fija")
-        }
-        if (filterSvc.getFilterPendingPayment()) {
-            statusList.add("Pendiente de pago")
-        }
-        if (filterSvc.getFilterPaymentPlan()) {
-            statusList.add("Plan de pago")
-        }
+        if (filterSvc.getStatusPaid()) statusList.add("Pagada")
+        if (filterSvc.getStatusCancelled()) statusList.add("Anulada")
+        if (filterSvc.getStatusFixedFee()) statusList.add("Cuota fija")
+        if (filterSvc.getStatusPendingPayment()) statusList.add("Pendiente de pago")
+        if (filterSvc.getStatusPaymentPlan()) statusList.add("Plan de pago")
     }
 
     private suspend fun hideProgressBar() {
@@ -150,6 +155,6 @@ class InvoicesViewModel : ViewModel() {
     }
 
     fun setloadDataFromApi(status: Boolean) {
-        this.loadDataFromApi = status
+        selectorDL.loadFromAPI = status
     }
 }

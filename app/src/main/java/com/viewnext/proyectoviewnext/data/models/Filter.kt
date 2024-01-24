@@ -5,7 +5,6 @@ import java.util.Date
 class Filter(
     var dateFrom: Date? = null,
     var dateTo: Date? = null,
-    var maxAmount: Float = 0f,
     var selectedAmount: Int = 0,
     var statusPaid: Boolean = false,
     var statusCancelled: Boolean = false,

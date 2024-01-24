@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
 import com.viewnext.proyectoviewnext.databinding.FragmentInvoicesBinding
-import com.viewnext.proyectoviewnext.services.Services
+import com.viewnext.proyectoviewnext.tools.Services
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,11 +28,7 @@ class InvoicesFragment : Fragment() {
         binding = FragmentInvoicesBinding.inflate(inflater, container, false)
         invoicesViewModel = ViewModelProvider(this)[InvoicesViewModel::class.java]
         invoicesViewModel.loadingState.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                showProgressBar()
-            } else {
-                hideProgressBar()
-            }
+            if (isLoading) showProgressBar() else hideProgressBar()
         }
         return binding.root
     }
@@ -49,8 +45,9 @@ class InvoicesFragment : Fragment() {
         swDataLoading.isChecked = selector.loadFromAPI
         swDataLoading.setOnCheckedChangeListener { buttonView, isChecked ->
             invoicesViewModel.setloadDataFromApi(swDataLoading.isChecked)
+            invoicesViewModel.resetMaxAmountInList()
             if (swDataLoading.isChecked) {
-                loadDataFromNewSource("Actiavda carga de datos desde API", view, svc)
+                loadDataFromNewSource("Activada carga de datos desde API", view, svc)
             } else {
                 loadDataFromNewSource("Actiavda carga de datos desde Retromock", view, svc)
             }
@@ -62,12 +59,11 @@ class InvoicesFragment : Fragment() {
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
         loadDataInRV()
-        invoicesViewModel.invoicesList.observe(viewLifecycleOwner) { updatedList ->
-            updatedList?.let {
-                adapter.updateList(it)
-            }
+        invoicesViewModel.invoicesList.observe(viewLifecycleOwner) { newList ->
+            adapter.updateList(newList)
         }
     }
+
 
     private fun loadDataFromNewSource(message: String, view: View, svc: Services) {
         svc.showSnackBar(message, view)

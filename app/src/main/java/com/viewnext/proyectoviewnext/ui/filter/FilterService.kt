@@ -6,7 +6,6 @@ object FilterService {
     private var maxAmountInList: Float = 0.0f
     private var dateFrom: Date? = null
     private var dateTo: Date? = null
-    private var maxAmount: Float = 0.0f
     private var selectedAmount: Int = Integer.MAX_VALUE
     private var statePaid: Boolean = false
     private var stateCancelled: Boolean = false
@@ -14,7 +13,25 @@ object FilterService {
     private var statePendingPayment: Boolean = false
     private var statePaymentPlan: Boolean = false
 
+    // Date from
+    fun setDateFrom(date: Date?) {
+        this.dateFrom = date
+    }
 
+    fun getDateFrom(): Date? {
+        return this.dateFrom
+    }
+
+    // Date to
+    fun setDateTo(date: Date?) {
+        this.dateTo = date
+    }
+
+    fun getDateTo(): Date? {
+        return this.dateTo
+    }
+
+    // Max amount
     fun setMaxAmountInList(amount: Float) {
         this.maxAmountInList = amount
     }
@@ -23,83 +40,61 @@ object FilterService {
         return maxAmountInList
     }
 
-    fun setFilterDateFrom(date: Date?) {
-        this.dateFrom = date
-    }
-
-    fun getFilterDateFrom(): Date? {
-        return this.dateFrom
-    }
-
-    fun setFilterDateTo(date: Date?) {
-        this.dateTo = date
-    }
-
-    fun getFilterDateTo(): Date? {
-        return this.dateTo
-    }
-
-    fun setFilterMaxAmount(amount: Float) {
-        this.maxAmount = amount
-    }
-
-    fun getFilterMaxAmount(): Float {
-        return this.maxAmount
-    }
-
-    fun setFilterSelectedAmount(amount: Int) {
+    // Selected amount
+    fun setSelectedAmount(amount: Int) {
         this.selectedAmount = amount
     }
 
-    fun getFilterSelectedAmount(): Int {
+    fun getSelectedAmount(): Int {
         return this.selectedAmount
     }
 
-    fun setFilterPaid(state: Boolean) {
+    // Status
+    fun setStatusPaid(state: Boolean) {
         this.statePaid = state
     }
 
-    fun getFilterPaid(): Boolean {
+    fun getStatusPaid(): Boolean {
         return this.statePaid
     }
 
-    fun setFilterCancelled(state: Boolean) {
+    fun setStatusCancelled(state: Boolean) {
         this.stateCancelled = state
     }
 
-    fun getFilterCancelled(): Boolean {
+    fun getStatusCancelled(): Boolean {
         return this.stateCancelled
     }
 
-    fun setFilterFixedFee(state: Boolean) {
+    fun setStatusFixedFee(state: Boolean) {
         this.stateFixedFee = state
     }
 
-    fun getFilterFixedFee(): Boolean {
+    fun getStatusFixedFee(): Boolean {
         return this.stateFixedFee
     }
 
-    fun setFilterPendingPayment(state: Boolean) {
+    fun setStatusPendingPayment(state: Boolean) {
         this.statePendingPayment = state
     }
 
-    fun getFilterPendingPayment(): Boolean {
+    fun getStatusPendingPayment(): Boolean {
         return this.statePendingPayment
     }
 
-    fun setFilterPaymentPlan(state: Boolean) {
+    fun setStatusPaymentPlan(state: Boolean) {
         this.statePaymentPlan = state
     }
 
-    fun getFilterPaymentPlan(): Boolean {
+    fun getStatusPaymentPlan(): Boolean {
         return this.statePaymentPlan
     }
 
     override fun toString(): String {
-        return "MaxAmountInList: $maxAmountInList\n" +
-                "DateFrom: $dateFrom\n" +
+        return "\nDateFrom: $dateFrom\n" +
                 "DateTo: $dateTo\n" +
-                "MaxAmount: $maxAmount\n" +
+                "MaxAmountInList: $maxAmountInList\n" +
+                "SelectedAmount: $selectedAmount\n" +
                 "Paid: $statePaid\n" +
                 "Cancelled: $stateCancelled\n" +
                 "FixedFee: $stateFixedFee\n" +

@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.RecyclerView
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.models.Invoice
-import com.viewnext.proyectoviewnext.services.Services
+import com.viewnext.proyectoviewnext.tools.Services
 
 class InvoiceAdapter(
     private var invoices: List<Invoice>,

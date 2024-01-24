@@ -18,7 +18,7 @@ interface InvoicesService {
                 "    \"facturas\": [\n" +
                 "        {\n" +
                 "            \"descEstado\": \"Anulada\",\n" +
-                "            \"importeOrdenacion\": 1.56,\n" +
+                "            \"importeOrdenacion\": 100.56,\n" +
                 "            \"fecha\": \"07/02/2019\"\n" +
                 "        },\n" +
                 "        {\n" +
