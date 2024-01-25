@@ -20,7 +20,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import kotlin.math.ceil
 
 class InvoicesViewModel : ViewModel() {
@@ -99,32 +101,44 @@ class InvoicesViewModel : ViewModel() {
     }
 
     private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val filteredList = response.body()?.invoices?.filter { invoice ->
             val invoiceToCheck = Invoice(
-                LocalDate.parse(invoice.date, formatter), invoice.status, invoice.amount.toFloat()
+                parseLocalDate(invoice.date), invoice.status, invoice.amount.toFloat()
             )
             invoiceInFilter(invoiceToCheck)
         }
         return filteredList?.map { invoice ->
             Invoice(
-                LocalDate.parse(invoice.date, formatter),
+                parseLocalDate(invoice.date),
                 invoice.status,
                 invoice.amount.toFloat()
             )
         }!!
     }
 
+    private fun parseLocalDate(date: String): LocalDate {
+        val formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT)
+        return LocalDate.parse(date, formatter)
+    }
+
     private fun invoiceInFilter(invoice: Invoice): Boolean {
         var valid = true
         val filterSvc = FilterService
-        //TODO Check fechas
-
+        // Check dates
+        var inDate = true
+        val invoiceDateAsDate =
+            Date.from(invoice.date.atStartOfDay(ZoneId.systemDefault()).toInstant())
+        if (filterSvc.getDateFrom() != null) {
+            if (invoiceDateAsDate < filterSvc.getDateFrom()) inDate = false
+        }
+        if (filterSvc.getDateTo() != null) {
+            if (invoiceDateAsDate > filterSvc.getDateTo()) inDate = false
+        }
+        if (!inDate) valid = false
 
         // Check amount
-        if (invoice.amount > filterSvc.getSelectedAmount()) {
-            valid = false
-        }
+        if (invoice.amount > filterSvc.getSelectedAmount()) valid = false
+
         // Check status, if all filters are false, skip this check
         if (!(!filterSvc.getStatusPaid() and
                     !filterSvc.getStatusCancelled() and
@@ -132,9 +146,7 @@ class InvoicesViewModel : ViewModel() {
                     !filterSvc.getStatusPendingPayment() and
                     !filterSvc.getStatusPaymentPlan())
         ) {
-            if (!statusList.contains(invoice.status)) {
-                valid = false
-            }
+            if (!statusList.contains(invoice.status)) valid = false
         }
         return valid
     }

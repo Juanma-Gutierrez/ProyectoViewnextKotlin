@@ -18,24 +18,22 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun getDateFrom(context: Context): String {
-        return checkDate(dateToString(FilterService.getDateFrom()), context)
+        return dateToString(FilterService.getDateFrom(), context)
     }
 
     fun getDateTo(context: Context): String {
-        return checkDate(dateToString(FilterService.getDateTo()), context)
+        return dateToString(FilterService.getDateTo(), context)
     }
 
-    private fun dateToString(date: Date?): String {
+    private fun dateToString(date: Date?, context:Context): String {
         if (date == null) {
-            return "día/mes/año"
+            return context.getString(R.string.title_buttonDayMonthYear)
         }
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(date)
     }
 
     fun getMaxAmountInList(): Float {
-        println("-------------muestra el filtro en maxamount ----------------")
-        println(filterSvc)
         return FilterService.getMaxAmountInList()
     }
 
@@ -72,23 +70,5 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         FilterService.setStatusFixedFee(filter.statusFixedFee)
         FilterService.setStatusPendingPayment(filter.statusPendingPayment)
         FilterService.setStatusPaymentPlan(filter.statusPaymentPlan)
-    }
-/*
-    fun resetFilters() {
-        filterSvc.setDateFrom(null)
-        filterSvc.setDateTo(null)
-        filterSvc.setSelectedAmount(ceil(filterSvc.getMaxAmountInList()).toInt())
-        filterSvc.setStatusPaid(false)
-        filterSvc.setStatusCancelled(false)
-        filterSvc.setStatusFixedFee(false)
-        filterSvc.setStatusPendingPayment(false)
-        filterSvc.setStatusPaymentPlan(false)
-    }
-*/
-    private fun checkDate(date: String, context: Context): String {
-        if (date == "null") {
-            return context.getString(R.string.title_buttonDayMonthYear)
-        }
-        return date
     }
 }
