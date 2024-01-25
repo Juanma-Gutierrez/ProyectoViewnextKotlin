@@ -66,7 +66,6 @@ class InvoicesViewModel : ViewModel() {
     private suspend fun loadApiData(service: InvoicesService) {
         val response = service.getInvoices()
         if (response.isSuccessful) {
-            println("Carga de datos de API")
             loadDataInRV(response)
         } else {
             Log.e("Error", "Error in API data loading")
@@ -78,7 +77,6 @@ class InvoicesViewModel : ViewModel() {
     private suspend fun loadRetromockData(service: InvoicesService) {
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
-            println("Carga de datos de Retromock")
             loadDataInRV(mockResponse)
         } else {
             Log.e("Error", "Error in retromock data loading")
@@ -103,7 +101,6 @@ class InvoicesViewModel : ViewModel() {
         val filterSvc = FilterService
         val maxAmount = invoices?.maxBy { it.amount }?.amount?.toFloat()
         filterSvc.setMaxAmountInList(maxAmount!!)
-        println(filterSvc)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

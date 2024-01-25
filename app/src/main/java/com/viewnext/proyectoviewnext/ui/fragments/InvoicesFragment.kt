@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
+import com.viewnext.proyectoviewnext.adapters.InvoiceAdapter
 import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
 import com.viewnext.proyectoviewnext.databinding.FragmentInvoicesBinding
 import com.viewnext.proyectoviewnext.utils.Services
-import com.viewnext.proyectoviewnext.adapters.InvoiceAdapter
 import com.viewnext.proyectoviewnext.viewmodels.InvoicesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -81,6 +81,15 @@ class InvoicesFragment : Fragment() {
         }
         loadDataInRV()
         invoicesViewModel.invoicesList.observe(viewLifecycleOwner) { newList ->
+            println("++++++++++++++++ ${newList.size} ++++++++++++++")
+            println("++++++++++++++++ ${newList.isEmpty()} ++++++++++++++")
+            if (newList.isEmpty()) {
+                binding.invoicesFrLLWarningMessageContainer.visibility = View.VISIBLE
+                binding.invoicesFrRvRecyclerInvoices.visibility=View.GONE
+            } else {
+                binding.invoicesFrLLWarningMessageContainer.visibility = View.GONE
+                binding.invoicesFrRvRecyclerInvoices.visibility=View.VISIBLE
+            }
             adapter.updateList(newList)
         }
     }
@@ -107,7 +116,8 @@ class InvoicesFragment : Fragment() {
             try {
                 invoicesViewModel.searchInvoices()
                 adapter = InvoiceAdapter(
-                    invoicesViewModel.invoicesList.value ?: emptyList(), requireContext()
+                    invoicesViewModel.invoicesList.value ?: emptyList(),
+                    requireContext()
                 )
                 binding.invoicesFrRvRecyclerInvoices.adapter = adapter
             } catch (e: Exception) {

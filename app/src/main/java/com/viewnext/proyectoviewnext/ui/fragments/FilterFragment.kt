@@ -63,19 +63,16 @@ class FilterFragment : Fragment() {
         val btRemoveFilters = binding.filterFrBtButtonRemove
         val sbAmount = binding.filterFrSbSeekBarAmount
 
-        println("antes de hacer la carga del filtro" + filterViewModel.getFilter())
         loadFilters()
         ivClose.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
         }
         btDateFrom.setOnClickListener {
             val date = showDatePickerDialog(btDateFrom)
-            println("LO QUE HA DEVUELTO Y TENEMOS EN DATE" + date.time)
             filterToApply.dateFrom = date.time
         }
         btDateTo.setOnClickListener {
             val date = showDatePickerDialog(btDateTo)
-            println("LO QUE HA DEVUELTO Y TENEMOS EN DATE" + date.time)
             filterToApply.dateTo = date.time
         }
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -113,11 +110,9 @@ class FilterFragment : Fragment() {
             activity as Context, { _, _year, _month, _day ->
                 calendar.set(_year, _month, _day)
                 bt.text = dateToString(calendar.time)
-                println("DENTRO DEL DATEPICKERDIALOG" + calendar.time)
             }, year, month, day
         )
         datePickerDialog.show()
-        println("ANTES DE SALIR DEL DATEPICKERDIALOG" + calendar.time)
         return calendar
     }
 

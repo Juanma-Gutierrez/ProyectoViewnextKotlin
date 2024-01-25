@@ -57,9 +57,21 @@
                     android:layout_marginTop="@dimen/general_padding"
                     android:text="@string/loading_message"
                     android:textAlignment="center" />
-
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/invoicesFr_LL_warningMessage_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include layout="@layout/warning_message" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/invoicesFr_rv_recyclerInvoices"
