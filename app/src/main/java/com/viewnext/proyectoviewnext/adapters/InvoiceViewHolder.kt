@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.ui.invoices
+package com.viewnext.proyectoviewnext.adapters
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

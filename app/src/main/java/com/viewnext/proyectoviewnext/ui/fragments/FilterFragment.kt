@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.ui.filter
+package com.viewnext.proyectoviewnext.ui.fragments
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -14,6 +14,7 @@ import com.google.android.material.button.MaterialButton
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.databinding.FragmentFilterBinding
+import com.viewnext.proyectoviewnext.viewmodels.FilterViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

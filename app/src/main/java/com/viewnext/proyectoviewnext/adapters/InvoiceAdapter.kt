@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.ui.invoices
+package com.viewnext.proyectoviewnext.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.RecyclerView
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.models.Invoice
-import com.viewnext.proyectoviewnext.tools.Services
+import com.viewnext.proyectoviewnext.utils.Services
 
 class InvoiceAdapter(
     private var invoices: List<Invoice>,

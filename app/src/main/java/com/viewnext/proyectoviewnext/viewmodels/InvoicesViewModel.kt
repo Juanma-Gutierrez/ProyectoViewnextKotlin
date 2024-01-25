@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.ui.invoices
+package com.viewnext.proyectoviewnext.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -11,7 +11,7 @@ import com.viewnext.proyectoviewnext.data.api.InvoicesResult
 import com.viewnext.proyectoviewnext.data.api.InvoicesService
 import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
 import com.viewnext.proyectoviewnext.data.models.Invoice
-import com.viewnext.proyectoviewnext.ui.filter.FilterService
+import com.viewnext.proyectoviewnext.utils.FilterService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

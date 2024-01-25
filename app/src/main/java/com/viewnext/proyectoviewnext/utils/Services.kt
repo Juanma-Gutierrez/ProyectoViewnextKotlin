@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.tools
+package com.viewnext.proyectoviewnext.utils
 
 import android.app.AlertDialog
 import android.content.Context

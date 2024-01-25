@@ -1,15 +1,14 @@
-package com.viewnext.proyectoviewnext.ui.filter
+package com.viewnext.proyectoviewnext.viewmodels
 
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.viewnext.proyectoviewnext.R
-import com.viewnext.proyectoviewnext.constants.Constants
 import com.viewnext.proyectoviewnext.data.models.Filter
+import com.viewnext.proyectoviewnext.utils.FilterService
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.math.ceil
 
 class FilterViewModel(application: Application) : AndroidViewModel(application) {
     private var filterSvc = FilterService
@@ -19,11 +18,11 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun getDateFrom(context: Context): String {
-        return checkDate(dateToString(filterSvc.getDateFrom()), context)
+        return checkDate(dateToString(FilterService.getDateFrom()), context)
     }
 
     fun getDateTo(context: Context): String {
-        return checkDate(dateToString(filterSvc.getDateTo()), context)
+        return checkDate(dateToString(FilterService.getDateTo()), context)
     }
 
     private fun dateToString(date: Date?): String {
@@ -37,42 +36,42 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
     fun getMaxAmountInList(): Float {
         println("-------------muestra el filtro en maxamount ----------------")
         println(filterSvc)
-        return filterSvc.getMaxAmountInList()
+        return FilterService.getMaxAmountInList()
     }
 
     fun getSelectedAmount(): Int {
-        return filterSvc.getSelectedAmount()
+        return FilterService.getSelectedAmount()
     }
 
     fun getFilterPaid(): Boolean {
-        return filterSvc.getStatusPaid()
+        return FilterService.getStatusPaid()
     }
 
     fun getFilterCancelled(): Boolean {
-        return filterSvc.getStatusCancelled()
+        return FilterService.getStatusCancelled()
     }
 
     fun getFilterFixedFee(): Boolean {
-        return filterSvc.getStatusFixedFee()
+        return FilterService.getStatusFixedFee()
     }
 
     fun getFilterPendingPayment(): Boolean {
-        return filterSvc.getStatusPendingPayment()
+        return FilterService.getStatusPendingPayment()
     }
 
     fun getFilterPaymentPlan(): Boolean {
-        return filterSvc.getStatusPaymentPlan()
+        return FilterService.getStatusPaymentPlan()
     }
 
     fun setFilters(filter: Filter) {
-        filterSvc.setDateFrom(filter.dateFrom)
-        filterSvc.setDateTo(filter.dateTo)
-        filterSvc.setSelectedAmount(filter.selectedAmount)
-        filterSvc.setStatusPaid(filter.statusPaid)
-        filterSvc.setStatusCancelled(filter.statusCancelled)
-        filterSvc.setStatusFixedFee(filter.statusFixedFee)
-        filterSvc.setStatusPendingPayment(filter.statusPendingPayment)
-        filterSvc.setStatusPaymentPlan(filter.statusPaymentPlan)
+        FilterService.setDateFrom(filter.dateFrom)
+        FilterService.setDateTo(filter.dateTo)
+        FilterService.setSelectedAmount(filter.selectedAmount)
+        FilterService.setStatusPaid(filter.statusPaid)
+        FilterService.setStatusCancelled(filter.statusCancelled)
+        FilterService.setStatusFixedFee(filter.statusFixedFee)
+        FilterService.setStatusPendingPayment(filter.statusPendingPayment)
+        FilterService.setStatusPaymentPlan(filter.statusPaymentPlan)
     }
 /*
     fun resetFilters() {

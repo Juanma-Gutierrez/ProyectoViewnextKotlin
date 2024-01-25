@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.ui.filter
+package com.viewnext.proyectoviewnext.utils
 
 import com.viewnext.proyectoviewnext.data.models.Filter
 import java.util.Date
@@ -9,19 +9,19 @@ object FilterService {
 
     // Date
     fun getDateFrom(): Date? {
-        return this.filter.dateFrom
+        return filter.dateFrom
     }
 
     fun setDateFrom(date: Date?) {
-        this.filter.dateFrom = date
+        filter.dateFrom = date
     }
 
     fun getDateTo(): Date? {
-        return this.filter.dateTo
+        return filter.dateTo
     }
 
     fun setDateTo(date: Date?) {
-        this.filter.dateTo = date
+        filter.dateTo = date
     }
 
     // Amount
@@ -30,64 +30,64 @@ object FilterService {
     }
 
     fun setMaxAmountInList(amount: Float) {
-        this.maxAmountInList = amount
+        maxAmountInList = amount
     }
 
     fun getSelectedAmount(): Int {
-        return this.filter.selectedAmount
+        return filter.selectedAmount
     }
 
     fun setSelectedAmount(progress: Int) {
-        this.filter.selectedAmount = progress
+        filter.selectedAmount = progress
     }
 
     // Status
     fun getStatusPaid(): Boolean {
-        return this.filter.statusPaid
+        return filter.statusPaid
     }
 
     fun setStatusPaid(state: Boolean) {
-        this.filter.statusPaid = state
+        filter.statusPaid = state
     }
 
     fun getStatusCancelled(): Boolean {
-        return this.filter.statusCancelled
+        return filter.statusCancelled
     }
 
     fun setStatusCancelled(state: Boolean) {
-        this.filter.statusCancelled = state
+        filter.statusCancelled = state
     }
 
     fun getStatusFixedFee(): Boolean {
-        return this.filter.statusFixedFee
+        return filter.statusFixedFee
     }
 
     fun setStatusFixedFee(state: Boolean) {
-        this.filter.statusFixedFee = state
+        filter.statusFixedFee = state
     }
 
     fun getStatusPendingPayment(): Boolean {
-        return this.filter.statusPendingPayment
+        return filter.statusPendingPayment
     }
 
     fun setStatusPendingPayment(state: Boolean) {
-        this.filter.statusPendingPayment = state
+        filter.statusPendingPayment = state
     }
 
     fun getStatusPaymentPlan(): Boolean {
-        return this.filter.statusPaymentPlan
+        return filter.statusPaymentPlan
     }
 
     fun setStatusPaymentPlan(state: Boolean) {
-        this.filter.statusPaymentPlan = state
+        filter.statusPaymentPlan = state
     }
 
     fun reset() {
-        this.filter.reset()
+        filter.reset()
     }
 
     override fun toString(): String {
-        return this.filter.toString()
+        return filter.toString()
     }
 }
 

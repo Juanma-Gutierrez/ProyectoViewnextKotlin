@@ -1,4 +1,4 @@
-package com.viewnext.proyectoviewnext.ui.invoices
+package com.viewnext.proyectoviewnext.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
 import com.viewnext.proyectoviewnext.databinding.FragmentInvoicesBinding
-import com.viewnext.proyectoviewnext.tools.Services
+import com.viewnext.proyectoviewnext.utils.Services
+import com.viewnext.proyectoviewnext.adapters.InvoiceAdapter
+import com.viewnext.proyectoviewnext.viewmodels.InvoicesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
