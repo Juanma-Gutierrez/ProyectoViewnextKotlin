@@ -151,7 +151,10 @@ class FilterFragment : Fragment() {
         filterViewModel.setFilters(filterToApply)
     }
 
-    private fun stringToDate(dateString: CharSequence): Date {
+    private fun stringToDate(dateString: CharSequence): Date? {
+        if (dateString.toString().equals(getString(R.string.title_buttonDayMonthYear))) {
+            return null
+        }
         var date = Date()
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         try {
@@ -171,7 +174,8 @@ class FilterFragment : Fragment() {
         binding.filterFrSbSeekBarAmount.progress = maxAmountProgressBar
         binding.filterFrTvAmountMax.text = "$maxAmountProgressBar €"
         binding.filterFrTvSelectedRangeAmount.text =
-            getSelectedAmount(maxAmountProgressBar.toString()
+            getSelectedAmount(
+                maxAmountProgressBar.toString()
             )
         binding.filterFrCbPaid.isChecked = false
         binding.filterFrCbCancelled.isChecked = false
