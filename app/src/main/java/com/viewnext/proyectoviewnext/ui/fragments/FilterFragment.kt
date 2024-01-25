@@ -21,7 +21,9 @@ import java.util.Date
 import java.util.Locale
 import kotlin.math.ceil
 
-
+/**
+ * Fragment for applying filters to the list of invoices.
+ */
 class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
     private lateinit var filterViewModel: FilterViewModel
@@ -30,6 +32,12 @@ class FilterFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    /**
+     * Called when the fragment is creating its user interface.
+     *
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     * saved state as given here.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +47,13 @@ class FilterFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called when the fragment's activity has been created and this fragment's view hierarchy
+     * instantiated.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state,
+     * this is the state.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val ivClose = binding.filterFrTbToolbarFilter.filterToolbarIvClose
@@ -83,6 +98,12 @@ class FilterFragment : Fragment() {
         }
     }
 
+    /**
+     * Displays a DatePickerDialog and sets the selected date to the specified MaterialButton.
+     *
+     * @param bt The MaterialButton to which the selected date will be set.
+     * @return A [Calendar] object representing the selected date.
+     */
     private fun showDatePickerDialog(bt: MaterialButton): Calendar {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -100,25 +121,37 @@ class FilterFragment : Fragment() {
         return calendar
     }
 
+    /**
+     * Converts a [Date] object to a formatted string representation.
+     *
+     * @param date The date to be converted.
+     * @return A string representing the formatted date.
+     */
     private fun dateToString(date: Date): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(date)
     }
 
+    /**
+     * Updates the selected amount in the filter and updates the corresponding TextView.
+     *
+     * @param progress The progress value from the SeekBar.
+     */
     private fun changeValueOnSelectedSeekBar(progress: Int) {
-        // val filterSvc = FilterService
-        // filterSvc.setSelectedAmount(progress)
         filterToApply.selectedAmount = progress
         binding.filterFrTvSelectedRangeAmount.text = getSelectedAmount(progress.toString())
     }
 
+    /**
+     * Loads filters from the [FilterViewModel] and updates the UI accordingly.
+     */
     private fun loadFilters() {
         binding.filterFrBtButtonFrom.text = filterViewModel.getDateFrom(this.requireContext())
         binding.filterFrBtButtonTo.text = filterViewModel.getDateTo(this.requireContext())
         val maxAmountProgressBar = ceil(filterViewModel.getMaxAmountInList()).toInt()
         binding.filterFrSbSeekBarAmount.max = maxAmountProgressBar
         binding.filterFrSbSeekBarAmount.progress = filterViewModel.getSelectedAmount()
-        binding.filterFrTvAmountMax.text = "${maxAmountProgressBar} €"
+        binding.filterFrTvAmountMax.text = "$maxAmountProgressBar €"
         binding.filterFrTvSelectedRangeAmount.text =
             getSelectedAmount(
                 if (filterViewModel.getSelectedAmount() == Integer.MAX_VALUE) {
@@ -134,11 +167,19 @@ class FilterFragment : Fragment() {
         binding.filterFrCbPaymentPlan.isChecked = filterViewModel.getFilterPaymentPlan()
     }
 
-
+    /**
+     * Gets the selected amount in the specified format.
+     *
+     * @param maxAmount The maximum amount value.
+     * @return A formatted string representing the selected amount range.
+     */
     private fun getSelectedAmount(maxAmount: String): String {
         return ("0 € - $maxAmount €")
     }
 
+    /**
+     * Applies the current filters to the [FilterViewModel].
+     */
     private fun setFilters() {
         filterToApply.dateFrom = stringToDate(binding.filterFrBtButtonFrom.text)
         filterToApply.dateTo = stringToDate(binding.filterFrBtButtonTo.text)
@@ -151,6 +192,12 @@ class FilterFragment : Fragment() {
         filterViewModel.setFilters(filterToApply)
     }
 
+    /**
+     * Converts a string date representation to a [Date] object.
+     *
+     * @param dateString The string representation of the date.
+     * @return A [Date] object representing the parsed date.
+     */
     private fun stringToDate(dateString: CharSequence): Date? {
         if (dateString.toString().equals(getString(R.string.title_buttonDayMonthYear))) {
             return null
@@ -165,8 +212,10 @@ class FilterFragment : Fragment() {
         return date
     }
 
+    /**
+     * Resets all filters to their default values.
+     */
     private fun resetFilters() {
-        println("------------------ resetea el filtro -------------------------")
         binding.filterFrBtButtonFrom.text = getString(R.string.title_buttonDayMonthYear)
         binding.filterFrBtButtonTo.text = getString(R.string.title_buttonDayMonthYear)
         val maxAmountProgressBar = ceil(filterViewModel.getMaxAmountInList()).toInt()

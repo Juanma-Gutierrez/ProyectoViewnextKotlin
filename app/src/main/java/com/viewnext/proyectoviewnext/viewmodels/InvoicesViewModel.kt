@@ -1,6 +1,8 @@
 package com.viewnext.proyectoviewnext.viewmodels
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,6 +37,7 @@ class InvoicesViewModel : ViewModel() {
         get() = _loadingState
     val selectorDL = SelectorDataLoading
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun searchInvoices() {
         CoroutineScope(Dispatchers.IO).launch {
             val retrofit = Retrofit.Builder()
@@ -59,6 +62,7 @@ class InvoicesViewModel : ViewModel() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadApiData(service: InvoicesService) {
         val response = service.getInvoices()
         if (response.isSuccessful) {
@@ -70,6 +74,7 @@ class InvoicesViewModel : ViewModel() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRetromockData(service: InvoicesService) {
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
@@ -85,6 +90,7 @@ class InvoicesViewModel : ViewModel() {
         filterSvc.setMaxAmountInList(0f)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadDataInRV(response: Response<InvoicesResult>) {
         hideProgressBar()
         createArrayWithStatusSelected()
@@ -100,6 +106,7 @@ class InvoicesViewModel : ViewModel() {
         println(filterSvc)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
         val filteredList = response.body()?.invoices?.filter { invoice ->
             val invoiceToCheck = Invoice(
@@ -116,11 +123,13 @@ class InvoicesViewModel : ViewModel() {
         }!!
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun parseLocalDate(date: String): LocalDate {
         val formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT)
         return LocalDate.parse(date, formatter)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun invoiceInFilter(invoice: Invoice): Boolean {
         var valid = true
         val filterSvc = FilterService
@@ -135,10 +144,8 @@ class InvoicesViewModel : ViewModel() {
             if (invoiceDateAsDate > filterSvc.getDateTo()) inDate = false
         }
         if (!inDate) valid = false
-
         // Check amount
         if (invoice.amount > filterSvc.getSelectedAmount()) valid = false
-
         // Check status, if all filters are false, skip this check
         if (!(!filterSvc.getStatusPaid() and
                     !filterSvc.getStatusCancelled() and

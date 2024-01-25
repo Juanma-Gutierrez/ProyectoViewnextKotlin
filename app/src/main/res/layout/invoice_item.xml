@@ -36,6 +36,7 @@
         tools:text="54,56 €" />
 
     <ImageView
+        android:contentDescription="@string/button_invoice_forward_description"
         android:id="@+id/invoiceItem_iv_forward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

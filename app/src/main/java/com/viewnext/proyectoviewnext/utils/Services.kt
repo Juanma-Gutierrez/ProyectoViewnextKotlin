@@ -6,7 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 
+/**
+ * Utility class containing various services such as showing snack bars and alert dialogs.
+ */
 class Services {
+
+    /**
+     * Displays a snackbar with the provided message.
+     *
+     * @param message The message to be displayed in the snackbar.
+     * @param view The view where the snackbar should be displayed.
+     */
     fun showSnackBar(message: String, view: View) {
         val snackBar = Snackbar.make(
             view,
@@ -25,6 +35,14 @@ class Services {
         snackBar.show()
     }
 
+    /**
+     * Displays an alert dialog with the provided title, message, and close button text.
+     *
+     * @param context The context in which the alert dialog should be displayed.
+     * @param title The title of the alert dialog.
+     * @param message The message to be displayed in the alert dialog.
+     * @param btCloseText The text for the close button in the alert dialog.
+     */
     fun showAlertDialog(context: Context, title: String, message: String, btCloseText: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)

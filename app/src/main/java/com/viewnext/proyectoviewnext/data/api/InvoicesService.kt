@@ -6,10 +6,23 @@ import co.infinum.retromock.meta.MockResponse
 import retrofit2.Response
 import retrofit2.http.GET
 
+/**
+ * Retrofit service interface for fetching invoices from the API.
+ */
 interface InvoicesService {
+    /**
+     * Fetches a list of invoices from the API.
+     *
+     * @return A [Response] containing the result of the API call.
+     */
     @GET("facturas")
     suspend fun getInvoices(): Response<InvoicesResult>
 
+    /**
+     * Mock implementation of fetching invoices for testing purposes.
+     *
+     * @return A [Response] containing mock data for testing.
+     */
     @Mock
     @MockBehavior(durationDeviation = 100, durationMillis = 500)
     @MockResponse(

@@ -1,10 +1,12 @@
 package com.viewnext.proyectoviewnext.ui.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -18,12 +20,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
+/**
+ * A simple [Fragment] subclass that displays a list of invoices.
+ */
 class InvoicesFragment : Fragment() {
     private lateinit var binding: FragmentInvoicesBinding
     private lateinit var adapter: InvoiceAdapter
     private lateinit var invoicesViewModel: InvoicesViewModel
 
+    /**
+     * Creates the view for the InvoicesFragment, inflating the layout and initializing the necessary components.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container The parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
+     * @return The root view of the fragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -35,6 +47,13 @@ class InvoicesFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called when the view has been created, setting up UI components, click listeners, and observing data changes.
+     *
+     * @param view The root view of the fragment.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
@@ -66,12 +85,23 @@ class InvoicesFragment : Fragment() {
         }
     }
 
-
+    /**
+     * Shows a snack bar with the given message and displays a progress bar.
+     *
+     * @param message The message to be displayed in the snack bar.
+     * @param view The view to which the snack bar is attached.
+     * @param svc An instance of the Services class for utility functions.
+     */
     private fun loadDataFromNewSource(message: String, view: View, svc: Services) {
         svc.showSnackBar(message, view)
         showProgressBar()
     }
 
+    /**
+     * Loads data into the RecyclerView by calling the [InvoicesViewModel.searchInvoices] method,
+     * initializing the adapter, and setting it on the RecyclerView.
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun loadDataInRV() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
@@ -86,6 +116,9 @@ class InvoicesFragment : Fragment() {
         }
     }
 
+    /**
+     * Shows the progress bar and hides the RecyclerView.
+     */
     private fun showProgressBar() {
         CoroutineScope(Dispatchers.Main).launch {
             binding.invoicesFrLlIsLoadingContainer.visibility = View.VISIBLE
@@ -93,6 +126,9 @@ class InvoicesFragment : Fragment() {
         }
     }
 
+    /**
+     * Hides the progress bar and shows the RecyclerView.
+     */
     private fun hideProgressBar() {
         CoroutineScope(Dispatchers.Main).launch {
             binding.invoicesFrLlIsLoadingContainer.visibility = View.GONE

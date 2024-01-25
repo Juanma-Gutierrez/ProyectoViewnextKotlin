@@ -3,6 +3,9 @@ package com.viewnext.proyectoviewnext.utils
 import com.viewnext.proyectoviewnext.data.models.Filter
 import java.util.Date
 
+/**
+ * Singleton object to manage and store filter-related data.
+ */
 object FilterService {
     private var maxAmountInList: Float = 0.0f
     private var filter: Filter = Filter()
@@ -82,10 +85,9 @@ object FilterService {
         filter.statusPaymentPlan = state
     }
 
-    fun reset() {
-        filter.reset()
-    }
-
+    /**
+     * Returns a string representation of the current filter.
+     */
     override fun toString(): String {
         return filter.toString()
     }

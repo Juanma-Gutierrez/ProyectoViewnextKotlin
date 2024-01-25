@@ -2,6 +2,9 @@ package com.viewnext.proyectoviewnext.data.models
 
 import java.util.Date
 
+/**
+ * Data class representing a filter for querying invoices.
+ */
 class Filter(
     var dateFrom: Date? = null,
     var dateTo: Date? = null,
@@ -12,6 +15,9 @@ class Filter(
     var statusPendingPayment: Boolean = false,
     var statusPaymentPlan: Boolean = false
 ) {
+    /**
+     * Resets all filter parameters to their default values.
+     */
     fun reset() {
         dateFrom = null
         dateTo = null
@@ -23,6 +29,11 @@ class Filter(
         statusPaymentPlan = false
     }
 
+    /**
+     * Returns a string representation of the filter parameters.
+     *
+     * @return A string representation of the filter.
+     */
     override fun toString(): String {
         return "\nDateFrom:$dateFrom | DateTo:$dateTo\n" +
                 "SelectedAmount: $selectedAmount\n" +

@@ -1,8 +1,10 @@
 package com.viewnext.proyectoviewnext.data.models
 
 import java.time.LocalDate
-import java.util.Date
 
+/**
+ * Data class representing an invoice.
+ */
 data class Invoice(
     val date: LocalDate,
     val status: String,

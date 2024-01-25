@@ -15,6 +15,7 @@
             android:layout_marginEnd="20dp">
 
             <ImageView
+                android:contentDescription="@string/button_back_icon_description"
                 android:id="@+id/mainToolbar_iv_backIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/general_padding"
-                android:text="API"
+                android:text="@string/api"
                 android:buttonTint="@color/md_theme_light_tertiary"
                 android:textColor="@color/md_theme_light_tertiary"
                 app:layout_constraintBottom_toBottomOf="@+id/mainToolbar_iv_filter"

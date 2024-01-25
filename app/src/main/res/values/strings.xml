@@ -30,5 +30,9 @@
     <string name="title_filterPaymentPlan">Plan de pago</string>
     <string name="title_buttonApply">Aplicar</string>
     <string name="title_buttonRemoveFilters">Eliminar filtros</string>
+    <string name="button_close_description">Botón cerrar</string>
+    <string name="button_invoice_forward_description">Detalle de la factura</string>
+    <string name="button_back_icon_description">Botón volver atrás</string>
+    <string name="api">API</string>
 
 </resources>
