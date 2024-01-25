@@ -17,12 +17,12 @@ interface InvoicesService {
                 "    \"numFacturas\": 8,\n" +
                 "    \"facturas\": [\n" +
                 "        {\n" +
-                "            \"descEstado\": \"Anulada\",\n" +
+                "            \"descEstado\": \"Pagada\",\n" +
                 "            \"importeOrdenacion\": 100.56,\n" +
                 "            \"fecha\": \"07/02/2019\"\n" +
                 "        },\n" +
                 "        {\n" +
-                "            \"descEstado\": \"Cancelada\",\n" +
+                "            \"descEstado\": \"Anulada\",\n" +
                 "            \"importeOrdenacion\": 25.14,\n" +
                 "            \"fecha\": \"05/02/2019\"\n" +
                 "        },\n" +

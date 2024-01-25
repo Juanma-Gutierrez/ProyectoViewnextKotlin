@@ -74,7 +74,7 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         filterSvc.setStatusPendingPayment(filter.statusPendingPayment)
         filterSvc.setStatusPaymentPlan(filter.statusPaymentPlan)
     }
-
+/*
     fun resetFilters() {
         filterSvc.setDateFrom(null)
         filterSvc.setDateTo(null)
@@ -85,7 +85,7 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         filterSvc.setStatusPendingPayment(false)
         filterSvc.setStatusPaymentPlan(false)
     }
-
+*/
     private fun checkDate(date: String, context: Context): String {
         if (date == "null") {
             return context.getString(R.string.title_buttonDayMonthYear)

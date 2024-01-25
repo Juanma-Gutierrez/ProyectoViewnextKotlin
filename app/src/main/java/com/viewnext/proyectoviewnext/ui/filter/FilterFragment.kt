@@ -62,13 +62,6 @@ class FilterFragment : Fragment() {
             println("LO QUE HA DEVUELTO Y TENEMOS EN DATE" + date.time)
             filterToApply.dateTo = date.time
         }
-        btApply.setOnClickListener {
-            setFilters()
-            findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
-        }
-        btRemoveFilters.setOnClickListener {
-            resetFilters()
-        }
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 changeValueOnSelectedSeekBar(sbAmount.progress)
@@ -80,6 +73,13 @@ class FilterFragment : Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+        btApply.setOnClickListener {
+            setFilters()
+            findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
+        }
+        btRemoveFilters.setOnClickListener {
+            resetFilters()
+        }
     }
 
     private fun showDatePickerDialog(bt: MaterialButton): Calendar {
@@ -105,8 +105,9 @@ class FilterFragment : Fragment() {
     }
 
     private fun changeValueOnSelectedSeekBar(progress: Int) {
-        val filterSvc = FilterService
-        filterSvc.setSelectedAmount(progress)
+        // val filterSvc = FilterService
+        // filterSvc.setSelectedAmount(progress)
+        filterToApply.selectedAmount = progress
         binding.filterFrTvSelectedAmount.text = getSelectedAmount(progress.toString())
     }
 
@@ -140,7 +141,6 @@ class FilterFragment : Fragment() {
     private fun setFilters() {
         filterToApply.dateFrom = stringToDate(binding.filterFrBtButtonFrom.text)
         filterToApply.dateTo = stringToDate(binding.filterFrBtButtonTo.text)
-        // filterToApply.maxAmount = binding.filterFrSbSeekBarAmount.max.toFloat()
         filterToApply.selectedAmount = binding.filterFrSbSeekBarAmount.progress
         filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
         filterToApply.statusCancelled = binding.filterFrCbCancelled.isChecked
@@ -161,9 +161,26 @@ class FilterFragment : Fragment() {
         return date
     }
 
-
     private fun resetFilters() {
-        filterViewModel.resetFilters()
-        loadFilters()
+        println("------------------ resetea el filtro -------------------------")
+        binding.filterFrBtButtonFrom.text = getString(R.string.title_buttonDayMonthYear)
+        binding.filterFrBtButtonTo.text = getString(R.string.title_buttonDayMonthYear)
+        val maxAmountProgressBar = ceil(filterViewModel.getMaxAmountInList()).toInt()
+        binding.filterFrSbSeekBarAmount.max = maxAmountProgressBar
+        binding.filterFrSbSeekBarAmount.progress = maxAmountProgressBar
+        binding.filterFrTvAmountMax.text = "$maxAmountProgressBar €"
+        binding.filterFrTvSelectedAmount.text =
+            getSelectedAmount(
+                if (filterViewModel.getSelectedAmount() == Integer.MAX_VALUE) {
+                    maxAmountProgressBar.toString()
+                } else {
+                    filterViewModel.getSelectedAmount().toString()
+                }
+            )
+        binding.filterFrCbPaid.isChecked = false
+        binding.filterFrCbCancelled.isChecked = false
+        binding.filterFrCbFixedFee.isChecked = false
+        binding.filterFrCbPendingPayment.isChecked = false
+        binding.filterFrCbPaymentPlan.isChecked = false
     }
 }

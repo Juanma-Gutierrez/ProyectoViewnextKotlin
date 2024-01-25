@@ -12,6 +12,17 @@ class Filter(
     var statusPendingPayment: Boolean = false,
     var statusPaymentPlan: Boolean = false
 ) {
+    fun reset() {
+        dateFrom = null
+        dateTo = null
+        selectedAmount = Int.MAX_VALUE
+        statusPaid = false
+        statusCancelled = false
+        statusFixedFee = false
+        statusPendingPayment = false
+        statusPaymentPlan = false
+    }
+
     override fun toString(): String {
         return "\nDateFrom:$dateFrom | DateTo:$dateTo\n" +
                 "SelectedAmount: $selectedAmount\n" +

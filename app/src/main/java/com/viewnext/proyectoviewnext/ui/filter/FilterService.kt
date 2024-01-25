@@ -53,29 +53,40 @@ object FilterService {
     fun getStatusCancelled(): Boolean {
         return this.filter.statusCancelled
     }
+
     fun setStatusCancelled(state: Boolean) {
         this.filter.statusCancelled = state
     }
+
     fun getStatusFixedFee(): Boolean {
         return this.filter.statusFixedFee
     }
+
     fun setStatusFixedFee(state: Boolean) {
         this.filter.statusFixedFee = state
     }
+
     fun getStatusPendingPayment(): Boolean {
         return this.filter.statusPendingPayment
     }
+
     fun setStatusPendingPayment(state: Boolean) {
         this.filter.statusPendingPayment = state
     }
+
     fun getStatusPaymentPlan(): Boolean {
         return this.filter.statusPaymentPlan
     }
+
     fun setStatusPaymentPlan(state: Boolean) {
         this.filter.statusPaymentPlan = state
     }
 
-    override fun toString():String{
+    fun reset() {
+        this.filter.reset()
+    }
+
+    override fun toString(): String {
         return this.filter.toString()
     }
 }
