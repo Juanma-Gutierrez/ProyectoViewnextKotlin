@@ -109,7 +109,7 @@ class FilterFragment : Fragment() {
         // val filterSvc = FilterService
         // filterSvc.setSelectedAmount(progress)
         filterToApply.selectedAmount = progress
-        binding.filterFrTvSelectedAmount.text = getSelectedAmount(progress.toString())
+        binding.filterFrTvSelectedRangeAmount.text = getSelectedAmount(progress.toString())
     }
 
     private fun loadFilters() {
@@ -119,7 +119,7 @@ class FilterFragment : Fragment() {
         binding.filterFrSbSeekBarAmount.max = maxAmountProgressBar
         binding.filterFrSbSeekBarAmount.progress = filterViewModel.getSelectedAmount()
         binding.filterFrTvAmountMax.text = "${maxAmountProgressBar} €"
-        binding.filterFrTvSelectedAmount.text =
+        binding.filterFrTvSelectedRangeAmount.text =
             getSelectedAmount(
                 if (filterViewModel.getSelectedAmount() == Integer.MAX_VALUE) {
                     maxAmountProgressBar.toString()
@@ -170,13 +170,8 @@ class FilterFragment : Fragment() {
         binding.filterFrSbSeekBarAmount.max = maxAmountProgressBar
         binding.filterFrSbSeekBarAmount.progress = maxAmountProgressBar
         binding.filterFrTvAmountMax.text = "$maxAmountProgressBar €"
-        binding.filterFrTvSelectedAmount.text =
-            getSelectedAmount(
-                if (filterViewModel.getSelectedAmount() == Integer.MAX_VALUE) {
-                    maxAmountProgressBar.toString()
-                } else {
-                    filterViewModel.getSelectedAmount().toString()
-                }
+        binding.filterFrTvSelectedRangeAmount.text =
+            getSelectedAmount(maxAmountProgressBar.toString()
             )
         binding.filterFrCbPaid.isChecked = false
         binding.filterFrCbCancelled.isChecked = false

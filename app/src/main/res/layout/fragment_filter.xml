@@ -113,15 +113,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/filterFr_vi_dividerDate" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/filterFr_tv_selectedAmount"
+                android:id="@+id/filterFr_tv_selectedRangeAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/general_padding"
-                android:text="@string/title_filterSelectedAmount"
                 android:textColor="@color/md_theme_light_primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_titleAmount" />
+                app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_titleAmount"
+                tools:text="@string/title_filterSelectedAmount" />
 
             <TextView
                 android:id="@+id/filterFr_tv_amountMin"
@@ -130,7 +130,7 @@
                 android:text="@string/title_filterAmountMin"
                 android:textColor="@color/md_theme_light_tertiary"
                 app:layout_constraintStart_toStartOf="@+id/filterFr_tv_titleAmount"
-                app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_selectedAmount"
+                app:layout_constraintTop_toBottomOf="@+id/filterFr_tv_selectedRangeAmount"
                 tools:text="0 €" />
 
             <TextView
