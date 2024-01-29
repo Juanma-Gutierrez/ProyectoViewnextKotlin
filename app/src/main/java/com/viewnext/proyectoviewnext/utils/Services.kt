@@ -3,8 +3,10 @@ package com.viewnext.proyectoviewnext.utils
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.viewnext.proyectoviewnext.R
 
 /**
  * Utility class containing various services such as showing snack bars and alert dialogs.
@@ -17,21 +19,12 @@ class Services {
      * @param message The message to be displayed in the snackbar.
      * @param view The view where the snackbar should be displayed.
      */
-    fun showSnackBar(message: String, view: View) {
+    fun showSnackBar(message: String, view: View, color:Int) {
         val snackBar = Snackbar.make(
             view,
             message,
             Snackbar.LENGTH_SHORT
-        )
-        val snackBarView = snackBar.view
-        val layoutParams = snackBarView.layoutParams as ViewGroup.MarginLayoutParams
-        layoutParams.setMargins(
-            layoutParams.leftMargin,
-            layoutParams.topMargin,
-            layoutParams.rightMargin,
-            150,
-        )
-        snackBarView.layoutParams = layoutParams
+        ).setBackgroundTint(getColor(view.context, color))
         snackBar.show()
     }
 

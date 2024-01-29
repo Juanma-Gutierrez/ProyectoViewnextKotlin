@@ -59,7 +59,7 @@ class InvoicesFragment : Fragment() {
         val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
         val svc = Services()
         ivBack.setOnClickListener {
-            svc.showSnackBar(getString(R.string.not_available), view)
+            svc.showSnackBar(getString(R.string.not_available), view, R.color.md_theme_light_secondary)
         }
         val swDataLoading = binding.invoicesFrTbToolbarInvoices.mainToolbarSwLoadFromApi
         val selector = SelectorDataLoading
@@ -100,7 +100,7 @@ class InvoicesFragment : Fragment() {
      * @param svc An instance of the Services class for utility functions.
      */
     private fun loadDataFromNewSource(message: String, view: View, svc: Services) {
-        svc.showSnackBar(message, view)
+        svc.showSnackBar(message, view, R.color.md_theme_light_primary)
         showProgressBar()
     }
 
