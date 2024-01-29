@@ -34,7 +34,7 @@ class InvoiceAdapter(
         parent: ViewGroup, viewType: Int
     ): InvoiceViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return InvoiceViewHolder(layoutInflater.inflate(R.layout.invoice_item, parent, false))
+        return InvoiceViewHolder(layoutInflater.inflate(R.layout.item_invoice, parent, false))
     }
 
     /**

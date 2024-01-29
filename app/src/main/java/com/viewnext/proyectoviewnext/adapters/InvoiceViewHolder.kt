@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.viewnext.proyectoviewnext.data.models.Invoice
-import com.viewnext.proyectoviewnext.databinding.InvoiceItemBinding
+import com.viewnext.proyectoviewnext.databinding.ItemInvoiceBinding
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.time.format.DateTimeFormatter
@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter
  * @property view The view representing an item in the RecyclerView.
  */
 class InvoiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val binding = InvoiceItemBinding.bind(view)
+    val binding = ItemInvoiceBinding.bind(view)
 
     /**
      * Binds invoice data to the view.

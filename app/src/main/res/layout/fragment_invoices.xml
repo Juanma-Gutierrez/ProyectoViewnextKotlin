@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/invoicesFr_tb_toolbarInvoices"
-            layout="@layout/invoices_toolbar" />
+            layout="@layout/toolbar_invoices" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,46 +32,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/invoicesFr_ll_isLoadingContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+            <include
+                android:id="@+id/invoicesFr_in_isLoading"
+                layout="@layout/message_is_loading" />
 
-                <ProgressBar
-                    android:id="@+id/invoicesFr_pb_isLoading"
-                    style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/invoicesFr_tv_loading"
-                    style="@style/MaterialAlertDialog.Material3.Title.Text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/general_padding"
-                    android:text="@string/loading_message"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/invoicesFr_LL_warningMessage_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <include layout="@layout/warning_message" />
-            </LinearLayout>
+            <include
+                android:id="@+id/invoicesFr_in_warning"
+                layout="@layout/message_warning" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/invoicesFr_rv_recyclerInvoices"
@@ -83,7 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/invoicesFr_tv_titleInvoices"
-                tools:listitem="@layout/invoice_item" />
+                tools:listitem="@layout/item_invoice" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </FrameLayout>

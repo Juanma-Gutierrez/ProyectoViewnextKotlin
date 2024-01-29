@@ -81,13 +81,11 @@ class InvoicesFragment : Fragment() {
         }
         loadDataInRV()
         invoicesViewModel.invoicesList.observe(viewLifecycleOwner) { newList ->
-            println("++++++++++++++++ ${newList.size} ++++++++++++++")
-            println("++++++++++++++++ ${newList.isEmpty()} ++++++++++++++")
             if (newList.isEmpty()) {
-                binding.invoicesFrLLWarningMessageContainer.visibility = View.VISIBLE
+                binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.VISIBLE
                 binding.invoicesFrRvRecyclerInvoices.visibility=View.GONE
             } else {
-                binding.invoicesFrLLWarningMessageContainer.visibility = View.GONE
+                binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility=View.GONE
                 binding.invoicesFrRvRecyclerInvoices.visibility=View.VISIBLE
             }
             adapter.updateList(newList)
@@ -131,7 +129,7 @@ class InvoicesFragment : Fragment() {
      */
     private fun showProgressBar() {
         CoroutineScope(Dispatchers.Main).launch {
-            binding.invoicesFrLlIsLoadingContainer.visibility = View.VISIBLE
+            binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility=View.VISIBLE
             binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
         }
     }
@@ -141,7 +139,7 @@ class InvoicesFragment : Fragment() {
      */
     private fun hideProgressBar() {
         CoroutineScope(Dispatchers.Main).launch {
-            binding.invoicesFrLlIsLoadingContainer.visibility = View.GONE
+            binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility=View.GONE
             binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
         }
     }
