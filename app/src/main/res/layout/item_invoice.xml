@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/item_padding">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/invoiceItem_tv_date"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="31 Ago 2020" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/invoiceItem_tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toBottomOf="@id/invoiceItem_tv_date"
         tools:text="Pendiente de pago"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/invoiceItem_tv_amount"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="@id/invoiceItem_tv_date"
         tools:text="54,56 €" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:contentDescription="@string/button_invoice_forward_description"
         android:id="@+id/invoiceItem_iv_forward"
         android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="@id/invoiceItem_tv_date"
         app:tint="@color/md_theme_light_primary" />
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:id="@+id/invoiceItem_vi_dividerItem"
         android:layout_width="match_parent"
         android:layout_height="1dp"
