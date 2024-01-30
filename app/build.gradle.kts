@@ -65,6 +65,11 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$kaptHiltVersion")
     // Retromock
     implementation ("co.infinum:retromock:1.1.1")
+    // Room
+    val roomVersion = "2.6.0"
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

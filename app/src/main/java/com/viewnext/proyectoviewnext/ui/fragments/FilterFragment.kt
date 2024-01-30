@@ -1,24 +1,19 @@
 package com.viewnext.proyectoviewnext.ui.fragments
 
-import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.button.MaterialButton
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.databinding.FragmentFilterBinding
+import com.viewnext.proyectoviewnext.utils.Services
 import com.viewnext.proyectoviewnext.viewmodels.FilterViewModel
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 import kotlin.math.ceil
 
 /**
@@ -62,17 +57,19 @@ class FilterFragment : Fragment() {
         val btApply = binding.filterFrBtButtonApply
         val btRemoveFilters = binding.filterFrBtButtonRemove
         val sbAmount = binding.filterFrSbSeekBarAmount
+        val svc = Services()
 
         loadFilters()
         ivClose.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
         }
         btDateFrom.setOnClickListener {
-            val date = showDatePickerDialog(btDateFrom)
+            val date = svc.showDatePickerDialog(btDateFrom, activity as Context)
             filterToApply.dateFrom = date.time
         }
         btDateTo.setOnClickListener {
-            val date = showDatePickerDialog(btDateTo)
+
+            val date = svc.showDatePickerDialog(btDateTo, activity as Context)
             filterToApply.dateTo = date.time
         }
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -93,38 +90,6 @@ class FilterFragment : Fragment() {
         btRemoveFilters.setOnClickListener {
             resetFilters()
         }
-    }
-
-    /**
-     * Displays a DatePickerDialog and sets the selected date to the specified MaterialButton.
-     *
-     * @param bt The MaterialButton to which the selected date will be set.
-     * @return A [Calendar] object representing the selected date.
-     */
-    private fun showDatePickerDialog(bt: MaterialButton): Calendar {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val datePickerDialog = DatePickerDialog(
-            activity as Context, { _, _year, _month, _day ->
-                calendar.set(_year, _month, _day)
-                bt.text = dateToString(calendar.time)
-            }, year, month, day
-        )
-        datePickerDialog.show()
-        return calendar
-    }
-
-    /**
-     * Converts a [Date] object to a formatted string representation.
-     *
-     * @param date The date to be converted.
-     * @return A string representing the formatted date.
-     */
-    private fun dateToString(date: Date): String {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return dateFormat.format(date)
     }
 
     /**
@@ -176,8 +141,11 @@ class FilterFragment : Fragment() {
      * Applies the current filters to the [FilterViewModel].
      */
     private fun setFilters() {
-        filterToApply.dateFrom = stringToDate(binding.filterFrBtButtonFrom.text)
-        filterToApply.dateTo = stringToDate(binding.filterFrBtButtonTo.text)
+        val svc = Services()
+        filterToApply.dateFrom =
+            svc.stringToDate(binding.filterFrBtButtonFrom.text, this.requireContext())
+        filterToApply.dateTo =
+            svc.stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
         filterToApply.selectedAmount = binding.filterFrSbSeekBarAmount.progress
         filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
         filterToApply.statusCancelled = binding.filterFrCbCancelled.isChecked
@@ -187,25 +155,6 @@ class FilterFragment : Fragment() {
         filterViewModel.setFilters(filterToApply)
     }
 
-    /**
-     * Converts a string date representation to a [Date] object.
-     *
-     * @param dateString The string representation of the date.
-     * @return A [Date] object representing the parsed date.
-     */
-    private fun stringToDate(dateString: CharSequence): Date? {
-        if (dateString.toString().equals(getString(R.string.title_buttonDayMonthYear))) {
-            return null
-        }
-        var date = Date()
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        try {
-            date = dateFormat.parse(dateString.toString())!!
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return date
-    }
 
     /**
      * Resets all filters to their default values.

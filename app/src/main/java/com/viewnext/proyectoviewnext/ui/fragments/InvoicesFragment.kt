@@ -10,9 +10,11 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.adapters.InvoiceAdapter
 import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
+import com.viewnext.proyectoviewnext.data.local.repository.InvoicesDatabase
 import com.viewnext.proyectoviewnext.databinding.FragmentInvoicesBinding
 import com.viewnext.proyectoviewnext.utils.Services
 import com.viewnext.proyectoviewnext.viewmodels.InvoicesViewModel
@@ -42,6 +44,7 @@ class InvoicesFragment : Fragment() {
         binding = FragmentInvoicesBinding.inflate(inflater, container, false)
         invoicesViewModel = ViewModelProvider(this)[InvoicesViewModel::class.java]
         invoicesViewModel.loadingState.observe(viewLifecycleOwner) { isLoading ->
+            // Shows or hides progressBar and hides or shows recyclerView
             if (isLoading) showProgressBar() else hideProgressBar()
         }
         return binding.root
@@ -56,38 +59,43 @@ class InvoicesFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
+        // Load services
         val svc = Services()
+        // Button back behavior
+        val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
         ivBack.setOnClickListener {
-            svc.showSnackBar(getString(R.string.not_available), view, R.color.md_theme_light_secondary)
+            svc.showSnackBar(
+                getString(R.string.not_available), view, R.color.md_theme_light_secondary
+            )
         }
-        val swDataLoading = binding.invoicesFrTbToolbarInvoices.mainToolbarSwLoadFromApi
+        // Instance of SelectorDataLoading
         val selector = SelectorDataLoading
+        // Switch API or Retromock data loading
+        val swDataLoading = binding.invoicesFrTbToolbarInvoices.mainToolbarSwLoadFromApi
         swDataLoading.isChecked = selector.loadFromAPI
         swDataLoading.setOnCheckedChangeListener { buttonView, isChecked ->
             invoicesViewModel.setloadDataFromApi(swDataLoading.isChecked)
             invoicesViewModel.resetMaxAmountInList()
             if (swDataLoading.isChecked) {
-                loadDataFromNewSource("Activada carga de datos desde API", view, svc)
+                loadDataFromNewSource(getString(R.string.load_data_from_api), view, svc)
             } else {
-                loadDataFromNewSource("Actiavda carga de datos desde Retromock", view, svc)
+                loadDataFromNewSource(getString(R.string.load_data_from_retromock), view, svc)
             }
             selector.loadFromAPI = swDataLoading.isChecked
             loadDataInRV()
         }
+        // Filter button behavior
         val ivFilter = binding.invoicesFrTbToolbarInvoices.mainToolbarIvFilter
         ivFilter.setOnClickListener {
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
+        // Load data in RecyclerView
         loadDataInRV()
+
         invoicesViewModel.invoicesList.observe(viewLifecycleOwner) { newList ->
-            if (newList.isEmpty()) {
-                binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.VISIBLE
-                binding.invoicesFrRvRecyclerInvoices.visibility=View.GONE
-            } else {
-                binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility=View.GONE
-                binding.invoicesFrRvRecyclerInvoices.visibility=View.VISIBLE
-            }
+            // Show or hide recyclerView and warning if the invoices list is empty
+            if (newList.isEmpty()) showWarningMessage() else hideWarningMessage()
+            // Updates the list of invoices
             adapter.updateList(newList)
         }
     }
@@ -114,8 +122,7 @@ class InvoicesFragment : Fragment() {
             try {
                 invoicesViewModel.searchInvoices()
                 adapter = InvoiceAdapter(
-                    invoicesViewModel.invoicesList.value ?: emptyList(),
-                    requireContext()
+                    invoicesViewModel.invoicesList.value ?: emptyList(), requireContext()
                 )
                 binding.invoicesFrRvRecyclerInvoices.adapter = adapter
             } catch (e: Exception) {
@@ -128,19 +135,33 @@ class InvoicesFragment : Fragment() {
      * Shows the progress bar and hides the RecyclerView.
      */
     private fun showProgressBar() {
-        CoroutineScope(Dispatchers.Main).launch {
-            binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility=View.VISIBLE
-            binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
-        }
+        binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility = View.VISIBLE
+        binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
     }
 
     /**
      * Hides the progress bar and shows the RecyclerView.
      */
     private fun hideProgressBar() {
-        CoroutineScope(Dispatchers.Main).launch {
-            binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility=View.GONE
-            binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
-        }
+        binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility = View.GONE
+        binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
+    }
+
+    /**
+     * Shows the warning message and hides the RecyclerView.
+     */
+    private fun showWarningMessage() {
+        binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.VISIBLE
+        binding.invoicesFrInWarning.messageWarningTvMessageWarning.text =
+            getString(R.string.none_invoice_found)
+        binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
+    }
+
+    /**
+     * Shows the RecyclerView and hides the warning message.
+     */
+    private fun hideWarningMessage() {
+        binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.GONE
+        binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
     }
 }

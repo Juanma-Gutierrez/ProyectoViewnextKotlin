@@ -1,33 +1,35 @@
 package com.viewnext.proyectoviewnext.viewmodels
 
+import android.app.Application
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
 import co.infinum.retromock.Retromock
 import com.viewnext.proyectoviewnext.constants.Constants
 import com.viewnext.proyectoviewnext.data.api.InvoiceResult
-import com.viewnext.proyectoviewnext.data.api.InvoicesResult
 import com.viewnext.proyectoviewnext.data.api.InvoicesService
 import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
+import com.viewnext.proyectoviewnext.data.local.invoice.InvoiceEntity
+import com.viewnext.proyectoviewnext.data.local.repository.InvoicesDatabase
 import com.viewnext.proyectoviewnext.data.models.Invoice
 import com.viewnext.proyectoviewnext.utils.FilterService
+import com.viewnext.proyectoviewnext.utils.Services
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.LocalDate
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import kotlin.math.ceil
 
-class InvoicesViewModel : ViewModel() {
+class InvoicesViewModel(application: Application) : AndroidViewModel(application) {
     private var statusList: MutableList<String> = mutableListOf()
     private val _invoicesList: MutableLiveData<List<Invoice>> = MutableLiveData()
     val invoicesList: LiveData<List<Invoice>>
@@ -35,10 +37,17 @@ class InvoicesViewModel : ViewModel() {
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState: LiveData<Boolean>
         get() = _loadingState
-    val selectorDL = SelectorDataLoading
+    private val selectorDL = SelectorDataLoading
+
+    val room: InvoicesDatabase = Room
+        .databaseBuilder(application.applicationContext, InvoicesDatabase::class.java, "invoices")
+        .build()
+    val repositoryInvoices = room.invoiceDao()
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun searchInvoices() {
+        val repository = repositoryInvoices.getAllInvoices()
         CoroutineScope(Dispatchers.IO).launch {
             val retrofit = Retrofit.Builder()
                 .baseUrl(Constants.API_BASE_URL)
@@ -63,24 +72,71 @@ class InvoicesViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun loadApiData(service: InvoicesService) {
-        val response = service.getInvoices()
-        if (response.isSuccessful) {
-            loadDataInRV(response)
-        } else {
-            Log.e("Error", "Error in API data loading")
+    private fun loadApiData(service: InvoicesService) {
+        println("Entra en API")
+        viewModelScope.launch {
+            var list: List<InvoiceResult> = emptyList()
+            try {
+                val response = service.getInvoices()
+                println("Respuesta: ${response.body()}")
+                if (response.isSuccessful) {
+                    println("Entra en API OK")
+                    list = response.body()!!.invoices
+                    saveLocalRepository(list)
+                    loadDataInRV(list)
+                } else {
+                    println("Entra en error API")
+                    loadDataInRV(loadRepositoryData())
+                    Log.e("Error", "Error in API data loading")
+                }
+            } catch (e: Exception) {
+                loadDataInRV(loadRepositoryData())
+                Log.e("Error", "Error in API endpoint $e")
+            }
         }
+    }
+
+    private suspend fun saveLocalRepository(invoicesList: List<InvoiceResult>) {
+        println("Entra en error saveLocalRepository")
+        val invoicesEntityList = invoicesList.map { invoice ->
+            InvoiceEntity(
+                status = invoice.status,
+                amount = invoice.amount,
+                date = invoice.date
+            )
+        }
+        println("Lista actualizada: $invoicesEntityList")
+        repositoryInvoices.createInvoiceList(invoicesEntityList)
     }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRetromockData(service: InvoicesService) {
+        println("Entra en RETROMOCK")
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
-            loadDataInRV(mockResponse)
+            println("Entra en RETROMOCK OK")
+            saveLocalRepository(mockResponse.body()!!.invoices)
+            loadDataInRV(mockResponse.body()!!.invoices)
         } else {
+            println("Entra en error RETROMOCK")
+            loadDataInRV(loadRepositoryData())
             Log.e("Error", "Error in retromock data loading")
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private suspend fun loadRepositoryData(): List<InvoiceResult> {
+        println("Entra en error LOADREPOSITORY")
+        val listResult = repositoryInvoices.getAllInvoices().map { invoiceEntity ->
+            InvoiceResult(
+                status = invoiceEntity.status,
+                amount = invoiceEntity.amount,
+                date = invoiceEntity.date
+            )
+        }
+        println(listResult)
+        return listResult
     }
 
     fun resetMaxAmountInList() {
@@ -89,11 +145,12 @@ class InvoicesViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private suspend fun loadDataInRV(response: Response<InvoicesResult>) {
+    private suspend fun loadDataInRV(list: List<InvoiceResult>) {
+        println("Entra en LOADDATAINRV")
+        findMaxAmount(list)
         hideProgressBar()
         createArrayWithStatusSelected()
-        findMaxAmount(response.body()?.invoices)
-        val newInvoicesList = mapInvoicesList(response)
+        val newInvoicesList = mapInvoicesList(list)
         _invoicesList.postValue(newInvoicesList)
     }
 
@@ -104,26 +161,20 @@ class InvoicesViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun mapInvoicesList(response: Response<InvoicesResult>): List<Invoice> {
-        val filteredList = response.body()?.invoices?.filter { invoice ->
+    private fun mapInvoicesList(list: List<InvoiceResult>): List<Invoice> {
+        val svc = Services()
+        val filteredList = list.filter { invoice ->
             val invoiceToCheck = Invoice(
-                parseLocalDate(invoice.date), invoice.status, invoice.amount.toFloat()
+                svc.parseLocalDate(invoice.date), invoice.status, invoice.amount.toFloat()
             )
+            // Checks if the invoice is available with the filter applied
             invoiceInFilter(invoiceToCheck)
         }
-        return filteredList?.map { invoice ->
+        return filteredList.map { invoice ->
             Invoice(
-                parseLocalDate(invoice.date),
-                invoice.status,
-                invoice.amount.toFloat()
+                svc.parseLocalDate(invoice.date), invoice.status, invoice.amount.toFloat()
             )
-        }!!
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun parseLocalDate(date: String): LocalDate {
-        val formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT)
-        return LocalDate.parse(date, formatter)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -144,12 +195,7 @@ class InvoicesViewModel : ViewModel() {
         // Check amount
         if (invoice.amount > filterSvc.getSelectedAmount()) valid = false
         // Check status, if all filters are false, skip this check
-        if (!(!filterSvc.getStatusPaid() and
-                    !filterSvc.getStatusCancelled() and
-                    !filterSvc.getStatusFixedFee() and
-                    !filterSvc.getStatusPendingPayment() and
-                    !filterSvc.getStatusPaymentPlan())
-        ) {
+        if (!(!filterSvc.getStatusPaid() and !filterSvc.getStatusCancelled() and !filterSvc.getStatusFixedFee() and !filterSvc.getStatusPendingPayment() and !filterSvc.getStatusPaymentPlan())) {
             if (!statusList.contains(invoice.status)) valid = false
         }
         return valid

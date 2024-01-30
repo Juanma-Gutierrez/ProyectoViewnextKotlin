@@ -9,10 +9,10 @@
     android:visibility="gone">
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/messageWarning_tv_messageWarning"
         style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/none_invoice_found"
         android:textAlignment="center"
         android:textColor="@color/md_theme_light_error"
         tools:text="@string/none_invoice_found" />

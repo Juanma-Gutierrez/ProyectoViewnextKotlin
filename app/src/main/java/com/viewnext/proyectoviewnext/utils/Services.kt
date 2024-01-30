@@ -1,12 +1,22 @@
 package com.viewnext.proyectoviewnext.utils
 
+import android.app.DatePickerDialog
 import android.content.Context
+import android.os.Build
 import android.view.View
-import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getColor
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.viewnext.proyectoviewnext.R
+import com.viewnext.proyectoviewnext.constants.Constants
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 /**
  * Utility class containing various services such as showing snack bars and alert dialogs.
@@ -19,7 +29,7 @@ class Services {
      * @param message The message to be displayed in the snackbar.
      * @param view The view where the snackbar should be displayed.
      */
-    fun showSnackBar(message: String, view: View, color:Int) {
+    fun showSnackBar(message: String, view: View, color: Int) {
         val snackBar = Snackbar.make(
             view,
             message,
@@ -46,6 +56,73 @@ class Services {
         }
         val alertDialog = builder.create()
         alertDialog.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun parseLocalDate(date: String): LocalDate {
+        val formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT)
+        return LocalDate.parse(date, formatter)
+    }
+
+    fun dateStringToLong(date: String): Long {
+        val format = SimpleDateFormat(Constants.DATE_FORMAT)
+        val dateFormatted = format.parse(date)
+        return dateFormatted!!.time
+    }
+
+
+    /**
+     * Displays a DatePickerDialog and sets the selected date to the specified MaterialButton.
+     *
+     * @param bt The MaterialButton to which the selected date will be set.
+     * @return A [Calendar] object representing the selected date.
+     */
+    fun showDatePickerDialog(bt: MaterialButton, context: Context): Calendar {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val datePickerDialog = DatePickerDialog(
+            context, { _, _year, _month, _day ->
+                calendar.set(_year, _month, _day)
+                bt.text = dateToString(calendar.time, context)
+            }, year, month, day
+        )
+        datePickerDialog.show()
+        return calendar
+    }
+
+    /**
+     * Converts a [Date] object to a formatted string representation.
+     *
+     * @param date The date to be converted.
+     * @return A string representing the formatted date.
+     */
+    fun dateToString(date: Date, context: Context): String {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return dateFormat.format(date)
+    }
+
+
+    /**
+     * Converts a string date representation to a [Date] object.
+     *
+     * @param dateString The string representation of the date.
+     * @return A [Date] object representing the parsed date.
+     */
+    fun stringToDate(dateString: CharSequence, context: Context): Date? {
+        if (dateString.toString() == context.getString(R.string.title_buttonDayMonthYear)) {
+            return null
+        }
+        var date = Date()
+        val dateFormat =
+            SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault())
+        try {
+            date = dateFormat.parse(dateString.toString())!!
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return date
     }
 }
 

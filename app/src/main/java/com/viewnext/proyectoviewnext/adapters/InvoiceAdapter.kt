@@ -52,7 +52,7 @@ class InvoiceAdapter(
         holder.binding.invoiceItemIvForward.setOnClickListener {
             val svc = Services()
             val title = getString(context, R.string.warning_title)
-            val message = getString(context, R.string.warning_message)
+            val message = getString(context, R.string.function_not_available)
             val btCloseText = getString(context, R.string.bt_close)
             svc.showAlertDialog(context, title, message, btCloseText)
         }

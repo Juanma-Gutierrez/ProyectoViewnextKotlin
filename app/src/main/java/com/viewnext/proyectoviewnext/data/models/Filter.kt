@@ -13,22 +13,10 @@ class Filter(
     var statusCancelled: Boolean = false,
     var statusFixedFee: Boolean = false,
     var statusPendingPayment: Boolean = false,
-    var statusPaymentPlan: Boolean = false
-) {
-    /**
-     * Resets all filter parameters to their default values.
-     */
-    fun reset() {
-        dateFrom = null
-        dateTo = null
-        selectedAmount = Int.MAX_VALUE
-        statusPaid = false
-        statusCancelled = false
-        statusFixedFee = false
-        statusPendingPayment = false
-        statusPaymentPlan = false
-    }
+    var statusPaymentPlan: Boolean = false,
+    var maxAmountInList: Float = 0.0f
 
+) {
     /**
      * Returns a string representation of the filter parameters.
      *
@@ -37,6 +25,7 @@ class Filter(
     override fun toString(): String {
         return "\nDateFrom:$dateFrom | DateTo:$dateTo\n" +
                 "SelectedAmount: $selectedAmount\n" +
-                "Paid:$statusPaid | Cancelled:$statusCancelled | FFee:$statusFixedFee | PPayment:$statusPendingPayment | PPlan: $statusPaymentPlan\n"
+                "Paid:$statusPaid | Cancelled:$statusCancelled | FFee:$statusFixedFee | PPayment:$statusPendingPayment | PPlan: $statusPaymentPlan\n" +
+                "MaxAmountInList:$maxAmountInList"
     }
 }

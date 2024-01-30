@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.viewnext.proyectoviewnext.R
+import com.viewnext.proyectoviewnext.constants.Constants
 import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.utils.FilterService
 import java.text.SimpleDateFormat
@@ -12,10 +13,6 @@ import java.util.Locale
 
 class FilterViewModel(application: Application) : AndroidViewModel(application) {
     private var filterSvc = FilterService
-
-    fun getFilter(): String {
-        return "$filterSvc"
-    }
 
     fun getDateFrom(context: Context): String {
         return dateToString(FilterService.getDateFrom(), context)
@@ -29,7 +26,7 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         if (date == null) {
             return context.getString(R.string.title_buttonDayMonthYear)
         }
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault())
         return dateFormat.format(date)
     }
 

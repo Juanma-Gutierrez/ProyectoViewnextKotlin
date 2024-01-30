@@ -7,7 +7,6 @@ import java.util.Date
  * Singleton object to manage and store filter-related data.
  */
 object FilterService {
-    private var maxAmountInList: Float = 0.0f
     private var filter: Filter = Filter()
 
     // Date
@@ -29,11 +28,11 @@ object FilterService {
 
     // Amount
     fun getMaxAmountInList(): Float {
-        return maxAmountInList
+        return filter.maxAmountInList
     }
 
     fun setMaxAmountInList(amount: Float) {
-        maxAmountInList = amount
+        filter.maxAmountInList = amount
     }
 
     fun getSelectedAmount(): Int {

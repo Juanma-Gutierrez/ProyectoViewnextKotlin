@@ -3,7 +3,7 @@
 
     <!-- Modal screen messages -->
     <string name="warning_title">Información</string>
-    <string name="warning_message">Esta función aún no está disponible</string>
+    <string name="function_not_available">Esta función aún no está disponible</string>
     <string name="bt_close">Cerrar</string>
 
     <!-- Invoices fragment -->
@@ -11,6 +11,8 @@
     <string name="usage">Consumo</string>
     <string name="not_available">Función no implementada</string>
     <string name="loading_message">Cargando facturas</string>
+    <string name="load_data_from_api">Activada carga de datos desde API</string>
+    <string name="load_data_from_retromock">Activada carga de datos desde Retromock</string>
 
     <!-- Filter fragment -->
     <string name="title_filterInvoices">Filtrar facturas</string>
