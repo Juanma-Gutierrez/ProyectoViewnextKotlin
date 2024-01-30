@@ -75,7 +75,7 @@ class InvoicesFragment : Fragment() {
         swDataLoading.isChecked = selector.loadFromAPI
         swDataLoading.setOnCheckedChangeListener { buttonView, isChecked ->
             invoicesViewModel.setloadDataFromApi(swDataLoading.isChecked)
-            invoicesViewModel.resetMaxAmountInList()
+            // invoicesViewModel.resetMaxAmountInList()
             if (swDataLoading.isChecked) {
                 loadDataFromNewSource(getString(R.string.load_data_from_api), view, svc)
             } else {

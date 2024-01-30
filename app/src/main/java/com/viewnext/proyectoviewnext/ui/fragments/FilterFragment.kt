@@ -99,7 +99,7 @@ class FilterFragment : Fragment() {
      */
     private fun changeValueOnSelectedSeekBar(progress: Int) {
         filterToApply.selectedAmount = progress
-        binding.filterFrTvSelectedRangeAmount.text = getSelectedAmount(progress.toString())
+        binding.filterFrTvSelectedRangeAmount.text = getSelectedAmount(progress)
     }
 
     /**
@@ -111,13 +111,13 @@ class FilterFragment : Fragment() {
         val maxAmountProgressBar = ceil(filterViewModel.getMaxAmountInList()).toInt()
         binding.filterFrSbSeekBarAmount.max = maxAmountProgressBar
         binding.filterFrSbSeekBarAmount.progress = filterViewModel.getSelectedAmount()
-        binding.filterFrTvAmountMax.text = "$maxAmountProgressBar €"
+        binding.filterFrTvAmountMax.text = convertAmountToIntMoney(maxAmountProgressBar)
         binding.filterFrTvSelectedRangeAmount.text =
             getSelectedAmount(
                 if (filterViewModel.getSelectedAmount() == Integer.MAX_VALUE) {
-                    maxAmountProgressBar.toString()
+                    maxAmountProgressBar
                 } else {
-                    filterViewModel.getSelectedAmount().toString()
+                    filterViewModel.getSelectedAmount()
                 }
             )
         binding.filterFrCbPaid.isChecked = filterViewModel.getFilterPaid()
@@ -133,8 +133,8 @@ class FilterFragment : Fragment() {
      * @param maxAmount The maximum amount value.
      * @return A formatted string representing the selected amount range.
      */
-    private fun getSelectedAmount(maxAmount: String): String {
-        return ("0 € - $maxAmount €")
+    private fun getSelectedAmount(maxAmount: Int): String {
+        return ("0 € - ${convertAmountToIntMoney(maxAmount)}")
     }
 
     /**
@@ -165,15 +165,16 @@ class FilterFragment : Fragment() {
         val maxAmountProgressBar = ceil(filterViewModel.getMaxAmountInList()).toInt()
         binding.filterFrSbSeekBarAmount.max = maxAmountProgressBar
         binding.filterFrSbSeekBarAmount.progress = maxAmountProgressBar
-        binding.filterFrTvAmountMax.text = "$maxAmountProgressBar €"
-        binding.filterFrTvSelectedRangeAmount.text =
-            getSelectedAmount(
-                maxAmountProgressBar.toString()
-            )
+        binding.filterFrTvAmountMax.text = convertAmountToIntMoney(maxAmountProgressBar)
+        binding.filterFrTvSelectedRangeAmount.text = getSelectedAmount(maxAmountProgressBar)
         binding.filterFrCbPaid.isChecked = false
         binding.filterFrCbCancelled.isChecked = false
         binding.filterFrCbFixedFee.isChecked = false
         binding.filterFrCbPendingPayment.isChecked = false
         binding.filterFrCbPaymentPlan.isChecked = false
+    }
+
+    private fun convertAmountToIntMoney(maxAmountProgressBar: Int): CharSequence {
+        return "$maxAmountProgressBar €"
     }
 }
