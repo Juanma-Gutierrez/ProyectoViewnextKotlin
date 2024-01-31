@@ -64,11 +64,13 @@ class Services {
         return LocalDate.parse(date, formatter)
     }
 
+    /*
     fun dateStringToLong(date: String): Long {
         val format = SimpleDateFormat(Constants.DATE_FORMAT)
         val dateFormatted = format.parse(date)
         return dateFormatted!!.time
     }
+     */
 
 
     /**

@@ -106,6 +106,7 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
             )
         }
         println("Lista actualizada: $invoicesEntityList")
+        repositoryInvoices.deleteAllInvoices()
         repositoryInvoices.createInvoiceList(invoicesEntityList)
     }
 
@@ -127,7 +128,7 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRepositoryData(): List<InvoiceResult> {
-        println("Entra en error LOADREPOSITORY")
+        println("Entra en LOADREPOSITORY")
         val listResult = repositoryInvoices.getAllInvoices().map { invoiceEntity ->
             InvoiceResult(
                 status = invoiceEntity.status,

@@ -2,6 +2,7 @@ package com.viewnext.proyectoviewnext.data.local.invoice
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -13,4 +14,7 @@ interface InvoiceDao {
 
     @Query("SELECT * from invoice")
     suspend fun getAllInvoices(): List<InvoiceEntity>
+
+    @Query("DELETE from invoice")
+    suspend fun deleteAllInvoices()
 }

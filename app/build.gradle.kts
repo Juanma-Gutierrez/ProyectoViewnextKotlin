@@ -48,11 +48,11 @@ dependencies {
     // Fragments
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     // Navigation
-    val navVersion = "2.7.5"
+    val navVersion = "2.7.6"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     // Toolbar
-    implementation("androidx.activity:activity-ktx:1.8.0")
+    implementation("androidx.activity:activity-ktx:1.8.2")
     // Retrofit
     val rfVersion = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$rfVersion")
@@ -66,7 +66,7 @@ dependencies {
     // Retromock
     implementation ("co.infinum:retromock:1.1.1")
     // Room
-    val roomVersion = "2.6.0"
+    val roomVersion = "2.6.1"
     kapt("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
