@@ -11,12 +11,12 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator        android:id="@+id/invoicesFr_pb_isLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.CircularProgressIndicator"
-        android:indeterminate="true"
-        android:progressTint="@color/md_theme_dark_errorContainer" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="loading.json"
+        app:lottie_loop="true" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/invoicesFr_tv_loading"

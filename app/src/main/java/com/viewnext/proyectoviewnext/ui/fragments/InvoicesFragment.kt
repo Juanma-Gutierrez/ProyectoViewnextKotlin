@@ -117,6 +117,7 @@ class InvoicesFragment : Fragment() {
     private fun loadDataInRV() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
+                showLoadingMode()
                 invoicesViewModel.searchInvoices()
                 adapter = InvoiceAdapter(
                     invoicesViewModel.invoicesList.value ?: emptyList(), requireContext()
@@ -143,23 +144,26 @@ class InvoicesFragment : Fragment() {
     private fun hideLoadingMode() {
         binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility = View.GONE
         binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
+        binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.GONE
     }
 
     /**
      * Shows the warning message and hides the RecyclerView.
      */
     private fun showWarningMessageMode() {
+        binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility = View.GONE
+        binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
         binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.VISIBLE
         binding.invoicesFrInWarning.messageWarningTvMessageWarning.text =
             getString(R.string.none_invoice_found)
-        binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
     }
 
     /**
      * Shows the RecyclerView and hides the warning message.
      */
     private fun hideWarningMessageMode() {
-        binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.GONE
+        binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility = View.GONE
         binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
+        binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.GONE
     }
 }
