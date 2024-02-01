@@ -1,7 +1,6 @@
 package com.viewnext.proyectoviewnext.data.api
 
 import com.google.gson.annotations.SerializedName
-import com.viewnext.proyectoviewnext.data.local.invoice.InvoiceEntity
 
 /**
  * Data class representing the result of fetching a list of invoices from the API.

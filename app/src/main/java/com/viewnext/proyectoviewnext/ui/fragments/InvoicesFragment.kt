@@ -43,8 +43,9 @@ class InvoicesFragment : Fragment() {
         invoicesViewModel = ViewModelProvider(this)[InvoicesViewModel::class.java]
         invoicesViewModel.loadingState.observe(viewLifecycleOwner) { isLoading ->
             // Shows or hides progressBar and hides or shows recyclerView
-            if (isLoading) showProgressBar() else hideProgressBar()
+            if (isLoading) showLoadingMode() else hideLoadingMode()
         }
+        adapter = InvoiceAdapter(emptyList(), requireContext())
         return binding.root
     }
 
@@ -87,10 +88,10 @@ class InvoicesFragment : Fragment() {
         }
         // Load data in RecyclerView
         loadDataInRV()
-
+        // Updates the list of the RecyclerView when the list data changes
         invoicesViewModel.invoicesList.observe(viewLifecycleOwner) { newList ->
             // Show or hide recyclerView and warning if the invoices list is empty
-            if (newList.isEmpty()) showWarningMessage() else hideWarningMessage()
+            if (newList.isEmpty()) showWarningMessageMode() else hideWarningMessageMode()
             // Updates the list of invoices
             adapter.updateList(newList)
         }
@@ -105,7 +106,7 @@ class InvoicesFragment : Fragment() {
      */
     private fun loadDataFromNewSource(message: String, view: View) {
         showSnackBar(message, view, R.color.md_theme_light_primary)
-        showProgressBar()
+        showLoadingMode()
     }
 
     /**
@@ -130,15 +131,16 @@ class InvoicesFragment : Fragment() {
     /**
      * Shows the progress bar and hides the RecyclerView.
      */
-    private fun showProgressBar() {
+    private fun showLoadingMode() {
         binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility = View.VISIBLE
         binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
+        binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.GONE
     }
 
     /**
      * Hides the progress bar and shows the RecyclerView.
      */
-    private fun hideProgressBar() {
+    private fun hideLoadingMode() {
         binding.invoicesFrInIsLoading.invoicesFrLlIsLoadingContainer.visibility = View.GONE
         binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
     }
@@ -146,7 +148,7 @@ class InvoicesFragment : Fragment() {
     /**
      * Shows the warning message and hides the RecyclerView.
      */
-    private fun showWarningMessage() {
+    private fun showWarningMessageMode() {
         binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.VISIBLE
         binding.invoicesFrInWarning.messageWarningTvMessageWarning.text =
             getString(R.string.none_invoice_found)
@@ -156,7 +158,7 @@ class InvoicesFragment : Fragment() {
     /**
      * Shows the RecyclerView and hides the warning message.
      */
-    private fun hideWarningMessage() {
+    private fun hideWarningMessageMode() {
         binding.invoicesFrInWarning.invoicesFrLLWarningMessageContainer.visibility = View.GONE
         binding.invoicesFrRvRecyclerInvoices.visibility = View.VISIBLE
     }

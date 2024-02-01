@@ -24,7 +24,6 @@ interface InvoicesService {
      * @return A [Response] containing mock data for testing.
      */
     @Mock
-    @MockBehavior(durationDeviation = 100, durationMillis = 500)
     @MockResponse(
         body = "{\n" +
                 "    \"numFacturas\": 8,\n" +
@@ -72,6 +71,7 @@ interface InvoicesService {
                 "    ]\n" +
                 "}"
     )
+    @MockBehavior(durationDeviation = 500, durationMillis = 1000)
     @GET("facturas.json")
     suspend fun getInvoicesMock(): Response<InvoicesResult>
 }

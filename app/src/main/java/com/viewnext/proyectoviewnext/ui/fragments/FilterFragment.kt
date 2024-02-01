@@ -31,8 +31,7 @@ class FilterFragment : Fragment() {
      * saved state as given here.
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentFilterBinding.inflate(inflater, container, false)
         filterViewModel = ViewModelProvider(this)[FilterViewModel::class.java]
@@ -107,14 +106,13 @@ class FilterFragment : Fragment() {
         binding.filterFrSbSeekBarAmount.max = maxAmountProgressBar
         binding.filterFrSbSeekBarAmount.progress = filterViewModel.getSelectedAmount()
         binding.filterFrTvAmountMax.text = convertAmountToIntMoney(maxAmountProgressBar)
-        binding.filterFrTvSelectedRangeAmount.text =
-            getSelectedAmount(
-                if (filterViewModel.getSelectedAmount() == Integer.MAX_VALUE) {
-                    maxAmountProgressBar
-                } else {
-                    filterViewModel.getSelectedAmount()
-                }
-            )
+        binding.filterFrTvSelectedRangeAmount.text = getSelectedAmount(
+            if (filterViewModel.getSelectedAmount() == Integer.MAX_VALUE) {
+                maxAmountProgressBar
+            } else {
+                filterViewModel.getSelectedAmount()
+            }
+        )
         binding.filterFrCbPaid.isChecked = filterViewModel.getFilterPaid()
         binding.filterFrCbCancelled.isChecked = filterViewModel.getFilterCancelled()
         binding.filterFrCbFixedFee.isChecked = filterViewModel.getFilterFixedFee()
@@ -140,8 +138,7 @@ class FilterFragment : Fragment() {
     private fun setFilters() {
         filterToApply.dateFrom =
             stringToDate(binding.filterFrBtButtonFrom.text, this.requireContext())
-        filterToApply.dateTo =
-            stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
+        filterToApply.dateTo = stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
         filterToApply.selectedAmount = binding.filterFrSbSeekBarAmount.progress
         filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
         filterToApply.statusCancelled = binding.filterFrCbCancelled.isChecked
@@ -171,5 +168,4 @@ class FilterFragment : Fragment() {
     }
 
     private fun convertAmountToIntMoney(num: Int) = "$num €"
-}
 }
