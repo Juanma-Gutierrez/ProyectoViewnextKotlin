@@ -82,6 +82,7 @@ class InvoicesFragment : Fragment() {
         // Filter button behavior
         val ivFilter = binding.invoicesFrTbToolbarInvoices.mainToolbarIvFilter
         ivFilter.setOnClickListener {
+            // if (fragmentManager?.backStackEntryCount!! > 0) fragmentManager?.popBackStack()
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
         // Load data in RecyclerView

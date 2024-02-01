@@ -44,7 +44,6 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
         .build()
     val repositoryInvoices = room.invoiceDao()
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun searchInvoices() {
         repositoryInvoices.getAllInvoices()

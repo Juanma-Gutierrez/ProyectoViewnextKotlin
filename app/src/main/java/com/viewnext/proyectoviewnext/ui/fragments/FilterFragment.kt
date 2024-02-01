@@ -57,14 +57,13 @@ class FilterFragment : Fragment() {
 
         loadFilters()
         ivClose.setOnClickListener {
-            findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
+            findNavController().navigateUp()
         }
         btDateFrom.setOnClickListener {
             val date = showDatePickerDialog(btDateFrom, this.requireContext())
             filterToApply.dateFrom = date.time
         }
         btDateTo.setOnClickListener {
-
             val date = showDatePickerDialog(btDateTo, this.requireContext())
             filterToApply.dateTo = date.time
         }
@@ -81,7 +80,7 @@ class FilterFragment : Fragment() {
         })
         btApply.setOnClickListener {
             setFilters()
-            findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
+            findNavController().navigateUp()
         }
         btRemoveFilters.setOnClickListener {
             resetFilters()
@@ -130,7 +129,9 @@ class FilterFragment : Fragment() {
      * @return A formatted string representing the selected amount range.
      */
     private fun getSelectedAmount(maxAmount: Int): String {
-        return ("0 € - ${convertAmountToIntMoney(maxAmount)}")
+        val min = convertAmountToIntMoney(0)
+        val max = convertAmountToIntMoney(maxAmount)
+        return ("$min - $max")
     }
 
     /**
@@ -169,7 +170,6 @@ class FilterFragment : Fragment() {
         binding.filterFrCbPaymentPlan.isChecked = false
     }
 
-    private fun convertAmountToIntMoney(maxAmountProgressBar: Int): CharSequence {
-        return "$maxAmountProgressBar €"
-    }
+    private fun convertAmountToIntMoney(num: Int) = "$num €"
+}
 }

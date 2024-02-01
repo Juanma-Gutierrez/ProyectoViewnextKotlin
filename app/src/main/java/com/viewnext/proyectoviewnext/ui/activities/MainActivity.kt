@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.databinding.ActivityMainBinding
+import com.viewnext.proyectoviewnext.ui.fragments.InvoicesFragment
 
 /**
  * Main activity of the application.
