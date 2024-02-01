@@ -10,13 +10,11 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.room.Room
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.adapters.InvoiceAdapter
 import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
-import com.viewnext.proyectoviewnext.data.local.repository.InvoicesDatabase
 import com.viewnext.proyectoviewnext.databinding.FragmentInvoicesBinding
-import com.viewnext.proyectoviewnext.utils.Services
+import com.viewnext.proyectoviewnext.utils.showSnackBar
 import com.viewnext.proyectoviewnext.viewmodels.InvoicesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,13 +58,10 @@ class InvoicesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Load services
-        val svc = Services()
         // Button back behavior
         val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
         ivBack.setOnClickListener {
-            svc.showSnackBar(
-                getString(R.string.not_available), view, R.color.md_theme_light_secondary
-            )
+            showSnackBar(getString(R.string.not_available), view, R.color.md_theme_light_secondary)
         }
         // Instance of SelectorDataLoading
         val selector = SelectorDataLoading
@@ -77,9 +72,9 @@ class InvoicesFragment : Fragment() {
             invoicesViewModel.setloadDataFromApi(swDataLoading.isChecked)
             // invoicesViewModel.resetMaxAmountInList()
             if (swDataLoading.isChecked) {
-                loadDataFromNewSource(getString(R.string.load_data_from_api), view, svc)
+                loadDataFromNewSource(getString(R.string.load_data_from_api), view)
             } else {
-                loadDataFromNewSource(getString(R.string.load_data_from_retromock), view, svc)
+                loadDataFromNewSource(getString(R.string.load_data_from_retromock), view)
             }
             selector.loadFromAPI = swDataLoading.isChecked
             loadDataInRV()
@@ -107,8 +102,8 @@ class InvoicesFragment : Fragment() {
      * @param view The view to which the snack bar is attached.
      * @param svc An instance of the Services class for utility functions.
      */
-    private fun loadDataFromNewSource(message: String, view: View, svc: Services) {
-        svc.showSnackBar(message, view, R.color.md_theme_light_primary)
+    private fun loadDataFromNewSource(message: String, view: View) {
+        showSnackBar(message, view, R.color.md_theme_light_primary)
         showProgressBar()
     }
 

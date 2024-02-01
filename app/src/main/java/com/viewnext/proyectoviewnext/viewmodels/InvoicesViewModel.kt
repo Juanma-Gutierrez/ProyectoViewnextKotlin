@@ -18,7 +18,7 @@ import com.viewnext.proyectoviewnext.data.local.invoice.InvoiceEntity
 import com.viewnext.proyectoviewnext.data.local.repository.InvoicesDatabase
 import com.viewnext.proyectoviewnext.data.models.Invoice
 import com.viewnext.proyectoviewnext.utils.FilterService
-import com.viewnext.proyectoviewnext.utils.Services
+import com.viewnext.proyectoviewnext.utils.parseLocalDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -163,17 +163,16 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun mapInvoicesList(list: List<InvoiceResult>): List<Invoice> {
-        val svc = Services()
         val filteredList = list.filter { invoice ->
             val invoiceToCheck = Invoice(
-                svc.parseLocalDate(invoice.date), invoice.status, invoice.amount.toFloat()
+                parseLocalDate(invoice.date), invoice.status, invoice.amount.toFloat()
             )
             // Checks if the invoice is available with the filter applied
             invoiceInFilter(invoiceToCheck)
         }
         return filteredList.map { invoice ->
             Invoice(
-                svc.parseLocalDate(invoice.date), invoice.status, invoice.amount.toFloat()
+                parseLocalDate(invoice.date), invoice.status, invoice.amount.toFloat()
             )
         }
     }

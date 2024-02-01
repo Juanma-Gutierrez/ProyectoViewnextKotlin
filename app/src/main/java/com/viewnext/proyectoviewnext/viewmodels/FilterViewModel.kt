@@ -7,6 +7,7 @@ import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.constants.Constants
 import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.utils.FilterService
+import com.viewnext.proyectoviewnext.utils.dateToString
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -22,13 +23,6 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
         return dateToString(FilterService.getDateTo(), context)
     }
 
-    private fun dateToString(date: Date?, context:Context): String {
-        if (date == null) {
-            return context.getString(R.string.title_buttonDayMonthYear)
-        }
-        val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault())
-        return dateFormat.format(date)
-    }
 
     fun getMaxAmountInList(): Float {
         return FilterService.getMaxAmountInList()

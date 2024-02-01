@@ -12,7 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.databinding.FragmentFilterBinding
-import com.viewnext.proyectoviewnext.utils.Services
+import com.viewnext.proyectoviewnext.utils.showDatePickerDialog
+import com.viewnext.proyectoviewnext.utils.stringToDate
 import com.viewnext.proyectoviewnext.viewmodels.FilterViewModel
 import kotlin.math.ceil
 
@@ -23,9 +24,6 @@ class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
     private lateinit var filterViewModel: FilterViewModel
     private var filterToApply: Filter = Filter()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     /**
      * Called when the fragment is creating its user interface.
@@ -57,19 +55,18 @@ class FilterFragment : Fragment() {
         val btApply = binding.filterFrBtButtonApply
         val btRemoveFilters = binding.filterFrBtButtonRemove
         val sbAmount = binding.filterFrSbSeekBarAmount
-        val svc = Services()
 
         loadFilters()
         ivClose.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
         }
         btDateFrom.setOnClickListener {
-            val date = svc.showDatePickerDialog(btDateFrom, activity as Context)
+            val date = showDatePickerDialog(btDateFrom)
             filterToApply.dateFrom = date.time
         }
         btDateTo.setOnClickListener {
 
-            val date = svc.showDatePickerDialog(btDateTo, activity as Context)
+            val date = showDatePickerDialog(btDateTo)
             filterToApply.dateTo = date.time
         }
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -141,11 +138,10 @@ class FilterFragment : Fragment() {
      * Applies the current filters to the [FilterViewModel].
      */
     private fun setFilters() {
-        val svc = Services()
         filterToApply.dateFrom =
-            svc.stringToDate(binding.filterFrBtButtonFrom.text, this.requireContext())
+            stringToDate(binding.filterFrBtButtonFrom.text, this.requireContext())
         filterToApply.dateTo =
-            svc.stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
+            stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
         filterToApply.selectedAmount = binding.filterFrSbSeekBarAmount.progress
         filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
         filterToApply.statusCancelled = binding.filterFrCbCancelled.isChecked
