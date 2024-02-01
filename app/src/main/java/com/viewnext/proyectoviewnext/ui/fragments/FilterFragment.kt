@@ -1,6 +1,5 @@
 package com.viewnext.proyectoviewnext.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,12 +60,12 @@ class FilterFragment : Fragment() {
             findNavController().navigate(R.id.action_filterFragment_to_invoicesFragment)
         }
         btDateFrom.setOnClickListener {
-            val date = showDatePickerDialog(btDateFrom)
+            val date = showDatePickerDialog(btDateFrom, this.requireContext())
             filterToApply.dateFrom = date.time
         }
         btDateTo.setOnClickListener {
 
-            val date = showDatePickerDialog(btDateTo)
+            val date = showDatePickerDialog(btDateTo, this.requireContext())
             filterToApply.dateTo = date.time
         }
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

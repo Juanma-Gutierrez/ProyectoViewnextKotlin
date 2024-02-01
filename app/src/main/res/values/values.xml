@@ -3,5 +3,6 @@
     <dimen name="min_padding">8dp</dimen>
     <dimen name="item_padding">12dp</dimen>
     <dimen name="general_padding">16dp</dimen>
+    <dimen name="icon_size">100dp</dimen>
     <integer name="anim_duration_long">300</integer>
 </resources>

@@ -47,7 +47,7 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun searchInvoices() {
-        val repository = repositoryInvoices.getAllInvoices()
+        repositoryInvoices.getAllInvoices()
         CoroutineScope(Dispatchers.IO).launch {
             val retrofit = Retrofit.Builder()
                 .baseUrl(Constants.API_BASE_URL)
@@ -110,7 +110,6 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
         repositoryInvoices.createInvoiceList(invoicesEntityList)
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRetromockData(service: InvoicesService) {
         println("Entra en RETROMOCK")
@@ -138,11 +137,6 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
         }
         println(listResult)
         return listResult
-    }
-
-    fun resetMaxAmountInList() {
-        val filterSvc = FilterService
-        filterSvc.setMaxAmountInList(0f)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

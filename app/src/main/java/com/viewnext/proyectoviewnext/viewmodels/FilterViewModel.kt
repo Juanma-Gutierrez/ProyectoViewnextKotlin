@@ -3,17 +3,11 @@ package com.viewnext.proyectoviewnext.viewmodels
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import com.viewnext.proyectoviewnext.R
-import com.viewnext.proyectoviewnext.constants.Constants
 import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.utils.FilterService
 import com.viewnext.proyectoviewnext.utils.dateToString
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class FilterViewModel(application: Application) : AndroidViewModel(application) {
-    private var filterSvc = FilterService
 
     fun getDateFrom(context: Context): String {
         return dateToString(FilterService.getDateFrom(), context)
@@ -22,7 +16,6 @@ class FilterViewModel(application: Application) : AndroidViewModel(application) 
     fun getDateTo(context: Context): String {
         return dateToString(FilterService.getDateTo(), context)
     }
-
 
     fun getMaxAmountInList(): Float {
         return FilterService.getMaxAmountInList()

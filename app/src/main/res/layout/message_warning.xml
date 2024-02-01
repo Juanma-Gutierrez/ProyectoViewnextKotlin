@@ -8,6 +8,12 @@
     android:orientation="vertical"
     android:visibility="gone">
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:src="@drawable/baseline_search_24"
+        android:tint="@color/md_theme_light_primary" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/messageWarning_tv_messageWarning"
         style="@style/TextAppearance.Material3.TitleLarge"

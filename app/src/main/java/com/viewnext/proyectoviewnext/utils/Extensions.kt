@@ -31,7 +31,6 @@ fun showSnackBar(message: String, view: View, color: Int, length: Int = Snackbar
     snackBar.show()
 }
 
-
 /**
  * Displays an alert dialog with the provided title, message, and close button text.
  *
@@ -61,15 +60,15 @@ fun parseLocalDate(date: String): LocalDate {
  * @param bt The MaterialButton to which the selected date will be set.
  * @return A [Calendar] object representing the selected date.
  */
-fun Fragment.showDatePickerDialog(bt: MaterialButton): Calendar {
+fun showDatePickerDialog(bt: MaterialButton, context:Context): Calendar {
     val calendar = Calendar.getInstance()
     val year = calendar.get(Calendar.YEAR)
     val month = calendar.get(Calendar.MONTH)
     val day = calendar.get(Calendar.DAY_OF_MONTH)
     val datePickerDialog = DatePickerDialog(
-        requireContext(), { _, _year, _month, _day ->
+        context, { _, _year, _month, _day ->
             calendar.set(_year, _month, _day)
-            bt.text = dateToString(calendar.time, requireContext())
+            bt.text = dateToString(calendar.time, context)
         }, year, month, day
     )
     datePickerDialog.show()
