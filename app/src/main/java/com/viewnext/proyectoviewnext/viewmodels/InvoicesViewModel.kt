@@ -72,19 +72,15 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadApiData(service: InvoicesService) {
-        println("Entra en API")
         viewModelScope.launch {
             var list: List<InvoiceResult> = emptyList()
             try {
                 val response = service.getInvoices()
-                println("Respuesta: ${response.body()}")
                 if (response.isSuccessful) {
-                    println("Entra en API OK")
                     list = response.body()!!.invoices
                     saveLocalRepository(list)
                     loadDataInRV(list)
                 } else {
-                    println("Entra en error API")
                     loadDataInRV(loadRepositoryData())
                     Log.e("Error", "Error in API data loading")
                 }
@@ -96,7 +92,6 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
     }
 
     private suspend fun saveLocalRepository(invoicesList: List<InvoiceResult>) {
-        println("Entra en error saveLocalRepository")
         val invoicesEntityList = invoicesList.map { invoice ->
             InvoiceEntity(
                 status = invoice.status,
@@ -104,21 +99,17 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
                 date = invoice.date
             )
         }
-        println("Lista actualizada: $invoicesEntityList")
         repositoryInvoices.deleteAllInvoices()
         repositoryInvoices.createInvoiceList(invoicesEntityList)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRetromockData(service: InvoicesService) {
-        println("Entra en RETROMOCK")
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
-            println("Entra en RETROMOCK OK")
             saveLocalRepository(mockResponse.body()!!.invoices)
             loadDataInRV(mockResponse.body()!!.invoices)
         } else {
-            println("Entra en error RETROMOCK")
             loadDataInRV(loadRepositoryData())
             Log.e("Error", "Error in retromock data loading")
         }
@@ -126,7 +117,6 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRepositoryData(): List<InvoiceResult> {
-        println("Entra en LOADREPOSITORY")
         val listResult = repositoryInvoices.getAllInvoices().map { invoiceEntity ->
             InvoiceResult(
                 status = invoiceEntity.status,
@@ -134,13 +124,11 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
                 date = invoiceEntity.date
             )
         }
-        println(listResult)
         return listResult
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadDataInRV(list: List<InvoiceResult>) {
-        println("Entra en LOADDATAINRV")
         findMaxAmount(list)
         hideProgressBar()
         createArrayWithStatusSelected()

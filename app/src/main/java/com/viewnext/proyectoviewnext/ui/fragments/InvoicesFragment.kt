@@ -42,7 +42,6 @@ class InvoicesFragment : Fragment() {
         binding = FragmentInvoicesBinding.inflate(inflater, container, false)
         invoicesViewModel = ViewModelProvider(this)[InvoicesViewModel::class.java]
         invoicesViewModel.loadingState.observe(viewLifecycleOwner) { isLoading ->
-            // Shows or hides progressBar and hides or shows recyclerView
             if (isLoading) showLoadingMode() else hideLoadingMode()
         }
         adapter = InvoiceAdapter(emptyList(), requireContext())
@@ -58,7 +57,6 @@ class InvoicesFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Load services
         // Button back behavior
         val ivBack = binding.invoicesFrTbToolbarInvoices.mainToolbarIvBackIcon
         ivBack.setOnClickListener {
