@@ -2,6 +2,7 @@ package com.viewnext.proyectoviewnext.data.api
 
 import co.infinum.retromock.meta.Mock
 import co.infinum.retromock.meta.MockBehavior
+import co.infinum.retromock.meta.MockCircular
 import co.infinum.retromock.meta.MockResponse
 import co.infinum.retromock.meta.MockResponses
 import retrofit2.Response
@@ -29,7 +30,8 @@ interface InvoicesService {
         MockResponse(body = "mock_invoices_long.json"),
         MockResponse(body = "mock_invoices_original.json"),
     )
-    @MockBehavior(durationDeviation = 500, durationMillis = 1000)
+    @MockCircular
+    @MockBehavior(durationDeviation = 10, durationMillis = 20)
     @GET("/")
     suspend fun getInvoicesMock(): Response<InvoicesResult>
 }

@@ -23,7 +23,6 @@ import com.viewnext.proyectoviewnext.utils.parseLocalDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.ZoneId
@@ -40,26 +39,24 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
     val loadingState: LiveData<Boolean>
         get() = _loadingState
     private val selectorDL = SelectorDataLoading
-
-    val room: InvoicesDatabase = Room
-        .databaseBuilder(application.applicationContext, InvoicesDatabase::class.java, "invoices")
-        .build()
+    val room: InvoicesDatabase = Room.databaseBuilder(
+        application.applicationContext,
+        InvoicesDatabase::class.java,
+        "invoices"
+    ).build()
     val repositoryInvoices = room.invoiceDao()
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun searchInvoices() {
+        loadDataInRV(loadRepositoryData())
         repositoryInvoices.getAllInvoices()
         CoroutineScope(Dispatchers.IO).launch {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(Constants.API_BASE_URL)
+            val retrofit = Retrofit.Builder().baseUrl(Constants.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build()
-            val retromock = Retromock.Builder()
-                .retrofit(retrofit)
-                .defaultBodyFactory(ResourceBodyFactory())
-                .build()
+            val retromock =
+                Retromock.Builder().retrofit(retrofit).defaultBodyFactory(ResourceBodyFactory())
+                    .build()
             val service = retromock.create(InvoicesService::class.java)
-
-
             try {
                 if (selectorDL.loadFromAPI) {
                     loadApiData(service) // Api data loading
@@ -68,8 +65,9 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
                 }
                 // Control of selectedMaxValue if the list changes
                 val filterSvc = FilterService
-                if (filterSvc.getSelectedAmount() > filterSvc.getMaxAmountInList())
-                    filterSvc.setSelectedAmount(ceil(filterSvc.getMaxAmountInList()).toInt())
+                if (filterSvc.getSelectedAmount() > filterSvc.getMaxAmountInList()) filterSvc.setSelectedAmount(
+                    ceil(filterSvc.getMaxAmountInList()).toInt()
+                )
             } catch (e: Exception) {
                 Log.e("Error", "Error loading data")
             }
@@ -85,40 +83,27 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
                 if (response.isSuccessful) {
                     list = response.body()!!.invoices
                     saveLocalRepository(list)
-                    loadDataInRV(list)
                 } else {
-                    loadDataInRV(loadRepositoryData())
                     Log.e("Error", "Error in API data loading")
                 }
             } catch (e: Exception) {
-                loadDataInRV(loadRepositoryData())
                 Log.e("Error", "Error in API endpoint $e")
             }
+            loadDataInRV(loadRepositoryData())
         }
     }
 
-    private suspend fun saveLocalRepository(invoicesList: List<InvoiceResult>) {
-        val invoicesEntityList = invoicesList.map { invoice ->
-            InvoiceEntity(
-                status = invoice.status,
-                amount = invoice.amount,
-                date = invoice.date
-            )
-        }
-        repositoryInvoices.deleteAllInvoices()
-        repositoryInvoices.createInvoiceList(invoicesEntityList)
-    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRetromockData(service: InvoicesService) {
         val mockResponse = service.getInvoicesMock()
         if (mockResponse.isSuccessful) {
             saveLocalRepository(mockResponse.body()!!.invoices)
-            loadDataInRV(mockResponse.body()!!.invoices)
         } else {
-            loadDataInRV(loadRepositoryData())
             Log.e("Error", "Error in retromock data loading")
         }
+        loadDataInRV(mockResponse.body()!!.invoices)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -133,13 +118,23 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
         return listResult
     }
 
+    private suspend fun saveLocalRepository(invoicesList: List<InvoiceResult>) {
+        val invoicesEntityList = invoicesList.map { invoice ->
+            InvoiceEntity(
+                status = invoice.status, amount = invoice.amount, date = invoice.date
+            )
+        }
+        repositoryInvoices.deleteAllInvoices()
+        repositoryInvoices.createInvoiceList(invoicesEntityList)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadDataInRV(list: List<InvoiceResult>) {
         findMaxAmount(list)
-        hideProgressBar()
         createArrayWithStatusSelected()
         val newInvoicesList = mapInvoicesList(list)
         _invoicesList.postValue(newInvoicesList)
+        hideProgressBar()
     }
 
     fun findMaxAmount(invoices: List<InvoiceResult>?) {
@@ -190,6 +185,7 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
 
     private fun createArrayWithStatusSelected() {
         val filterSvc = FilterService
+        statusList = mutableListOf()  // Reset statusList
         if (filterSvc.getStatusPaid()) statusList.add("Pagada")
         if (filterSvc.getStatusCancelled()) statusList.add("Anulada")
         if (filterSvc.getStatusFixedFee()) statusList.add("Cuota fija")
@@ -197,13 +193,15 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
         if (filterSvc.getStatusPaymentPlan()) statusList.add("Plan de pago")
     }
 
-    private suspend fun hideProgressBar() {
-        withContext(Dispatchers.Main) {
-            _loadingState.value = false
-        }
+    fun showProgressBar() {
+        _loadingState.value = true
     }
 
-    fun setloadDataFromApi(status: Boolean) {
+    private fun hideProgressBar() {
+        _loadingState.value = false
+    }
+
+    fun setLoadDataFromApi(status: Boolean) {
         selectorDL.loadFromAPI = status
     }
 }

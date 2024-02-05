@@ -62,14 +62,15 @@ class InvoicesFragment : Fragment() {
         ivBack.setOnClickListener {
             showSnackBar(getString(R.string.not_available), view, R.color.md_theme_light_secondary)
         }
+        invoicesViewModel.showProgressBar()
         // Instance of SelectorDataLoading
         val selector = SelectorDataLoading
         // Switch API or Retromock data loading
         val swDataLoading = binding.invoicesFrTbToolbarInvoices.mainToolbarSwLoadFromApi
         swDataLoading.isChecked = selector.loadFromAPI
-        swDataLoading.setOnCheckedChangeListener { buttonView, isChecked ->
-            invoicesViewModel.setloadDataFromApi(swDataLoading.isChecked)
-            // invoicesViewModel.resetMaxAmountInList()
+        swDataLoading.setOnCheckedChangeListener { _, _ ->
+            showLoadingMode()
+            invoicesViewModel.setLoadDataFromApi(swDataLoading.isChecked)
             if (swDataLoading.isChecked) {
                 loadDataFromNewSource(getString(R.string.load_data_from_api), view)
             } else {
@@ -81,7 +82,6 @@ class InvoicesFragment : Fragment() {
         // Filter button behavior
         val ivFilter = binding.invoicesFrTbToolbarInvoices.mainToolbarIvFilter
         ivFilter.setOnClickListener {
-            // if (fragmentManager?.backStackEntryCount!! > 0) fragmentManager?.popBackStack()
             findNavController().navigate(R.id.action_invoicesFragment_to_filterFragment)
         }
         // Load data in RecyclerView
@@ -104,7 +104,6 @@ class InvoicesFragment : Fragment() {
      */
     private fun loadDataFromNewSource(message: String, view: View) {
         showSnackBar(message, view, R.color.md_theme_light_primary)
-        showLoadingMode()
     }
 
     /**
@@ -115,7 +114,6 @@ class InvoicesFragment : Fragment() {
     private fun loadDataInRV() {
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                showLoadingMode()
                 invoicesViewModel.searchInvoices()
                 adapter = InvoiceAdapter(
                     invoicesViewModel.invoicesList.value ?: emptyList(), requireContext()
