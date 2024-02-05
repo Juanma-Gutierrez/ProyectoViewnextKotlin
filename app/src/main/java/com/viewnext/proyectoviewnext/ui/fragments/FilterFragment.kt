@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.databinding.FragmentFilterBinding
-import com.viewnext.proyectoviewnext.utils.FilterService
 import com.viewnext.proyectoviewnext.utils.showDatePickerDialog
 import com.viewnext.proyectoviewnext.utils.stringToDate
 import com.viewnext.proyectoviewnext.viewmodels.FilterViewModel

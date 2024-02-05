@@ -93,8 +93,6 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRetromockData(service: InvoicesService) {
         val mockResponse = service.getInvoicesMock()

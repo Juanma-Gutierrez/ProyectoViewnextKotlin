@@ -6,6 +6,7 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.content.ContextCompat.getString
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -60,11 +61,21 @@ fun parseLocalDate(date: String): LocalDate {
  * @param bt The MaterialButton to which the selected date will be set.
  * @return A [Calendar] object representing the selected date.
  */
-fun showDatePickerDialog(bt: MaterialButton, context:Context): Calendar {
+fun showDatePickerDialog(bt: MaterialButton, context: Context): Calendar {
     val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    var year = 0
+    var month = 0
+    var day = 0
+    if (bt.text == context.getString(R.string.title_buttonDayMonthYear)) {
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+    } else {
+        // todo hacer un método para que capture los datos de la fecha que se le pase
+        year = getYearFromStringDate(bt.text.toString())
+        month = getMonthFromStringDate(bt.text.toString())
+        day = getDayFromStringDate(bt.text.toString())
+    }
     val datePickerDialog = DatePickerDialog(
         context, { _, _year, _month, _day ->
             calendar.set(_year, _month, _day)
@@ -72,6 +83,26 @@ fun showDatePickerDialog(bt: MaterialButton, context:Context): Calendar {
         }, year, month, day
     )
     datePickerDialog.show()
+    return calendar
+}
+
+fun getYearFromStringDate(date: String): Int {
+    val calendar = createCalendar(date)
+    return calendar.get(Calendar.YEAR)
+}
+fun getMonthFromStringDate(date: String): Int {
+    val calendar = createCalendar(date)
+    return calendar.get(Calendar.MONTH)
+}
+fun getDayFromStringDate(date: String): Int {
+    val calendar = createCalendar(date)
+    return calendar.get(Calendar.DAY_OF_MONTH)
+}
+fun createCalendar(date: String): Calendar {
+    val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault())
+    val parsedDate = dateFormat.parse(date)
+    val calendar = Calendar.getInstance()
+    calendar.time = parsedDate
     return calendar
 }
 
