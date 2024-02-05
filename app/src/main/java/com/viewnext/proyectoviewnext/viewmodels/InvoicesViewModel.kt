@@ -14,6 +14,7 @@ import com.viewnext.proyectoviewnext.constants.Constants
 import com.viewnext.proyectoviewnext.data.api.InvoiceResult
 import com.viewnext.proyectoviewnext.data.api.InvoicesService
 import com.viewnext.proyectoviewnext.data.api.SelectorDataLoading
+import com.viewnext.proyectoviewnext.data.api.retromock.ResourceBodyFactory
 import com.viewnext.proyectoviewnext.data.local.invoice.InvoiceEntity
 import com.viewnext.proyectoviewnext.data.local.repository.InvoicesDatabase
 import com.viewnext.proyectoviewnext.data.models.Invoice
@@ -28,6 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.time.ZoneId
 import java.util.Date
 import kotlin.math.ceil
+
 
 class InvoicesViewModel(application: Application) : AndroidViewModel(application) {
     private var statusList: MutableList<String> = mutableListOf()
@@ -51,8 +53,12 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
             val retrofit = Retrofit.Builder()
                 .baseUrl(Constants.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()).build()
-            val retromock = Retromock.Builder().retrofit(retrofit).build()
+            val retromock = Retromock.Builder()
+                .retrofit(retrofit)
+                .defaultBodyFactory(ResourceBodyFactory())
+                .build()
             val service = retromock.create(InvoicesService::class.java)
+
 
             try {
                 if (selectorDL.loadFromAPI) {
