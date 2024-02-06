@@ -29,9 +29,10 @@ interface InvoicesService {
     @MockResponses(
         MockResponse(body = "mock_invoices_long.json"),
         MockResponse(body = "mock_invoices_original.json"),
+        MockResponse(body = "mock_invoices_empty.json"),
     )
     @MockCircular
-    @MockBehavior(durationDeviation = 10, durationMillis = 20)
+    @MockBehavior(durationDeviation = 500, durationMillis = 1000)
     @GET("/")
     suspend fun getInvoicesMock(): Response<InvoicesResult>
 }

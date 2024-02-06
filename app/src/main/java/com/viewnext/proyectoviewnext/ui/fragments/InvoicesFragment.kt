@@ -44,7 +44,6 @@ class InvoicesFragment : Fragment() {
         invoicesViewModel.loadingState.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) showLoadingMode() else hideLoadingMode()
         }
-        adapter = InvoiceAdapter(emptyList(), requireContext())
         return binding.root
     }
 
@@ -91,7 +90,11 @@ class InvoicesFragment : Fragment() {
             // Show or hide recyclerView and warning if the invoices list is empty
             if (newList.isEmpty()) showWarningMessageMode() else hideWarningMessageMode()
             // Updates the list of invoices
-            adapter.updateList(newList)
+            if (newList.isNotEmpty()) {
+                adapter.updateList(newList)
+            } else {
+                binding.invoicesFrRvRecyclerInvoices.visibility = View.GONE
+            }
         }
     }
 

@@ -5,6 +5,10 @@ package com.viewnext.proyectoviewnext.constants
  */
 object Constants {
     const val API_BASE_URL = "https://viewnextandroid.wiremockapi.cloud/"
-    // const val API_BASE_URL = "https://estadireccionestamalynoentra.com/"
     const val DATE_FORMAT = "dd/MM/yyyy"
+    const val STATUS_PAID = "Pagada"
+    const val STATUS_CANCELLED = "Anulada"
+    const val STATUS_FIXED_FEE = "Cuota fija"
+    const val STATUS_PENDING_PAYMENT = "Pendiente de pago"
+    const val STATUS_PAYMENT_PLAN = "Plan de pago"
 }
