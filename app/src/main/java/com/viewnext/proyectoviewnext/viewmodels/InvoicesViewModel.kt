@@ -48,7 +48,6 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
 
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun searchInvoices() {
-        loadDataInRV(loadRepositoryData())
         repositoryInvoices.getAllInvoices()
         CoroutineScope(Dispatchers.IO).launch {
             val retrofit = Retrofit.Builder().baseUrl(Constants.API_BASE_URL)
@@ -83,6 +82,7 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
                 if (response.isSuccessful) {
                     list = response.body()!!.invoices
                     saveLocalRepository(list)
+                    loadDataInRV(loadRepositoryData())
                 } else {
                     Log.e("Error", "Error in API data loading")
                 }

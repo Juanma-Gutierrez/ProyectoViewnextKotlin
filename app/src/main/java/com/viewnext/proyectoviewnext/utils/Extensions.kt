@@ -71,7 +71,6 @@ fun showDatePickerDialog(bt: MaterialButton, context: Context): Calendar {
         month = calendar.get(Calendar.MONTH)
         day = calendar.get(Calendar.DAY_OF_MONTH)
     } else {
-        // todo hacer un método para que capture los datos de la fecha que se le pase
         year = getYearFromStringDate(bt.text.toString())
         month = getMonthFromStringDate(bt.text.toString())
         day = getDayFromStringDate(bt.text.toString())
