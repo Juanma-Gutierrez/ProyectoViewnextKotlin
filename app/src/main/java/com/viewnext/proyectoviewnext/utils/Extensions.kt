@@ -6,8 +6,6 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getColor
-import androidx.core.content.ContextCompat.getString
-import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -55,48 +53,22 @@ fun parseLocalDate(date: String): LocalDate {
     return LocalDate.parse(date, formatter)
 }
 
-/**
- * Displays a DatePickerDialog and sets the selected date to the specified MaterialButton.
- *
- * @param bt The MaterialButton to which the selected date will be set.
- * @return A [Calendar] object representing the selected date.
- */
-fun showDatePickerDialog(bt: MaterialButton, context: Context): Calendar {
-    val calendar = Calendar.getInstance()
-    var year = 0
-    var month = 0
-    var day = 0
-    if (bt.text == context.getString(R.string.title_buttonDayMonthYear)) {
-        year = calendar.get(Calendar.YEAR)
-        month = calendar.get(Calendar.MONTH)
-        day = calendar.get(Calendar.DAY_OF_MONTH)
-    } else {
-        year = getYearFromStringDate(bt.text.toString())
-        month = getMonthFromStringDate(bt.text.toString())
-        day = getDayFromStringDate(bt.text.toString())
-    }
-    val datePickerDialog = DatePickerDialog(
-        context, { _, _year, _month, _day ->
-            calendar.set(_year, _month, _day)
-            bt.text = dateToString(calendar.time, context)
-        }, year, month, day
-    )
-    datePickerDialog.show()
-    return calendar
-}
 
 fun getYearFromStringDate(date: String): Int {
     val calendar = createCalendar(date)
     return calendar.get(Calendar.YEAR)
 }
+
 fun getMonthFromStringDate(date: String): Int {
     val calendar = createCalendar(date)
     return calendar.get(Calendar.MONTH)
 }
+
 fun getDayFromStringDate(date: String): Int {
     val calendar = createCalendar(date)
     return calendar.get(Calendar.DAY_OF_MONTH)
 }
+
 fun createCalendar(date: String): Calendar {
     val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault())
     val parsedDate = dateFormat.parse(date)
@@ -139,3 +111,50 @@ fun stringToDate(dateString: CharSequence, context: Context): Date? {
 }
 
 
+/**
+ * Displays a DatePickerDialog and sets the selected date to the specified MaterialButton.
+ *
+ * @param bt The MaterialButton to which the selected date will be set.
+ * @return A [Calendar] object representing the selected date.
+ */
+fun showDatePickerDialog(bt: MaterialButton, context: Context): Calendar {
+    val calendar = Calendar.getInstance()
+    var year = 0
+    var month = 0
+    var day = 0
+    if (bt.text == context.getString(R.string.title_buttonDayMonthYear)) {
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+    } else {
+        year = getYearFromStringDate(bt.text.toString())
+        month = getMonthFromStringDate(bt.text.toString())
+        day = getDayFromStringDate(bt.text.toString())
+    }
+
+    var picker = DatePickerDialog(
+        context,
+        { _, _year, _month, _day ->
+            calendar.set(_year, _month, _day)
+            bt.text = dateToString(calendar.time, context)
+        }, year, month, day
+    )
+    picker = calculateMin(picker)
+    picker = calculateMax(picker)
+    picker.show()
+    return calendar
+}
+
+
+fun calculateMin(picker: DatePickerDialog): DatePickerDialog {
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.DAY_OF_MONTH, -10)
+    picker.datePicker.minDate = calendar.timeInMillis
+    return picker
+}
+
+fun calculateMax(picker: DatePickerDialog): DatePickerDialog {
+    val calendar = Calendar.getInstance()
+    picker.datePicker.maxDate = calendar.timeInMillis
+    return picker
+}

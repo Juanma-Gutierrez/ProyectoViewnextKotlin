@@ -1,0 +1,66 @@
+* [33m3965fa9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mretromock[m[33m)[m Add improvement in button date with date assigned
+* [33ma09ef0f[m Add improvement in data loading
+* [33m3bbfebe[m Add retromock working
+* [33m001edaf[m[33m ([m[1;31morigin/retromock[m[33m)[m Add cleaning of code
+* [33mbe72643[m Add lotties
+* [33m29c2259[m Fix refactor
+* [33m815db39[m Fix navigation
+* [33m09db7b2[m Add refactoring code
+* [33m7d34fd0[m Add refactoring code
+* [33m6d6b670[m[33m ([m[1;31morigin/room[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/develop[m[33m, [m[1;32mroom[m[33m, [m[1;32mmain[m[33m, [m[1;32mdevelop[m[33m)[m Fix App inspection troubles
+* [33mbee8c2a[m Fix filter conversion of data
+* [33m48f66da[m Add room and refactoring code
+* [33m9f77286[m Add color in snackBar background
+* [33m3576887[m Add material design
+* [33mf30355e[m Add material design
+* [33m77b06f3[m Add none invoices found message
+* [33m497e24e[m Add comments and javadoc
+* [33meddcc64[m Add date filter
+* [33mde849fc[m Fix datePicker behavior to null when reset
+* [33m813f819[m Fix selectedRangeAmount title when reset filter
+* [33m562c837[m Add changes in project structure
+* [33md120ada[m Add modify in seekBar in filter
+* [33m36d3d8f[m[33m ([m[1;32mshow[m[33m)[m Add modify in filterService as filter object
+* [33m1ed8d48[m Add changes in max amount filter when data changes
+* [33mce95528[m Fix format in selected amount filter
+* [33m0635124[m Add API loading selector
+* [33m806d769[m Add filter improvement
+* [33m7c1f4fd[m Add filter improvement
+* [33mce89a06[m[33m ([m[1;31morigin/viewmodel[m[33m, [m[1;32mviewmodel[m[33m)[m Add filter improvements
+* [33mf86fa56[m Add findMaxAmount function
+* [33m927fd25[m Add filter viewModel
+* [33mde483e3[m Add invoices viewModel
+* [33m79371f8[m[33m ([m[1;31morigin/filter[m[33m, [m[1;32mfilter[m[33m)[m Add status filter
+* [33m5954b58[m Add reset filter
+* [33mc7b73b7[m Add filter
+* [33m1e4c587[m Add retromock
+* [33mf1f690c[m Fix loading message
+* [33mde10877[m Add loading message in isLoading
+* [33m3ad5ff3[m Add conection with github remote json
+* [33m12512d2[m Add local file facturas.json
+* [33m090e888[m Add conection with api and progress bar working
+* [33m31cb99d[m Add binding in invoices fragment
+* [33m795565a[m Fix harcoded strings
+* [33m260ec67[m Add filter fragment xml complete
+* [33m61b1303[m Fix refactor binding
+[31m|[m * [33m07a16dd[m[33m ([m[1;35mrefs/stash[m[33m)[m WIP on main: b461adf Fix refactor of alert popup window
+[31m|[m[31m/[m[33m|[m 
+[31m|[m * [33mffecbb6[m index on main: b461adf Fix refactor of alert popup window
+[31m|[m[31m/[m  
+* [33mb461adf[m Fix refactor of alert popup window
+* [33mf21947a[m Add warning alert and deleted warning fragment
+* [33m830cb69[m Add navigation back from warning fragment
+* [33md3e9a6a[m Add navigation to warning fragment
+* [33mb1e4ba9[m Fix amount locale format
+* [33mdf910f0[m Fix date format
+* [33m9342ee6[m Recycler working with sample
+* [33ma544ca7[m Add recyclerView
+* [33mcec03ee[m[33m ([m[1;31morigin/toolbars[m[33m, [m[1;32mtoolbars[m[33m)[m Fix snackBar message
+* [33m855540f[m Add invoice_item
+* [33m4cd19ba[m Add message from back in invoices Fragment
+* [33mdc2a896[m Add navigation between invoices and filter fragments
+* [33m8dc05c7[m Add invoices fragment toolbar
+* [33m02009a9[m Add fragments invoices and filter, add main_navigation
+* [33m15f5695[m Add snackBar service
+* [33me460089[m Add invoicesFragment
+* [33mfec4ae9[m Initial commit
