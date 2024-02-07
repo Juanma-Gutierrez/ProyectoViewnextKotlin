@@ -9,6 +9,7 @@ import java.util.Date
 object FilterService {
     private var filter: Filter = Filter()
     var statusList: ArrayList<String> = ArrayList()
+    var filterToApply: Filter = Filter()
 
     // Date
     fun getDateFrom(): Date? {

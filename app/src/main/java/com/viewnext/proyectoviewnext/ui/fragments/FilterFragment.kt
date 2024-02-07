@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
-import com.viewnext.proyectoviewnext.data.models.Filter
 import com.viewnext.proyectoviewnext.databinding.FragmentFilterBinding
+import com.viewnext.proyectoviewnext.utils.FilterService
 import com.viewnext.proyectoviewnext.utils.showDatePickerDialog
 import com.viewnext.proyectoviewnext.utils.stringToDate
 import com.viewnext.proyectoviewnext.viewmodels.FilterViewModel
@@ -22,7 +22,6 @@ import kotlin.math.ceil
 class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
     private lateinit var filterViewModel: FilterViewModel
-    private var filterToApply: Filter = Filter()
 
     /**
      * Called when the fragment is creating its user interface.
@@ -53,23 +52,21 @@ class FilterFragment : Fragment() {
         val btApply = binding.filterFrBtButtonApply
         val btRemoveFilters = binding.filterFrBtButtonRemove
         val sbAmount = binding.filterFrSbSeekBarAmount
+        val filterSvc = FilterService
 
         loadFilters()
         ivClose.setOnClickListener {
             findNavController().navigateUp()
         }
         btDateFrom.setOnClickListener {
-            val date = showDatePickerDialog(btDateFrom, this.requireContext(), filterToApply)
-            filterToApply.dateFrom = date.time
-            println("\nboton datefrom:-------- $filterToApply")
+            showDatePickerDialog(btDateFrom, this.requireContext(), btDateFrom)
         }
         btDateTo.setOnClickListener {
-            val date = showDatePickerDialog(btDateTo, this.requireContext(), filterToApply)
-            filterToApply.dateTo = date.time
-            println("\nboton dateto:--------- $filterToApply")
+            showDatePickerDialog(btDateTo, this.requireContext(), btDateTo)
         }
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                println(filterSvc.filterToApply)
                 changeValueOnSelectedSeekBar(sbAmount.progress)
             }
 
@@ -94,7 +91,8 @@ class FilterFragment : Fragment() {
      * @param progress The progress value from the SeekBar.
      */
     private fun changeValueOnSelectedSeekBar(progress: Int) {
-        filterToApply.selectedAmount = progress
+        val filterSvc = FilterService
+        filterSvc.filterToApply.selectedAmount = progress
         binding.filterFrTvSelectedRangeAmount.text = getSelectedAmount(progress)
     }
 
@@ -138,16 +136,17 @@ class FilterFragment : Fragment() {
      * Applies the current filters to the [FilterViewModel].
      */
     private fun setFilters() {
-        filterToApply.dateFrom =
+        val filterSvc = FilterService
+        // filterSvc.filterToApply.dateFrom =
             stringToDate(binding.filterFrBtButtonFrom.text, this.requireContext())
-        filterToApply.dateTo = stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
-        filterToApply.selectedAmount = binding.filterFrSbSeekBarAmount.progress
-        filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
-        filterToApply.statusCancelled = binding.filterFrCbCancelled.isChecked
-        filterToApply.statusFixedFee = binding.filterFrCbFixedFee.isChecked
-        filterToApply.statusPendingPayment = binding.filterFrCbPendingPayment.isChecked
-        filterToApply.statusPaymentPlan = binding.filterFrCbPaymentPlan.isChecked
-        filterViewModel.setFilters(filterToApply)
+        // filterSvc.filterToApply.dateTo = stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
+        filterSvc.filterToApply.selectedAmount = binding.filterFrSbSeekBarAmount.progress
+        filterSvc.filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
+        filterSvc.filterToApply.statusCancelled = binding.filterFrCbCancelled.isChecked
+        filterSvc.filterToApply.statusFixedFee = binding.filterFrCbFixedFee.isChecked
+        filterSvc.filterToApply.statusPendingPayment = binding.filterFrCbPendingPayment.isChecked
+        filterSvc.filterToApply.statusPaymentPlan = binding.filterFrCbPaymentPlan.isChecked
+        filterViewModel.setFilters(filterSvc.filterToApply)
     }
 
 
