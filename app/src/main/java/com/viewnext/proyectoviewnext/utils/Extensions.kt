@@ -11,6 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.constants.Constants
+import com.viewnext.proyectoviewnext.data.models.Filter
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -117,7 +118,7 @@ fun stringToDate(dateString: CharSequence, context: Context): Date? {
  * @param bt The MaterialButton to which the selected date will be set.
  * @return A [Calendar] object representing the selected date.
  */
-fun showDatePickerDialog(bt: MaterialButton, context: Context): Calendar {
+fun showDatePickerDialog(bt: MaterialButton, context: Context, filterToApply: Filter): Calendar {
     val calendar = Calendar.getInstance()
     var year = 0
     var month = 0
@@ -130,8 +131,8 @@ fun showDatePickerDialog(bt: MaterialButton, context: Context): Calendar {
         year = getYearFromStringDate(bt.text.toString())
         month = getMonthFromStringDate(bt.text.toString())
         day = getDayFromStringDate(bt.text.toString())
+        println("Year: $year,  month: $month, day: $day")
     }
-
     var picker = DatePickerDialog(
         context,
         { _, _year, _month, _day ->
@@ -139,22 +140,32 @@ fun showDatePickerDialog(bt: MaterialButton, context: Context): Calendar {
             bt.text = dateToString(calendar.time, context)
         }, year, month, day
     )
-    picker = calculateMin(picker)
-    picker = calculateMax(picker)
+    picker = calculateMin(picker, filterToApply)
+    picker = calculateMax(picker, filterToApply)
     picker.show()
     return calendar
 }
 
 
-fun calculateMin(picker: DatePickerDialog): DatePickerDialog {
+fun calculateMin(picker: DatePickerDialog, filterToApply: Filter): DatePickerDialog {
     val calendar = Calendar.getInstance()
-    calendar.add(Calendar.DAY_OF_MONTH, -10)
-    picker.datePicker.minDate = calendar.timeInMillis
+    val minDate = filterToApply.dateFrom
+    println("Mindate***************************\n$filterToApply")
+    if (minDate != null) {
+        println("Entra en minDate if: $minDate")
+        calendar.set(minDate.year, minDate.month, minDate.day)
+        picker.datePicker.minDate = calendar.timeInMillis
+    }
     return picker
 }
 
-fun calculateMax(picker: DatePickerDialog): DatePickerDialog {
+fun calculateMax(picker: DatePickerDialog, filterToApply: Filter): DatePickerDialog {
     val calendar = Calendar.getInstance()
+    // val maxDate = filterToApply.dateTo
+    // if (maxDate != null) {
+    //     calendar.set(maxDate.year, maxDate.month, maxDate.day)
+    // }
+    println("Maxdate***************************\n$filterToApply")
     picker.datePicker.maxDate = calendar.timeInMillis
     return picker
 }

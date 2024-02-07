@@ -59,12 +59,14 @@ class FilterFragment : Fragment() {
             findNavController().navigateUp()
         }
         btDateFrom.setOnClickListener {
-            val date = showDatePickerDialog(btDateFrom, this.requireContext())
+            val date = showDatePickerDialog(btDateFrom, this.requireContext(), filterToApply)
             filterToApply.dateFrom = date.time
+            println("\nboton datefrom:-------- $filterToApply")
         }
         btDateTo.setOnClickListener {
-            val date = showDatePickerDialog(btDateTo, this.requireContext())
+            val date = showDatePickerDialog(btDateTo, this.requireContext(), filterToApply)
             filterToApply.dateTo = date.time
+            println("\nboton dateto:--------- $filterToApply")
         }
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

@@ -28,6 +28,7 @@ interface InvoicesService {
     @Mock
     @MockResponses(
         MockResponse(body = "mock_invoices_long.json"),
+        MockResponse(body = "mock_invoices_long2.json"),
         MockResponse(body = "mock_invoices_original.json"),
         MockResponse(body = "mock_invoices_empty.json"),
     )

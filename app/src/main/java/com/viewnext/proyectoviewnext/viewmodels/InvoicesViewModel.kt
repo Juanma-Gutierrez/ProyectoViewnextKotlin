@@ -90,19 +90,16 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
     @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun loadRetromockData(service: InvoicesService) {
         val mockResponse = service.getInvoicesMock()
-        println(mockResponse.isSuccessful)
         if (mockResponse.isSuccessful) {
             val list = checkEmptyList(mockResponse.body()!!.invoices)
             saveLocalRepository(list)
         } else {
             Log.e("Error", "Error in retromock data loading")
         }
-        println(mockResponse.body()!!.invoices.size)
         loadDataInRV(mockResponse.body()!!.invoices)
     }
 
     private fun checkEmptyList(invoices: List<InvoiceResult>): List<InvoiceResult> {
-        println("checkEmptyList")
         if (invoices.isEmpty()) {
             return emptyList()
         }
