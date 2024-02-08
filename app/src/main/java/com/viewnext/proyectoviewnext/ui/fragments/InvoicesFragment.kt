@@ -99,11 +99,10 @@ class InvoicesFragment : Fragment() {
     }
 
     /**
-     * Shows a snack bar with the given message and displays a progress bar.
+     * Loads data from a new source and displays a message on a Snackbar.
      *
-     * @param message The message to be displayed in the snack bar.
-     * @param view The view to which the snack bar is attached.
-     * @param svc An instance of the Services class for utility functions.
+     * @param message The message to display on the Snackbar.
+     * @param view The view where the Snackbar will be displayed.
      */
     private fun loadDataFromNewSource(message: String, view: View) {
         showSnackBar(message, view, R.color.md_theme_light_primary)

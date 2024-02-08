@@ -39,7 +39,7 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
     val loadingState: LiveData<Boolean>
         get() = _loadingState
     private val selectorDL = SelectorDataLoading
-    val room: InvoicesDatabase = Room.databaseBuilder(
+    private val room: InvoicesDatabase = Room.databaseBuilder(
         application.applicationContext, InvoicesDatabase::class.java, "invoices"
     ).build()
     private val repositoryInvoices = room.invoiceDao()
@@ -174,7 +174,7 @@ class InvoicesViewModel(application: Application) : AndroidViewModel(application
      *
      * @param invoices The list of invoices to search.
      */
-    fun findMaxAmount(invoices: List<InvoiceResult>?) {
+    private fun findMaxAmount(invoices: List<InvoiceResult>?) {
         val maxAmount = invoices?.maxBy { it.amount }?.amount?.toFloat()
         filterSvc.setMaxAmountInList(maxAmount!!)
     }

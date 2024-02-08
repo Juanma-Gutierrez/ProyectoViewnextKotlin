@@ -39,7 +39,7 @@ class InvoiceAdapter(
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the [holder.itemView] to reflect the item at the given position.
+     * update the contents of the [holder] to reflect the item at the given position.
      *
      * @param holder The [InvoiceViewHolder] which should be updated to represent the contents of
      * the item at the given position in the data set.
