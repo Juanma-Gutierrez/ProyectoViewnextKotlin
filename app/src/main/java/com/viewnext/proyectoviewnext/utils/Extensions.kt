@@ -22,6 +22,8 @@ import java.util.Locale
  *
  * @param message The message to be displayed in the snackbar.
  * @param view The view where the snackbar should be displayed.
+ * @param color The color resource for the background tint of the snackbar.
+ * @param length The duration for which the snackbar should be displayed.
  */
 fun showSnackBar(message: String, view: View, color: Int, length: Int = Snackbar.LENGTH_SHORT) {
     val snackBar =
@@ -46,28 +48,57 @@ fun showAlertDialog(context: Context, title: String, message: String, btCloseTex
     alertDialog.show()
 }
 
+/**
+ * Parses a string representation of a local date into a [LocalDate] object.
+ *
+ * @param date The string representation of the date.
+ * @return The parsed [LocalDate] object.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 fun parseLocalDate(date: String): LocalDate {
     val formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT)
     return LocalDate.parse(date, formatter)
 }
 
-
+/**
+ * Extracts the year from a string date representation.
+ *
+ * @param date The string representation of the date.
+ * @return The year value extracted from the date.
+ */
 fun getYearFromStringDate(date: String): Int {
     val calendar = createCalendar(date)
     return calendar.get(Calendar.YEAR)
 }
 
+/**
+ * Extracts the month from a string date representation.
+ *
+ * @param date The string representation of the date.
+ * @return The month value extracted from the date.
+ */
 fun getMonthFromStringDate(date: String): Int {
     val calendar = createCalendar(date)
     return calendar.get(Calendar.MONTH)
 }
 
+/**
+ * Extracts the day from a string date representation.
+ *
+ * @param date The string representation of the date.
+ * @return The day value extracted from the date.
+ */
 fun getDayFromStringDate(date: String): Int {
     val calendar = createCalendar(date)
     return calendar.get(Calendar.DAY_OF_MONTH)
 }
 
+/**
+ * Creates a [Calendar] object from a string date representation.
+ *
+ * @param date The string representation of the date.
+ * @return The [Calendar] object representing the parsed date.
+ */
 fun createCalendar(date: String): Calendar {
     val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT, Locale.getDefault())
     val parsedDate = dateFormat.parse(date)
@@ -80,7 +111,8 @@ fun createCalendar(date: String): Calendar {
  * Converts a [Date] object to a formatted string representation.
  *
  * @param date The date to be converted.
- * @return A string representing the formatted date.
+ * @param context The context for accessing resources.
+ * @return A formatted string representing the date.
  */
 fun dateToString(date: Date?, context: Context): String {
     if (date == null) return context.getString(R.string.title_buttonDayMonthYear)
@@ -93,7 +125,8 @@ fun dateToString(date: Date?, context: Context): String {
  * Converts a string date representation to a [Date] object.
  *
  * @param dateString The string representation of the date.
- * @return A [Date] object representing the parsed date.
+ * @param context The context for accessing resources.
+ * @return The [Date] object representing the parsed date.
  */
 fun stringToDate(dateString: CharSequence, context: Context): Date? {
     if (dateString.toString() == context.getString(R.string.title_buttonDayMonthYear)) {
@@ -113,10 +146,12 @@ fun stringToDate(dateString: CharSequence, context: Context): Date? {
 /**
  * Displays a DatePickerDialog and sets the selected date to the specified MaterialButton.
  *
- * @param bt The MaterialButton to which the selected date will be set.
- * @return A [Calendar] object representing the selected date.
+ * @param context The context in which the DatePickerDialog should be displayed.
+ * @param selectedDate The initially selected date.
+ * @param minDate The minimum selectable date.
+ * @param maxDate The maximum selectable date.
+ * @param callback A callback function to handle the selected date.
  */
-
 fun showDatePickerDialog(
     context: Context,
     selectedDate: Date?,
@@ -143,6 +178,14 @@ fun showDatePickerDialog(
     picker.show()
 }
 
+/**
+ * Sets the limits (min or max) for the DatePickerDialog.
+ *
+ * @param picker The DatePickerDialog instance.
+ * @param date The limit date.
+ * @param limit The type of limit ("min" or "max").
+ * @return The modified DatePickerDialog instance.
+ */
 fun setLimits(picker: DatePickerDialog, date: Date?, limit: String): DatePickerDialog {
     val calendar = Calendar.getInstance()
     if (date != null) {
@@ -154,6 +197,3 @@ fun setLimits(picker: DatePickerDialog, date: Date?, limit: String): DatePickerD
     }
     return picker
 }
-
-
-

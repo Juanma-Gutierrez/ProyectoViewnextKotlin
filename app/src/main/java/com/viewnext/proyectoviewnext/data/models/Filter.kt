@@ -23,15 +23,9 @@ class Filter(
      * @return A string representation of the filter.
      */
     override fun toString(): String {
-        return "DateFrom:$dateFrom | DateTo:$dateTo\n"
-    }
-/*
-    override fun toString(): String {
         return "DateFrom:$dateFrom | DateTo:$dateTo\n" +
                 "SelectedAmount: $selectedAmount\n" +
                 "Paid:$statusPaid | Cancelled:$statusCancelled | FFee:$statusFixedFee | PPayment:$statusPendingPayment | PPlan: $statusPaymentPlan\n" +
                 "MaxAmountInList:$maxAmountInList\n"
     }
-
- */
 }

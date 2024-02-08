@@ -4,6 +4,7 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.viewnext.proyectoviewnext.constants.Constants
 import com.viewnext.proyectoviewnext.data.models.Invoice
 import com.viewnext.proyectoviewnext.databinding.ItemInvoiceBinding
 import java.text.DecimalFormat
@@ -26,11 +27,10 @@ class InvoiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     @RequiresApi(Build.VERSION_CODES.O)
     fun bind(invoice: Invoice) {
         binding.invoiceItemTvDate.text =
-            invoice.date.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+            invoice.date.format(DateTimeFormatter.ofPattern(Constants.DATE_PATTERN))
         binding.invoiceItemTvStatus.text = invoice.status
         binding.invoiceItemTvAmount.text = formatAmount(invoice.amount)
         binding.invoiceItemIvForward.setOnClickListener {
-
         }
     }
 
@@ -41,11 +41,10 @@ class InvoiceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
      * @return The formatted amount as a String.
      */
     private fun formatAmount(amount: Float): String {
-        val decimalFormat = DecimalFormat("#,##0.00 €")
+        val decimalFormat = DecimalFormat(Constants.MONEY_PATTERN)
         val symbols = DecimalFormatSymbols()
         symbols.decimalSeparator = ','
         decimalFormat.decimalFormatSymbols = symbols
-        val formattedAmount = "${decimalFormat.format(amount)}"
-        return formattedAmount
+        return decimalFormat.format(amount)
     }
 }

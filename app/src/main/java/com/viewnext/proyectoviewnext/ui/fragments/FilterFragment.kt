@@ -108,6 +108,12 @@ class FilterFragment : Fragment() {
         }
     }
 
+    /**
+     * Calculates the minimum date based on the specified date.
+     *
+     * @param minDate The minimum date.
+     * @return The calculated minimum date.
+     */
     private fun calculateMin(minDate: String?): Date? {
         val calendar = Calendar.getInstance()
         if (minDate != getString(R.string.title_buttonDayMonthYear)) {
@@ -121,6 +127,12 @@ class FilterFragment : Fragment() {
         return calendar.time
     }
 
+    /**
+     * Calculates the maximum date based on the specified date.
+     *
+     * @param maxDate The maximum date.
+     * @return The calculated maximum date.
+     */
     private fun calculateMax(maxDate: String?): Date? {
         val calendar = Calendar.getInstance()
         println(maxDate)
@@ -201,7 +213,6 @@ class FilterFragment : Fragment() {
         filterViewModel.setFilters(filterSvc.filterToApply)
     }
 
-
     /**
      * Resets all filters to their default values.
      */
@@ -220,5 +231,11 @@ class FilterFragment : Fragment() {
         binding.filterFrCbPaymentPlan.isChecked = false
     }
 
+    /**
+     * Converts the amount to integer money format.
+     *
+     * @param num The amount to convert.
+     * @return The amount in integer money format.
+     */
     private fun convertAmountToIntMoney(num: Int) = "$num €"
 }
