@@ -11,9 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.viewnext.proyectoviewnext.R
 import com.viewnext.proyectoviewnext.databinding.FragmentFilterBinding
 import com.viewnext.proyectoviewnext.utils.FilterService
+import com.viewnext.proyectoviewnext.utils.dateToString
+import com.viewnext.proyectoviewnext.utils.getDayFromStringDate
+import com.viewnext.proyectoviewnext.utils.getMonthFromStringDate
+import com.viewnext.proyectoviewnext.utils.getYearFromStringDate
 import com.viewnext.proyectoviewnext.utils.showDatePickerDialog
 import com.viewnext.proyectoviewnext.utils.stringToDate
 import com.viewnext.proyectoviewnext.viewmodels.FilterViewModel
+import java.util.Calendar
+import java.util.Date
 import kotlin.math.ceil
 
 /**
@@ -59,11 +65,28 @@ class FilterFragment : Fragment() {
             findNavController().navigateUp()
         }
         btDateFrom.setOnClickListener {
-            showDatePickerDialog(btDateFrom, this.requireContext(), btDateFrom)
+            showDatePickerDialog(
+                this.requireContext(),
+                stringToDate(binding.filterFrBtButtonFrom.text, this.context!!),
+                null,
+                calculateMax(binding.filterFrBtButtonTo.text.toString())
+            ) { calendar ->
+                binding.filterFrBtButtonFrom.text =
+                    dateToString(calendar.time, this.requireContext())
+            }
         }
         btDateTo.setOnClickListener {
-            showDatePickerDialog(btDateTo, this.requireContext(), btDateTo)
+            showDatePickerDialog(
+                this.requireContext(),
+                stringToDate(binding.filterFrBtButtonFrom.text, this.context!!),
+                calculateMin(binding.filterFrBtButtonFrom.text.toString()),
+                calculateMax(null)
+            ) { calendar ->
+                binding.filterFrBtButtonTo.text =
+                    dateToString(calendar.time, this.requireContext())
+            }
         }
+
         sbAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 println(filterSvc.filterToApply)
@@ -83,6 +106,34 @@ class FilterFragment : Fragment() {
         btRemoveFilters.setOnClickListener {
             resetFilters()
         }
+    }
+
+    private fun calculateMin(minDate: String?): Date? {
+        val calendar = Calendar.getInstance()
+        if (minDate != getString(R.string.title_buttonDayMonthYear)) {
+            val year = getYearFromStringDate(minDate!!)
+            val month = getMonthFromStringDate(minDate)
+            val day = getDayFromStringDate(minDate)
+            calendar.set(year, month, day)
+        } else {
+            return null
+        }
+        return calendar.time
+    }
+
+    private fun calculateMax(maxDate: String?): Date? {
+        val calendar = Calendar.getInstance()
+        println(maxDate)
+        if (maxDate != null && maxDate != getString(R.string.title_buttonDayMonthYear)) {
+            println("Entra en el if")
+            val year = getYearFromStringDate(maxDate)
+            val month = getMonthFromStringDate(maxDate)
+            val day = getDayFromStringDate(maxDate)
+            calendar.set(year, month, day)
+        } else {
+            return calendar.time
+        }
+        return calendar.time
     }
 
     /**
@@ -137,9 +188,10 @@ class FilterFragment : Fragment() {
      */
     private fun setFilters() {
         val filterSvc = FilterService
-        // filterSvc.filterToApply.dateFrom =
+        filterSvc.filterToApply.dateFrom =
             stringToDate(binding.filterFrBtButtonFrom.text, this.requireContext())
-        // filterSvc.filterToApply.dateTo = stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
+        filterSvc.filterToApply.dateTo =
+            stringToDate(binding.filterFrBtButtonTo.text, this.requireContext())
         filterSvc.filterToApply.selectedAmount = binding.filterFrSbSeekBarAmount.progress
         filterSvc.filterToApply.statusPaid = binding.filterFrCbPaid.isChecked
         filterSvc.filterToApply.statusCancelled = binding.filterFrCbCancelled.isChecked
