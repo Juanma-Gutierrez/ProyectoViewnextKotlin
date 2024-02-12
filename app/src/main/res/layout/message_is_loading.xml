@@ -20,7 +20,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/invoicesFr_tv_loading"
-        style="@style/MaterialAlertDialog.Material3.Title.Text"
+        style="@style/TextAppearance.Material3.BodyLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/general_padding"

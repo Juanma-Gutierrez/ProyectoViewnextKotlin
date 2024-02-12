@@ -36,6 +36,6 @@
     <string name="button_invoice_forward_description">Detalle de la factura</string>
     <string name="button_back_icon_description">Botón volver atrás</string>
     <string name="api">API</string>
-    <string name="none_invoice_found">No se ha encontrado ninguna factura dentro del filtro indicado</string>
+    <string name="none_invoice_found">No se ha encontrado ningún elemento</string>
 
 </resources>

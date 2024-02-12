@@ -18,11 +18,11 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/messageWarning_tv_messageWarning"
-        style="@style/TextAppearance.Material3.TitleLarge"
+        style="@style/TextAppearance.Material3.BodyLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textColor="@color/md_theme_light_error"
+        android:textColor="@color/md_theme_light_primary"
         tools:text="@string/none_invoice_found" />
 </LinearLayout>
 
