@@ -47,44 +47,13 @@ Practica DAM 1º y 2º – Lista facturas MVC KOTLIN
     Para el desarrollo de la tarea se creará un proyecto desde cero conectado a un repositorio git personal.
     Las llamadas a los servicios deberán de hacerse mediante la librería Retrofit.
 
-# Presentación en formato PDF
-https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/blob/main/documentacion/Presentaci%C3%B3n%20Dual%20Viewnext%202%C2%BA%20DAM.pdf
 
 # Recursos para el Proyecto aplicación de facturas en Kotlin
-- Repositorio
-  - https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin
 - Video de uso de la aplicación final
-  - https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/blob/main/documentacion/Video%20Facturas.mp4
+  - https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/blob/main/videos/Video%20Facturas.mp4
 
 ![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/e8c06d67-6b4c-4f0b-a277-9300d67ab302)
 ![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/09e10fc7-0d93-4bd5-b86b-11c407713f03)
 ![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/6aa55364-145f-4d6e-9744-52125a2407dd)
 ![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/2b98b7fe-0f1d-422e-89d2-8724ff4fc5a4)
 ![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/806ee0a6-0289-4126-88de-8714547bfcbb)
-
----
-# Recursos para el ejercicio Bull's Eye 
-- Repositorio
-  - https://github.com/Juanma-Gutierrez/Swift-Bulls-Eye
-- Video de uso de la aplicación iOS Bull's Eye
-  - https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/blob/main/documentacion/Video%20BullsEye.mp4
- 
-![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/b6460f93-1b6e-4a45-947b-826b3a71d3d0)
-![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/91249abc-3066-49ac-b6ed-b5ff62e5cd38)
-![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/b8f56fc2-1ae2-44ff-9ffb-d4c441b0fea3)
-![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/157048e9-dca2-4c43-82bb-980a903159a4)
-![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/9759d8ac-8e7d-4822-8789-cd5d16bdc6dc)
-
----
-# Recursos para el ejercicio iOS Pitch Perfect
-- Repositorio
-  - https://github.com/Juanma-Gutierrez/Pitch-Perfect
-- Video de uso de la aplicación iOS Pitch Perfect
-  - https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/blob/main/documentacion/Video%20PitchPerfect.mp4
-
-![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/e4242edf-8bca-408d-959d-7bc88b3de098)
-![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/517c7bb6-43b0-4141-82db-8a8c62e2250c)
-![image](https://github.com/Juanma-Gutierrez/ProyectoViewnextKotlin/assets/101201349/b12f504f-a11a-43d7-9da5-5b9ee6319ca1)
-
-
-
